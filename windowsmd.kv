@@ -1,88 +1,122 @@
-<MainWindow>:
-    name:"main"
+MDScreenManager:
 
-MDScreen:
-    MDGridLayout:
-        size_hint_y: 1
-        cols:1
-        rows:3
-            
-        MDGridLayout:
-            size_hint_y: 0.1
-            cols:2
-            rows:1
+    MDScreen:
+        md_bg_color: "#000000"
+        name: "main"
+
+        MDHeroFrom:
+            id: hero_from
+            tag: "hero"
 
             MDIconButton:
-                row:1
-                col:1
-                icon:"launch"
+                opacity: 0.0
+                disabled: True
 
+        MDGridLayout:
+            cols: 1
+            rows: 3
+            size_hint_y: 1
 
             MDGridLayout:
-                cols:3
-                rows:3
-                row:1
-                col:2
+                cols: 3
+                rows: 1
+                size_hint_y: 0.05
 
                 MDIconButton:
-                    row:1
-                    col:1
-                    opacity: 0
-                    disabled: True
-
-                MDIconButton:
-                    text: "Up"
-                    # Image:
-                    #     source: 'placeholder.png'
-                    #     fit_mode: "fill"
-                    #     center_x: self.parent.center_x
-                    #     center_y: self.parent.center_y
-
-                MDIconButton:
-                    pacity: 0
-                    disabled: True
-
-                MDIconButton:
-                    text: "L"
-
-                MDIconButton:
-                    text: "RE"
-                MDIconButton:
-                    text: "R"
-                MDIconButton:
-                    text: ""
-                    pacity: 0
-                    disabled: True
-
-                MDIconButton:
-                    text: "D"
-
-                MDIconButton:
-                    text: ""
-                    pacity: 0
-                    disabled: True
+                    icon: "information"
+                    md_bg_color: "#5780FF"
             
-        MDGridLayout:
-            size_hint_y: 0.1
-            cols:3
-            rows:1
+                MDLabel:           
+                    text: "Ankeralarm"
+                    halign: "center"
+                    valign: "middle"
+                    md_bg_color: "#5780FF"
+                    adaptive_height: True
+                    font_size: 60
+
+                MDIconButton:
+                    icon: "file-settings"
+                    md_bg_color: "#5780FF"
+                    on_release:
+                        root.current_heroes = ["hero"]
+                        root.current = "settings"
+
+            FitImage:
+                source: "placeholder.png"
+                fit_mode: "fill"
+                size_hint_y: 0.6
+
+            MDGridLayout:
+                cols: 2
+                rows: 1
+                size_hint_y: 0.35
+
+                MDIconButton:
+                    icon:"launch"
+                    md_bg_color: "#5780FF"
+                    size_hint_x: 1
+                    size_hint_y: 1
+                    halign: "center"
+                
+                MDGridLayout:
+                    cols: 3
+                    rows: 3
+
+                    MDIconButton:
+                        md_bg_color: "#5780FF"
+                        size_hint_x: 1
+                        size_hint_y: 1
+                        disabled: True
+                        opacity: 0.0
+                    MDIconButton:
+                        md_bg_color: "#5780FF"
+                        size_hint_x: 1
+                        size_hint_y: 1
+                    MDIconButton:
+                        md_bg_color: "#5780FF"
+                        size_hint_x: 1
+                        size_hint_y: 1
+                        disabled: True
+                        opacity: 0.0
+                    MDIconButton:
+                        md_bg_color: "#5780FF"
+                        size_hint_x: 1
+                        size_hint_y: 1
+                    MDIconButton:
+                        md_bg_color: "#5780FF"
+                        size_hint_x: 1
+                        size_hint_y: 1
+                    MDIconButton:
+                        md_bg_color: "#5780FF"
+                        size_hint_x: 1
+                        size_hint_y: 1
+                    MDIconButton:
+                        md_bg_color: "#5780FF"
+                        size_hint_x: 1
+                        size_hint_y: 1
+                        disabled: True
+                        opacity: 0.0
+                    MDIconButton:
+                        md_bg_color: "#5780FF"
+                        size_hint_x: 1
+                        size_hint_y: 1
+                    MDIconButton:
+                        md_bg_color: "#5780FF"
+                        size_hint_x: 1
+                        size_hint_y: 1
+                        disabled: True
+                        opacity: 0.0
+
+
+    MDScreen:
+        name: "settings"
+        hero_to: hero_to
+
+        MDHeroTo:
+            id: hero_to
+            tag: "hero"
+
             MDIconButton:
-                icon: "information"               
-                pos_hint: {"center_x": .5, "center_y": .5}
-                
-            
-            MDIconButton:
-                icon: "file-settings"             
-                pos_hint: {"center_x": .5, "center_y": .5}
-
-            MDLabel:           
-                text: "Ankeralarm"
-                haling:"bottom"
-                pos_hint: {"center_x": .5, "center_y": .5}
-                
-                
-
-
-
-
-    
+                on_release:
+                    root.current_heroes = ["hero"]
+                    root.current = "main" 
