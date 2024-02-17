@@ -29,10 +29,11 @@ MDScreenManager:
                 MDLabel:           
                     text: "Ankeralarm"
                     halign: "center"
-                    valign: "middle"
+                    valign: "top"
                     md_bg_color: "#5780FF"
-                    adaptive_height: True
-                    font_size: 60
+                    #adaptive_height: True
+                    text_size: root.width, root.height
+                    font_size: 32
 
                 MDIconButton:
                     icon: "file-settings"
@@ -41,10 +42,13 @@ MDScreenManager:
                         root.current_heroes = ["hero"]
                         root.current = "settings"
 
-            FitImage:
-                source: "placeholder.png"
-                fit_mode: "fill"
+            MapView:
+                id: mapview
+                lat: 50.6394
+                lon: 3.057
+                zoom: 4
                 size_hint_y: 0.6
+                pos_hint_y: 0.9
 
             MDGridLayout:
                 cols: 2
