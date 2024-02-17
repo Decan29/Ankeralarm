@@ -121,6 +121,66 @@ MDScreenManager:
             tag: "hero"
 
             MDIconButton:
-                on_release:
-                    root.current_heroes = ["hero"]
-                    root.current = "main" 
+                opacity: 0.0
+                disabled: True
+
+        MDGridLayout:
+            cols: 1
+            rows: 3
+
+            MDGridLayout:
+                cols: 3
+                rows: 1
+                size_hint_y: 0.01
+
+                MDIconButton:
+                    icon:"arrow-left"
+                    md_bg_color: "#8470ff"       
+                    on_release:
+                        root.current_heroes = ["hero"]
+                        root.current = "main" 
+
+                MDLabel:
+                    text: "Einstellungen"
+                    align: "center"
+                    valign: "top"
+                    md_bg_color: "#8470ff"
+                    font_size: 32
+                
+                MDIconButton:
+                    icon: "information"
+                    md_bg_color: "#8470ff"
+            
+            MDGridLayout:
+                cols:4
+                rows:1
+                size_hint_y: 0.1
+
+                MDLabel:
+                    text: 'Radius in Meter'
+                    adaptive_height: True
+                    adaptive_width: True
+                MDTextField:
+                    hint_text: "Bitte den Radius in Meter eingeben"
+                    mode: "fill"
+                    text: "20"
+                    required: True
+                    input_filter: 'int'
+                    adaptive_height: True
+                
+                MDIconButton:
+                    icon: "plus"
+                    adaptive_height: 
+                    adaptive_width: True
+
+                MDIconButton:
+                    icon: "minus"
+                    adaptive_height: True
+                    adaptive_width: True                     
+
+
+            MDRaisedButton:
+                text: "Speichern"
+                md_bg_color: "green"
+                size_hint_x: 1
+                    
