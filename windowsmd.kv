@@ -26,7 +26,7 @@ MDScreenManager:
                     icon: "information"
                     md_bg_color: "#5780FF"
             
-                MDLabel:           
+                MDGridLayout:           
                     text: "Ankeralarm"
                     halign: "center"
                     valign: "top"
@@ -183,4 +183,48 @@ MDScreenManager:
                 text: "Speichern"
                 md_bg_color: "green"
                 size_hint_x: 1
+                    
+
+    MDScreen:
+        name: "info"
+        hero_to: hero_to
+
+        MDHeroTo:
+            id: hero_to
+            tag: "hero"
+
+            MDIconButton:
+                opacity: 0.0
+                disabled: True
+
+        MDGridLayout:
+            cols: 1
+            rows: 4
+            size_hint_y: 1
+
+            MDGridLayout:
+                cols: 1
+                rows: 1
+                size_hint_y: 0.06
+
+                Button:
+                    text: "Zurück"
+    
+            MDGridLayout:
+                cols: 1
+                rows: 2
+                size_hint_y: 0.5
+
+                MDLabel:
+                    color: 1,1,1,1
+                    text: "Ersteller: Daniel, Florian, Katja"
+
+                MDLabel:
+                    color:1,1,1,1
+                    text: "App-Version: 1.0"
+
+            MDGridLayout:
+                cols: 1
+                rows: 1
+                size_hint_y: 0.5
                     
