@@ -1,5 +1,5 @@
 MDScreenManager:
-
+    id: screen_manager
     MDScreen:
         md_bg_color: "#000000"
         name: "main"
@@ -16,13 +16,16 @@ MDScreenManager:
             cols: 1
             rows: 3
             size_hint_y: 1
+            id: titleGrid
 
             MDGridLayout:
                 cols: 3
                 rows: 1
                 size_hint_y: 0.05
+                id: title_grid
 
                 MDIconButton:
+                    id: info_button
                     icon: "information"
                     md_bg_color: "#5780FF"
                     on_release:
@@ -57,6 +60,7 @@ MDScreenManager:
                     lat: 48.4715279
                     lon: 7.9512879
                     popup_size: dp(230), dp(130)
+            
 
             MDGridLayout:
                 cols: 2
@@ -64,11 +68,13 @@ MDScreenManager:
                 size_hint_y: 0.35
 
                 MDIconButton:
+                    id: launchButton
                     icon:"launch"
                     md_bg_color: "#5780FF"
                     size_hint_x: 1
                     size_hint_y: 1
                     halign: "center"
+                    on_release: app.drawLine()
                 
                 MDGridLayout:
                     cols: 3
@@ -267,5 +273,14 @@ MDScreenManager:
                 MDLabel:
                     color:1,1,1,1
                     text: "App-Version: 1.0"
+
+<MapView>:
+    Canvas:
+        Color:
+            rgba: [1,0,0,0.5]
+        Line:
+            width: 2
+            circle:
+                (self.center_x, self.center_y, 100)
 
                     
