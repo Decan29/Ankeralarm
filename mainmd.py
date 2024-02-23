@@ -39,6 +39,7 @@ class MainApp(MDApp):
         lat=49.566848
         lon=77.377053
         zoom = 8
+        radius = 500
         self.root.ids.mapview
         #print(self.root.ids)
         self.root.ids.mapview.zoom = zoom
@@ -55,26 +56,22 @@ class MainApp(MDApp):
         #circle_layer = Circle(x= x_pos, y=y_pos, canvas_width=Window.width, zoom=8)
         #self.root.ids.mapview.add_layer(circle_layer)
 
+        circle = Circle(lat=lat, lon=lon)
+        self.root.ids.mapview.add_marker(circle)
+        
+
         print("x: ", x_pos, "y: ", y_pos)
 
         return self.mapview
 
-
-
-class Circle(MapLayer):
-    def __init__(self, x, y, radius=50, canvas_width=10, zoom=8, **kwargs):
+class Circle(MapMarkerPopup):
+    def __init__(self,**kwargs):
         super(Circle, self).__init__(**kwargs)
         with self.canvas:
             self.canvas.clear()
             Color(1,0,0,1)
-
-            scale_factor = canvas_width / (2 ** zoom)
-
-            x = x * scale_factor
-            y = y * scale_factor
-
-            Ellipse(pos=(x, y), size=(500,500))
-            print("x,y: ", x,y)
+            Line(circle=(kwargs["lat"]+500, kwargs["lon"]+500, 500), width=2.0)
+            print("Self:",kwargs["lat"], kwargs["lon"])
 
 
 if __name__ == "__main__":
