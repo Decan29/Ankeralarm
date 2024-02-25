@@ -25,9 +25,13 @@ class MainApp(MDApp):
         super().__init__(**kwargs)
 
     
-    def build(self):
+    def build(self):      
+        try:          
+            gps.configure(on_location=self.on_location)
+            gps.start(minTime=1000, minDistance=0)
+        except:
+            print("Failure to get gps_data")
         screen = Builder.load_file("windowsmd.kv")
-        #self.circle = Circle(lat=49.566848, lon=77.377053)
         #self.map.add_marker(self.circle)
         return screen
     
@@ -40,34 +44,34 @@ class MainApp(MDApp):
         )
         self.mapview.map_source = my_map_source
     
-    def drawLine(self):
-        lat=49.566848
-        lon=77.377053
-        zoom = 8
-        radius = 500
-        self.root.ids.mapview
-        #print(self.root.ids)
-        self.root.ids.mapview.zoom = zoom
-        self.root.ids.mapview.center_on(lat, lon)
+    # def drawLine(self):
+    #     lat=49.566848
+    #     lon=77.377053
+    #     zoom = 8
+    #     radius = 500
+    #     self.root.ids.mapview
+    #     #print(self.root.ids)
+    #     self.root.ids.mapview.zoom = zoom
+    #     self.root.ids.mapview.center_on(lat, lon)
 
-        self.mapview = self.root.ids.mapview
-        self.set_map_source()
-        x_pos = self.mapview.map_source.get_x(zoom, lon)
-        y_pos = self.mapview.map_source.get_y(zoom, lat)
+    #     self.mapview = self.root.ids.mapview
+    #     self.set_map_source()
+    #     x_pos = self.mapview.map_source.get_x(zoom, lon)
+    #     y_pos = self.mapview.map_source.get_y(zoom, lat)
 
-        # self.circle = Circle(x_pos, y_pos)
-        # self.mapview.add_marker(self.circle)
+    #     # self.circle = Circle(x_pos, y_pos)
+    #     # self.mapview.add_marker(self.circle)
 
-        #circle_layer = Circle(x= x_pos, y=y_pos, canvas_width=Window.width, zoom=8)
-        #self.root.ids.mapview.add_layer(circle_layer)
+    #     #circle_layer = Circle(x= x_pos, y=y_pos, canvas_width=Window.width, zoom=8)
+    #     #self.root.ids.mapview.add_layer(circle_layer)
 
-        circle = Circle(lat=lat, lon=lon)
-        self.root.ids.mapview.add_marker(circle)
+    #     circle = Circle(lat=lat, lon=lon)
+    #     self.root.ids.mapview.add_marker(circle)
         
 
-        print("x: ", x_pos, "y: ", y_pos)
+    #     print("x: ", x_pos, "y: ", y_pos)
 
-        return self.mapview
+    #     return self.mapview
     
     def radiuserhoehen(self):
         #Zugriff auf das Widget mit der id 'radius'
@@ -106,10 +110,14 @@ class MainApp(MDApp):
         gps.start()
 
     def on_location(self, **kwargs):
-        print('Latitude: ', kwargs['lat'], 'Longitude: ', kwargs['lon'])
-        self.map.lat = kwargs['lat']
-        self.map.lon = kwargs['lon']
-        gps.stop()
+        try:
+            print('Latitude: ', kwargs['lat'], 'Longitude: ', kwargs['lon'])
+            self.mapview.lat = kwargs['lat']
+            self.mapview.lon = kwargs['lon']
+            gps.stop()
+        except:
+            print("Fail to get gpsdata")
+        
 
     def frage_nach_location(self):
         # Erstellen eines Dialogs, um den Benutzer zu fragen, ob er seinen Standort teilen möchte
