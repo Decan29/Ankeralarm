@@ -1,17 +1,23 @@
 from kivy.lang import Builder
 from kivymd.app import MDApp
 from kivy_garden.mapview import MapView, MapSource
-
-from kivy.graphics import Line
+from kivy_garden.mapview.clustered_marker_layer import KDBush, Marker
+from kivy_garden.mapview import MapLayer
 from kivy_garden.mapview import MapMarkerPopup
+from kivy.graphics import Line
 from kivy.graphics import Canvas, Color, Ellipse, Rectangle
 from kivy.graphics.context_instructions import Translate, Scale
 from kivy.core.window import Window
-from kivy_garden.mapview.clustered_marker_layer import KDBush, Marker
+from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
+from kivymd.uix.button import MDFlatButton
+from kivymd.uix.dialog import MDDialog
 from kivy.uix.widget import Widget
-from kivy_garden.mapview import MapLayer
-from kivy.properties import NumericProperty, ListProperty
+from plyer import gps
 from random import random
+import json
+
+class MyToggleButton(MDFlatButton, MDToggleButton):
+    pass
 
 class MainApp(MDApp):
     def __init__(self, **kwargs):
@@ -21,7 +27,6 @@ class MainApp(MDApp):
     
     def build(self):
         screen = Builder.load_file("windowsmd.kv")
-        
         #self.circle = Circle(lat=49.566848, lon=77.377053)
         #self.map.add_marker(self.circle)
         return screen
@@ -63,6 +68,71 @@ class MainApp(MDApp):
         print("x: ", x_pos, "y: ", y_pos)
 
         return self.mapview
+    
+    def radiuserhoehen(self):
+        #Zugriff auf das Widget mit der id 'radius'
+        radius_widget = self.root.ids.radius
+        #Erhöhen des aktuellen Wertes um 1
+        radius_widget.text = str(int(radius_widget.text) + 1)
+
+    def radiusverringern(self):
+        # Zugriff auf das Widget mit der id 'radius'
+        radius_widget = self.root.ids.radius
+        # Verringere den aktuellen Wert um 1
+        radius_widget.text = str(int(radius_widget.text) - 1)
+    
+    def dateiSchreiben(self):
+        radius_widget = self.root.ids.radius.text
+        spinner_widget = self.root.ids.sound_spinner.text
+
+        dictionary = {
+        "Bereich": "Einstellungen",
+        "Radius": radius_widget,
+        'Audio Data': spinner_widget
+        }
+        with open (".\daten.json", "w") as file:
+            json.dump(dictionary,file)
+
+    def toggle_function(self):
+        # Umschaltende Logik, die entscheidet, welche Funktion aufgerufen wird
+        if self.root.ids.launchButton.state == 'normal':
+            self.drawLine()
+        else:
+            print("test")
+
+
+    def get_gps(self, *args):
+        gps.configure(on_location=self.on_location)
+        gps.start()
+
+    def on_location(self, **kwargs):
+        print('Latitude: ', kwargs['lat'], 'Longitude: ', kwargs['lon'])
+        self.map.lat = kwargs['lat']
+        self.map.lon = kwargs['lon']
+        gps.stop()
+
+    def frage_nach_location(self):
+        # Erstellen eines Dialogs, um den Benutzer zu fragen, ob er seinen Standort teilen möchte
+        dialog = MDDialog(
+             title="Standortfreigabe",
+             text="Möchten Sie Ihren Standort teilen?",
+             buttons=[
+                 MDFlatButton(
+                    text="JA",
+                     on_release=self.get_gps
+                 ),
+                 MDFlatButton(
+                     text="NEIN",
+                     on_release=self.close_dialog
+                 )
+             ]
+         )
+        dialog.open()
+
+    def schliesse_dialog(self, instance):
+        # Schließen des Dialogs
+        instance.parent.parent.parent.dismiss()
+
 
 class Circle(MapMarkerPopup):
     def __init__(self,**kwargs):

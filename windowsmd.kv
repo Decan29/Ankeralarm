@@ -67,13 +67,16 @@ MDScreenManager:
                 rows: 1
                 size_hint_y: 0.35
 
-                MDIconButton:
+                MyToggleButton:
                     id: launchButton
-                    icon:"launch"
+                    group: "toggle_group"
                     md_bg_color: "#5780FF"
+                    text: "Start"
                     size_hint_x: 1
                     size_hint_y: 1
                     halign: "center"
+                    font_color_normal:  1,  1,  1,  1  # Rote Farbe im normalen Zustand
+                    font_color_down:  1,  1,  1,  1  # Grüne Farbe im gedrückten Zustand
                     on_release: app.drawLine()
                 
                 MDGridLayout:
@@ -176,6 +179,7 @@ MDScreenManager:
                     font_size: 25
 
                 MDTextField:
+                    id: radius
                     mode: "fill"
                     hint_text: "Radius in Meter"
                     helper_text: "Bitte den Radius in Meter eingeben"
@@ -186,21 +190,23 @@ MDScreenManager:
                     font_size: 38
                     input_filter: 'int'
                     size_hint: 1, 1
-
+                    on_text: app.dateiSchreiben()
 
                 
                 MDIconButton:
                     icon: "plus"
                     valign: "center"
                     size_hint: 1, 1
-
+                    on_press: app.radiuserhoehen()
+                    on_release: app.dateiSchreiben()
 
 
                 MDIconButton:
                     icon: "minus"
                     valign: "center"
                     size_hint: 1, 1
-                                
+                    on_press: app.radiusverringern()
+                    on_release: app.dateiSchreiben()                        
 
             MDGridLayout:
                 rows: 1
@@ -217,19 +223,15 @@ MDScreenManager:
                     id: sound_spinner
                     text: 'Sound'
                     values: ('Sound 1', 'Sound 2', 'Sound 3')
+                    on_text: app.dateiSchreiben()
 
             MDGridLayout:
                 rows:1
                 cols:1
                 size_hint_y: 0.15
 
-                MDRaisedButton:
-                    text: "Speichern"
-                    md_bg_color: "green"
-                    size_hint_x:1
-
             MDGridLayout:
-                size_hint_:0.5
+                size_hint_:0.4
                 
                     
 
