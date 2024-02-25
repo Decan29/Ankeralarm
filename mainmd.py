@@ -13,22 +13,23 @@ from kivymd.uix.button import MDFlatButton
 from kivymd.uix.dialog import MDDialog
 from kivy.uix.widget import Widget
 from plyer import gps
+from kivy.clock import Clock
 from random import random
 import json
 
 class MyToggleButton(MDFlatButton, MDToggleButton):
     pass
 
+
 class MainApp(MDApp):
     def __init__(self, **kwargs):
         self.title = "Ankeralarm"
         super().__init__(**kwargs)
-
+        self.get_gps()
     
     def build(self):      
         try:          
-            gps.configure(on_location=self.on_location)
-            gps.start(minTime=1000, minDistance=0)
+           Clock.schedule_interval(self.mapview.get_gps,  1)
         except:
             print("Failure to get gps_data")
         screen = Builder.load_file("windowsmd.kv")
@@ -107,16 +108,19 @@ class MainApp(MDApp):
 
     def get_gps(self, *args):
         gps.configure(on_location=self.on_location)
-        gps.start()
+        gps.start(minTime=1000, minDistance=0)
 
     def on_location(self, **kwargs):
-        try:
             print('Latitude: ', kwargs['lat'], 'Longitude: ', kwargs['lon'])
-            self.mapview.lat = kwargs['lat']
-            self.mapview.lon = kwargs['lon']
-            gps.stop()
-        except:
-            print("Fail to get gpsdata")
+            self.lat = kwargs.get('lat')
+            self.lon = kwargs.get('lon')
+             
+    def get_gps_latitude(self):
+        return self.root.ids.mapview.lat
+         
+
+    def get_gps_longitude(self):        
+        return self.root.ids.mapview.lon
         
 
     def frage_nach_location(self):
