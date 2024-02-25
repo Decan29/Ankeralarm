@@ -55,11 +55,6 @@ MDScreenManager:
                 zoom: 16
                 size_hint_y: 0.6
                 pos_hint_y: 0.9
-
-                # MapMarkerPopup:
-                #     lat: 48.4715279
-                #     lon: 7.9512879
-                #     popup_size: dp(230), dp(130)
             
 
             MDGridLayout:
@@ -77,7 +72,7 @@ MDScreenManager:
                     halign: "center"
                     font_color_normal:  1,  1,  1,  1  # Rote Farbe im normalen Zustand
                     font_color_down:  1,  1,  1,  1  # Grüne Farbe im gedrückten Zustand
-                    on_release: app.drawLine()
+                    on_release: app.drawCircle()
                 
                 MDGridLayout:
                     cols: 3
@@ -104,9 +99,10 @@ MDScreenManager:
                         size_hint_x: 1
                         size_hint_y: 1
                     MDIconButton:
-                        md_bg_color: "#5780FF"
+                        md_bg_color: "#FFFFFF"
                         size_hint_x: 1
                         size_hint_y: 1
+                        on_press: app.centerMap()
                     MDIconButton:
                         md_bg_color: "#5780FF"
                         size_hint_x: 1
