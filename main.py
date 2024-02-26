@@ -40,7 +40,7 @@ class MainApp(MDApp):
                 request_permissions([Permission.ACCES_COARSE_LOCATION,
                                      Permission.ACCESS_FINE_LOCATION],callback)
             
-            self.get_gps
+                
 
         return screen
     

@@ -88,3 +88,4 @@ webencodings==0.5.1
 whitenoise==6.6.0
 yfinance==0.2.35
 plyer==2.1.0
+python_for_android==2.1.4
