@@ -1,14 +1,16 @@
 [app]
 
-title = StreichholzSpiel
-package.name = streichholzspiel
+title = Ankeralarm
+package.name = ankeralarm
 package.domain = gsog.de
 
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,mp3
 
 version = 0.1
-requirements = python3,kivy
+requirements = python3,kivy,kivymd
+# (list) Permissions
+android.permissions = INTERNET,ACCESS_COARSE_LOCATION,ACCESS_FINE_LOCATION
 
 orientation = portrait
 fullscreen = 0

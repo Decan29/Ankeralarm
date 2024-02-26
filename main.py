@@ -1,5 +1,4 @@
 import json
-from plyer import gps
 from kivy.clock import Clock
 from random import random
 from kivymd.app import MDApp
@@ -12,6 +11,7 @@ from kivy_garden.mapview import MapSource
 from kivymd.uix.button import MDFlatButton
 from kivy_garden.mapview import MapMarkerPopup, MapMarker
 from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
+from kivy.utils import platform
 
 from kivy.uix.button import Button
 
@@ -26,15 +26,22 @@ class MainApp(MDApp):
     def __init__(self, **kwargs):
         self.title = "Ankeralarm"
         super().__init__(**kwargs)
-        self.get_gps()
     
-    def build(self):      
-        try:          
-           Clock.schedule_interval(self.mapview.get_gps,  1)
-        except:
-            print("Failure to get gps_data")
+    def build(self):
         screen = Builder.load_file("windows.kv")
         #self.map.add_marker(self.circle)
+        if platform == 'Android':
+            from android.permissions import Permission, request_permissions
+            def callback(permissions, results):
+                if all([res for res in results]):
+                    print("Habe die Befugnis")
+                else:
+                    print("habe keine Befugnis.")
+                request_permissions([Permission.ACCES_COARSE_LOCATION,
+                                     Permission.ACCESS_FINE_LOCATION],callback)
+            
+            self.get_gps
+
         return screen
     
     def set_map_source(self):
@@ -47,10 +54,10 @@ class MainApp(MDApp):
         self.mapview.map_source = my_map_source
 
     def drawCircle(self):
-        lat=49.566848
-        lon=77.377053
+        lat=self.root.ids.mapview.lat
+        lon=self.root.ids.mapview.lon
         zoom = 8
-        radius = 500
+        radius = str(int(self.root.ids.radius.text))
 
         self.lat = lat
         self.lan = lon
@@ -83,7 +90,7 @@ class MainApp(MDApp):
         
 
 
-    def centerMap(self, lat=49.566848, lon=77.377053, zoom=8):
+    def centerMap(self, lat, lon, zoom=8):
         self.root.ids.mapview.zoom = zoom
         self.root.ids.mapview.center_on(lat, lon)
         return
@@ -120,13 +127,32 @@ class MainApp(MDApp):
             print("test")
 
     def get_gps(self, *args):
-        gps.configure(on_location=self.on_location)
-        gps.start(minTime=1000, minDistance=0)
+        if platform == 'android' or platform == 'ios':
+            from plyer import gps         
+            Clock.schedule_interval(0,  1)
+            gps.configure(on_location=self.on_location, on_status=self.on_status)
+            gps.start(minTime=1000, minDistance=0)
 
-    def on_location(self, **kwargs):
+           
+    def on_status(self, general_status, status_message):
+        if general_status== 'provider-enabled':
+            pass
+        else:
+            self.open_gps_access_popup()
+
+    def open_gps_access_popup(self):
+        dialog = MDDialog(title="GPS Error", text= "Sie müssen die GPS daten aktivieren.")
+        dialog.size_hint = [.8,.8]
+        dialog.pos_hint = {'center_x':.5,'center_y':.5}
+        dialog.open()
+
+
+    def on_location(self, *args, **kwargs):
             print('Latitude: ', kwargs['lat'], 'Longitude: ', kwargs['lon'])
             self.lat = kwargs.get('lat')
             self.lon = kwargs.get('lon')
+            map = self.get_running_app().root.ids.mapview
+            map = self.centerMap( self.lat, self.lon)
              
     def get_gps_latitude(self):
         return self.root.ids.mapview.lat
