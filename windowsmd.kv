@@ -1,5 +1,5 @@
 MDScreenManager:
-
+    id: screen_manager
     MDScreen:
         md_bg_color: "#000000"
         name: "main"
@@ -16,17 +16,23 @@ MDScreenManager:
             cols: 1
             rows: 3
             size_hint_y: 1
+            id: titleGrid
 
             MDGridLayout:
                 cols: 3
                 rows: 1
                 size_hint_y: 0.05
+                id: title_grid
 
                 MDIconButton:
+                    id: info_button
                     icon: "information"
                     md_bg_color: "#5780FF"
+                    on_release:
+                        root.current_heroes = ["hero"]
+                        root.current = "info"
             
-                MDGridLayout:           
+                MDLabel:           
                     text: "Ankeralarm"
                     halign: "center"
                     valign: "top"
@@ -44,23 +50,29 @@ MDScreenManager:
 
             MapView:
                 id: mapview
-                lat: 50.6394
-                lon: 3.057
-                zoom: 4
+                lat: 48.4715279
+                lon: 7.9512879
+                zoom: 16
                 size_hint_y: 0.6
                 pos_hint_y: 0.9
+            
 
             MDGridLayout:
                 cols: 2
                 rows: 1
                 size_hint_y: 0.35
 
-                MDIconButton:
-                    icon:"launch"
+                MyToggleButton:
+                    id: launchButton
+                    group: "toggle_group"
                     md_bg_color: "#5780FF"
+                    text: "Start"
                     size_hint_x: 1
                     size_hint_y: 1
                     halign: "center"
+                    font_color_normal:  1,  1,  1,  1  # Rote Farbe im normalen Zustand
+                    font_color_down:  1,  1,  1,  1  # Grüne Farbe im gedrückten Zustand
+                    on_release: app.drawCircle()
                 
                 MDGridLayout:
                     cols: 3
@@ -87,9 +99,10 @@ MDScreenManager:
                         size_hint_x: 1
                         size_hint_y: 1
                     MDIconButton:
-                        md_bg_color: "#5780FF"
+                        md_bg_color: "#FFFFFF"
                         size_hint_x: 1
                         size_hint_y: 1
+                        on_press: app.centerMap()
                     MDIconButton:
                         md_bg_color: "#5780FF"
                         size_hint_x: 1
@@ -126,63 +139,96 @@ MDScreenManager:
 
         MDGridLayout:
             cols: 1
-            rows: 3
+            rows: 5
 
             MDGridLayout:
-                cols: 3
+                cols: 2
                 rows: 1
-                size_hint_y: 0.01
+                size_hint_y: 0.1
 
                 MDIconButton:
                     icon:"arrow-left"
-                    md_bg_color: "#8470ff"       
+                    md_bg_color: "#8470ff"
+                    size_hint:0.1,0.1   
                     on_release:
                         root.current_heroes = ["hero"]
                         root.current = "main" 
 
                 MDLabel:
                     text: "Einstellungen"
-                    align: "center"
+                    halign: "center"
                     valign: "top"
                     md_bg_color: "#8470ff"
                     font_size: 32
-                
-                MDIconButton:
-                    icon: "information"
-                    md_bg_color: "#8470ff"
+                    size_hint: 1, 1
+
             
             MDGridLayout:
                 cols:4
-                rows:1
+                rows:1       
                 size_hint_y: 0.1
-
                 MDLabel:
                     text: 'Radius in Meter'
-                    adaptive_height: True
-                    adaptive_width: True
+                    halign: "left"
+                    valign: "middle"
+                    text_size: root.width, root.height
+                    font_size: 25
+
                 MDTextField:
-                    hint_text: "Bitte den Radius in Meter eingeben"
+                    id: radius
                     mode: "fill"
+                    hint_text: "Radius in Meter"
+                    helper_text: "Bitte den Radius in Meter eingeben"
+                    helper_text_mode: "persistent"
+                    halign:"center"
                     text: "20"
                     required: True
+                    font_size: 38
                     input_filter: 'int'
-                    adaptive_height: True
+                    size_hint: 1, 1
+                    on_text: app.dateiSchreiben()
+
                 
                 MDIconButton:
                     icon: "plus"
-                    adaptive_height: 
-                    adaptive_width: True
+                    valign: "center"
+                    size_hint: 1, 1
+                    on_press: app.radiuserhoehen()
+                    on_release: app.dateiSchreiben()
+
 
                 MDIconButton:
                     icon: "minus"
-                    adaptive_height: True
-                    adaptive_width: True                     
+                    valign: "center"
+                    size_hint: 1, 1
+                    on_press: app.radiusverringern()
+                    on_release: app.dateiSchreiben()                        
 
+            MDGridLayout:
+                rows: 1
+                cols: 2
+                size_hint_y: 0.1
+                MDLabel:
+                    text: 'Alarm Sound auswählen'
+                    font_size: 25
+                    halign: "left"
+                    valign: "middle"
+                    text_size: root.width, root.height
 
-            MDRaisedButton:
-                text: "Speichern"
-                md_bg_color: "green"
-                size_hint_x: 1
+                Spinner:
+                    id: sound_spinner
+                    text: 'Sound'
+                    values: ('Sound 1', 'Sound 2', 'Sound 3')
+                    on_text: app.dateiSchreiben()
+
+            MDGridLayout:
+                rows:1
+                cols:1
+                size_hint_y: 0.15
+
+            MDGridLayout:
+                size_hint_:0.4
+                
                     
 
     MDScreen:
@@ -209,6 +255,9 @@ MDScreenManager:
 
                 Button:
                     text: "Zurück"
+                    on_release:
+                        root.current_heroes = ["hero"]
+                        root.current = "main" 
     
             MDGridLayout:
                 cols: 1
@@ -223,8 +272,4 @@ MDScreenManager:
                     color:1,1,1,1
                     text: "App-Version: 1.0"
 
-            MDGridLayout:
-                cols: 1
-                rows: 1
-                size_hint_y: 0.5
                     
