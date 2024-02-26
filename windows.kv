@@ -1,156 +1,273 @@
-WindowManager:
-    MainWindow:
-    SettingsWindow:
+MDScreenManager:
+    id: screen_manager
+    MDScreen:
+        md_bg_color: "#000000"
+        name: "main"
 
-<MainWindow>:
-    name: "main"
-    GridLayout:
-        cols: 1
-        rows: 3
-        size_hint_y: 1
+        MDHeroFrom:
+            id: hero_from
+            tag: "hero"
 
-        GridLayout:
-            cols: 3
-            rows: 1
-            size_hint_y: 0.05
+            MDIconButton:
+                opacity: 0.0
+                disabled: True
 
-            Button:
-                text: "i"
-                on_press:
-                    app.root.current = "settings"
-                    root.manager.transition.direction = "left"
-            Button:
-                text: "s"
-            Label:
-                text: "Ankeralarm"
-    
-        #mapview
-        Image:
-            source: 'placeholder.png'
-            fit_mode: "fill"
-            size_hint_y: 0.6
+        MDGridLayout:
+            cols: 1
+            rows: 3
+            size_hint_y: 1
+            id: titleGrid
 
-        GridLayout:
-            cols: 2
-            rows: 1
-            size_hint_y: 0.35
-
-            Button:
-                text: "Start"
-
-            GridLayout:
+            MDGridLayout:
                 cols: 3
-                rows: 3
+                rows: 1
+                size_hint_y: 0.05
+                id: title_grid
+
+                MDIconButton:
+                    id: info_button
+                    icon: "information"
+                    md_bg_color: "#5780FF"
+                    on_release:
+                        root.current_heroes = ["hero"]
+                        root.current = "info"
             
-                Button:
-                    text: ""
-                    opacity: 0
-                    disabled: True
+                MDLabel:           
+                    text: "Ankeralarm"
+                    halign: "center"
+                    valign: "top"
+                    md_bg_color: "#5780FF"
+                    #adaptive_height: True
+                    text_size: root.width, root.height
+                    font_size: 32
 
-                Button:
-                    text: "Up"
-                    # Image:
-                    #     source: 'placeholder.png'
-                    #     fit_mode: "fill"
-                    #     center_x: self.parent.center_x
-                    #     center_y: self.parent.center_y
+                MDIconButton:
+                    icon: "file-settings"
+                    md_bg_color: "#5780FF"
+                    on_release:
+                        root.current_heroes = ["hero"]
+                        root.current = "settings"
 
-                Button:
-                    text: ""
-                    pacity: 0
-                    disabled: True
+            MapView:
+                id: mapview
+                zoom: 16
+                size_hint_y: 0.6
+                pos_hint_y: 0.9
+            
 
-                Button:
-                    text: "L"
+            MDGridLayout:
+                cols: 2
+                rows: 1
+                size_hint_y: 0.35
 
-                Button:
-                    text: "RE"
-
-                Button:
-                    text: "R"
-
-                Button:
-                    text: ""
-                    pacity: 0
-                    disabled: True
-
-                Button:
-                    text: "D"
-
-                Button:
-                    text: ""
-                    pacity: 0
-                    disabled: True    
-
-<SettingsWindow>:
-    name: "settings"
-    GridLayout:
-        cols: 1
-        rows: 3
-        size_hint_y: 1
-
-        GridLayout:
-            cols: 2
-            rows: 1
-            size_hint_y: 0.01
-
-            Button:                          
-                text:"\u21D0"
-                on_press:
-                    app.root.current = "main"
-                    root.manager.transition.direction = "right"          
-
-            Label:
-                text: "Einstellung"
-
-
-        GridLayout:
-            cols: 4
-            rows: 1
-            size_hint_y: 0.05
-
-
-            Label:
-                text: 'Radius in Meter'
-
-            TextInput:
-                text: '20'
-                font_size: 24         
-                padding_y: (self.height - self.line_height) / 2  # Vertikales Padding für die Ausrichtung
-                halign: 'center'  # Zentrierte Ausrichtung des Texts horizontal
-                id: input_field
-                input_filter: 'int'
-                multiline: False
-
-            Button:
-                text: '-'
-                on_press: root.decrease()
-
-            Button:
-                text: '+'
-                on_press: root.increase()
-
-
-        GridLayout:
-            cols: 2
-            rows: 1
-            size_hint_y: 0.05
-
-            Label:
-                text: 'Sound'
-
-            Spinner:
-                id: sound_spinner
-                text: 'Wähle einen Sound'
-                values: ('Sound 1', 'Sound 2', 'Sound 3')  # Fügen Sie hier Ihre Soundoptionen hinzu
-
-<InfoPopup>
-    title: 'Informationen'
-    size: (400, 400)
-    Label:
-        text: 'Hello World'
-<Info>
-    Button:
-        text: "button1"
-        on_press: root.btn()          
+                MyToggleButton:
+                    id: launchButton
+                    group: "toggle_group"
+                    md_bg_color: "#5780FF"
+                    text: "Start"
+                    size_hint_x: 1
+                    size_hint_y: 1
+                    halign: "center"
+                    font_color_normal:  1,  1,  1,  1  # Rote Farbe im normalen Zustand
+                    font_color_down:  1,  1,  1,  1  # Grüne Farbe im gedrückten Zustand
+                    on_release: app.drawCircle()
                 
+                MDGridLayout:
+                    cols: 3
+                    rows: 3
+
+                    MDIconButton:
+                        md_bg_color: "#5780FF"
+                        size_hint_x: 1
+                        size_hint_y: 1
+                        disabled: True
+                        opacity: 0.0
+                    MDIconButton:
+                        md_bg_color: "#5780FF"
+                        size_hint_x: 1
+                        size_hint_y: 1
+                    MDIconButton:
+                        md_bg_color: "#5780FF"
+                        size_hint_x: 1
+                        size_hint_y: 1
+                        disabled: True
+                        opacity: 0.0
+                    MDIconButton:
+                        md_bg_color: "#5780FF"
+                        size_hint_x: 1
+                        size_hint_y: 1
+                    MDIconButton:
+                        md_bg_color: "#FFFFFF"
+                        size_hint_x: 1
+                        size_hint_y: 1
+                        on_press: app.centerMap()
+                    MDIconButton:
+                        md_bg_color: "#5780FF"
+                        size_hint_x: 1
+                        size_hint_y: 1
+                    MDIconButton:
+                        md_bg_color: "#5780FF"
+                        size_hint_x: 1
+                        size_hint_y: 1
+                        disabled: True
+                        opacity: 0.0
+                    MDIconButton:
+                        md_bg_color: "#5780FF"
+                        size_hint_x: 1
+                        size_hint_y: 1
+                    MDIconButton:
+                        md_bg_color: "#5780FF"
+                        size_hint_x: 1
+                        size_hint_y: 1
+                        disabled: True
+                        opacity: 0.0
+
+
+    MDScreen:
+        name: "settings"
+        hero_to: hero_to
+
+        MDHeroTo:
+            id: hero_to
+            tag: "hero"
+
+            MDIconButton:
+                opacity: 0.0
+                disabled: True
+
+        MDGridLayout:
+            cols: 1
+            rows: 5
+
+            MDGridLayout:
+                cols: 2
+                rows: 1
+                size_hint_y: 0.1
+
+                MDIconButton:
+                    icon:"arrow-left"
+                    md_bg_color: "#8470ff"
+                    size_hint:0.1,0.1   
+                    on_release:
+                        root.current_heroes = ["hero"]
+                        root.current = "main" 
+
+                MDLabel:
+                    text: "Einstellungen"
+                    halign: "center"
+                    valign: "top"
+                    md_bg_color: "#8470ff"
+                    font_size: 32
+                    size_hint: 1, 1
+
+            
+            MDGridLayout:
+                cols:4
+                rows:1       
+                size_hint_y: 0.1
+                MDLabel:
+                    text: 'Radius in Meter'
+                    halign: "left"
+                    valign: "middle"
+                    text_size: root.width, root.height
+                    font_size: 25
+
+                MDTextField:
+                    id: radius
+                    mode: "fill"
+                    hint_text: "Radius in Meter"
+                    helper_text: "Bitte den Radius in Meter eingeben"
+                    helper_text_mode: "persistent"
+                    halign:"center"
+                    text: "20"
+                    required: True
+                    font_size: 38
+                    input_filter: 'int'
+                    size_hint: 1, 1
+                    on_text: app.dateiSchreiben()
+
+                
+                MDIconButton:
+                    icon: "plus"
+                    valign: "center"
+                    size_hint: 1, 1
+                    on_press: app.radiuserhoehen()
+                    on_release: app.dateiSchreiben()
+
+
+                MDIconButton:
+                    icon: "minus"
+                    valign: "center"
+                    size_hint: 1, 1
+                    on_press: app.radiusverringern()
+                    on_release: app.dateiSchreiben()                        
+
+            MDGridLayout:
+                rows: 1
+                cols: 2
+                size_hint_y: 0.1
+                MDLabel:
+                    text: 'Alarm Sound auswählen'
+                    font_size: 25
+                    halign: "left"
+                    valign: "middle"
+                    text_size: root.width, root.height
+
+                Spinner:
+                    id: sound_spinner
+                    text: 'Sound'
+                    values: ('Sound 1', 'Sound 2', 'Sound 3')
+                    on_text: app.dateiSchreiben()
+
+            MDGridLayout:
+                rows:1
+                cols:1
+                size_hint_y: 0.15
+
+            MDGridLayout:
+                size_hint_:0.4
+                
+                    
+
+    MDScreen:
+        name: "info"
+        hero_to: hero_to
+
+        MDHeroTo:
+            id: hero_to
+            tag: "hero"
+
+            MDIconButton:
+                opacity: 0.0
+                disabled: True
+
+        MDGridLayout:
+            cols: 1
+            rows: 4
+            size_hint_y: 1
+
+            MDGridLayout:
+                cols: 1
+                rows: 1
+                size_hint_y: 0.06
+
+                Button:
+                    text: "Zurück"
+                    on_release:
+                        root.current_heroes = ["hero"]
+                        root.current = "main" 
+    
+            MDGridLayout:
+                cols: 1
+                rows: 2
+                size_hint_y: 0.5
+
+                MDLabel:
+                    color: 1,1,1,1
+                    text: "Ersteller: Daniel, Florian, Katja"
+
+                MDLabel:
+                    color:1,1,1,1
+                    text: "App-Version: 1.0"
+
+                    
