@@ -1,8 +1,10 @@
 [app]
 
-title = StreichholzSpiel
-package.name = streichholzspiel
+title = Ankeralarm
+package.name = streichAnkeralarmholzspiel
 package.domain = gsog.de
+
+icon.filename = Goku.jpg
 
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,mp3
@@ -14,6 +16,8 @@ orientation = portrait
 fullscreen = 0
 android.archs = arm64-v8a
 p4a.branch = release-2022.12.20
+
+android.permissions = INTERNET
 
 # iOS specific
 ios.kivy_ios_url = https://github.com/kivy/kivy-ios
