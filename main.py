@@ -40,7 +40,7 @@ class MainApp(MDApp):
                 request_permissions([Permission.ACCES_COARSE_LOCATION,
                                      Permission.ACCESS_FINE_LOCATION],callback)
             
-                
+
 
         return screen
     
@@ -129,7 +129,6 @@ class MainApp(MDApp):
     def get_gps(self, *args):
         if platform == 'android' or platform == 'ios':
             from plyer import gps         
-            Clock.schedule_interval(0,  1)
             gps.configure(on_location=self.on_location, on_status=self.on_status)
             gps.start(minTime=1000, minDistance=0)
 
