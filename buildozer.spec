@@ -4,7 +4,7 @@ title = Ankeralarm
 package.name = ankeralarm
 package.domain = gsog.de
 
-# icon.filename = Goku.jpg
+icon.filename = Goku.jpg
 
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,mp3,json
@@ -17,7 +17,7 @@ fullscreen = 0
 android.archs = arm64-v8a
 p4a.branch = release-2022.12.20
 
-# android.permissions = INTERNET
+android.permissions = INTERNET
 
 # iOS specific
 ios.kivy_ios_url = https://github.com/kivy/kivy-ios

@@ -1,9 +1,3 @@
 kivy_venv
 cache
 .vscode
-requirements.txt
-placeholder.png
-info.kv
-infopagemd.kv
-AnkerHelper.py
-daten.json
