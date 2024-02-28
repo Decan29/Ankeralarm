@@ -20,7 +20,7 @@ from kivymd.app import MDApp
 
 class MainApp(MDApp):
     def __init__(self, **kwargs):
-        self.title = "Ankeralarm"
+        # self.title = "Ankeralarm"
         super().__init__(**kwargs)
     
     # def build(self):
