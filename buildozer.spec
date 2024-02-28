@@ -14,7 +14,7 @@ requirements = python3,kivy,kivymd
 
 orientation = portrait
 fullscreen = 0
-android.arch = arm64-v8a
+android.archs = arm64-v8a
 p4a.branch = release-2022.12.20
 
 # android.permissions = INTERNET
