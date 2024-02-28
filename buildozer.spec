@@ -15,6 +15,7 @@ android.permissions = INTERNET,ACCESS_COARSE_LOCATION,ACCESS_FINE_LOCATION
 orientation = portrait
 fullscreen = 0
 android.archs = arm64-v8a
+p4a.branch = release-2022.12.20
 
 # iOS specific
 ios.kivy_ios_url = https://github.com/kivy/kivy-ios
