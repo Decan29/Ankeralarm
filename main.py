@@ -141,7 +141,7 @@ class MainApp(MDApp):
 
     # def schliesse_dialog(self, instance):
         # Schließen des Dialogs
-        instance.parent.parent.parent.dismiss()
+        # instance.parent.parent.parent.dismiss()
 
 # class CustomMarker(MapMarkerPopup):
 #     def __init__(self, **kwargs):

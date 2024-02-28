@@ -1,20 +1,20 @@
 [app]
 
 title = Ankeralarm
-package.name = Ankeralarm
+package.name = ankeralarm
 package.domain = gsog.de
 
 icon.filename = Goku.jpg
 
 source.dir = .
-source.include_exts = py,png,jpg,kv,atlas,mp3
+source.include_exts = py,png,jpg,kv,atlas,mp3,json
 
 version = 0.1
 requirements = python3,kivy,kivymd
 
 orientation = portrait
 fullscreen = 0
-android.archs = arm64-v8a
+android.arch = arm64-v8a
 p4a.branch = release-2022.12.20
 
 # android.permissions = INTERNET
