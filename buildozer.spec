@@ -2,20 +2,19 @@
 
 title = Ankeralarm
 package.name = ankeralarm
-package.domain = gsog.de
+package.domain = gsog.test
 
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,mp3,json
 
 version = 0.1
-requirements = python3,kivy,kivymd
+requirements = python3,kivy,kivymd==1.1.1
 # (list) Permissions
 android.permissions = INTERNET,ACCESS_COARSE_LOCATION,ACCESS_FINE_LOCATION
 
 orientation = portrait
 fullscreen = 0
 android.archs = arm64-v8a
-p4a.branch = release-2022.12.20
 
 # iOS specific
 ios.kivy_ios_url = https://github.com/kivy/kivy-ios
@@ -26,4 +25,3 @@ ios.codesign.allowed = false
 
 [buildozer]
 log_level = 2
-warn_on_root = 1
