@@ -27,14 +27,14 @@ class MainApp(MDApp):
         screen = Builder.load_file("windowsmd.kv")
         return screen
     
-    def set_map_source(self):
-        my_map_source = MapSource(
-            url='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            min_zoom=8,
-            max_zoom=19,
-            attribution='Map data  © OpenStreetMap contributors'
-        )
-        self.mapview.map_source = my_map_source
+    # def set_map_source(self):
+    #     my_map_source = MapSource(
+    #         url='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    #         min_zoom=8,
+    #         max_zoom=19,
+    #         attribution='Map data  © OpenStreetMap contributors'
+    #     )
+    #     self.mapview.map_source = my_map_source
 
     # def drawCircle(self):
     #     lat=49.566848
@@ -143,13 +143,13 @@ class MainApp(MDApp):
         # Schließen des Dialogs
         instance.parent.parent.parent.dismiss()
 
-class CustomMarker(MapMarkerPopup):
-    def __init__(self, **kwargs):
-        super(CustomMarker, self).__init__(**kwargs)
+# class CustomMarker(MapMarkerPopup):
+#     def __init__(self, **kwargs):
+#         super(CustomMarker, self).__init__(**kwargs)
 
-        with self.canvas:
-            self.image = Image(source='Goku.jpg')
-            self.image.pos = self.pos[0] + 12, self.pos[1] + 12
+#         with self.canvas:
+#             self.image = Image(source='Goku.jpg')
+#             self.image.pos = self.pos[0] + 12, self.pos[1] + 12
 
 if __name__ == "__main__":
     MainApp().run()
