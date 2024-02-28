@@ -1,7 +1,7 @@
 [app]
 
 title = Ankeralarm
-package.name = streichAnkeralarmholzspiel
+package.name = Ankeralarm
 package.domain = gsog.de
 
 icon.filename = Goku.jpg
@@ -17,7 +17,7 @@ fullscreen = 0
 android.archs = arm64-v8a
 p4a.branch = release-2022.12.20
 
-android.permissions = INTERNET
+# android.permissions = INTERNET
 
 # iOS specific
 ios.kivy_ios_url = https://github.com/kivy/kivy-ios
