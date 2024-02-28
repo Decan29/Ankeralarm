@@ -1,31 +1,31 @@
-import json
-from plyer import gps
-from random import random
+# import json
+# from plyer import gps
+# from random import random
 from kivymd.app import MDApp
-from kivy.lang import Builder
-from kivy.graphics import Line
-from kivy.graphics import Color
-from kivy.core.window import Window
-from kivymd.uix.dialog import MDDialog
-from kivy_garden.mapview import MapSource
-from kivymd.uix.button import MDFlatButton
-from kivy_garden.mapview import MapMarkerPopup, MapMarker
-from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
+# from kivy.lang import Builder
+# from kivy.graphics import Line
+# from kivy.graphics import Color
+# from kivy.core.window import Window
+# from kivymd.uix.dialog import MDDialog
+# from kivy_garden.mapview import MapSource
+# from kivymd.uix.button import MDFlatButton
+# from kivy_garden.mapview import MapMarkerPopup, MapMarker
+# from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
 
-from kivy.clock import Clock
-from kivy.uix.image import Image
+# from kivy.clock import Clock
+# from kivy.uix.image import Image
 
-class MyToggleButton(MDFlatButton, MDToggleButton):
-    pass
+# class MyToggleButton(MDFlatButton, MDToggleButton):
+#     pass
 
 class MainApp(MDApp):
     def __init__(self, **kwargs):
         self.title = "Ankeralarm"
         super().__init__(**kwargs)
     
-    def build(self):
-        screen = Builder.load_file("windowsmd.kv")
-        return screen
+    # def build(self):
+    #     # screen = Builder.load_file("windowsmd.kv")
+    #     return screen
     
     # def set_map_source(self):
     #     my_map_source = MapSource(
