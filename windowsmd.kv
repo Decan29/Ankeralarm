@@ -140,11 +140,12 @@ MDScreenManager:
         MDGridLayout:
             cols: 1
             rows: 5
+            size_hint_y: 1
 
             MDGridLayout:
                 cols: 2
                 rows: 1
-                size_hint_y: 0.1
+                size_hint_y: 0.15
 
                 MDIconButton:
                     icon:"arrow-left"
@@ -162,23 +163,24 @@ MDScreenManager:
                     font_size: 32
                     size_hint: 1, 1
 
-            
             MDGridLayout:
-                cols:4
+                cols:3
                 rows:1       
-                size_hint_y: 0.1
-                MDLabel:
-                    text: 'Radius in Meter'
-                    halign: "left"
-                    valign: "middle"
-                    text_size: root.width, root.height
-                    font_size: 25
+                size_hint_y: 0.4
+                padding: [20,20]
+
+                # MDLabel:
+                #     text: 'Radius'
+                #     halign: "left"
+                #     valign: "middle"
+                #     text_size: root.width, root.height
+                #     font_size: 25
 
                 MDTextField:
                     id: radius
                     mode: "fill"
-                    hint_text: "Radius in Meter"
-                    helper_text: "Bitte den Radius in Meter eingeben"
+                    hint_text: "in Meter"
+                    # helper_text: "Bitte den Radius in Meter eingeben"
                     helper_text_mode: "persistent"
                     halign:"center"
                     text: "20"
@@ -188,14 +190,12 @@ MDScreenManager:
                     size_hint: 1, 1
                     on_text: app.dateiSchreiben()
 
-                
                 MDIconButton:
                     icon: "plus"
                     valign: "center"
                     size_hint: 1, 1
                     on_press: app.radiuserhoehen()
                     on_release: app.dateiSchreiben()
-
 
                 MDIconButton:
                     icon: "minus"
@@ -207,7 +207,8 @@ MDScreenManager:
             MDGridLayout:
                 rows: 1
                 cols: 2
-                size_hint_y: 0.1
+                size_hint_y: 0.3
+                padding: [20,20]
                 MDLabel:
                     text: 'Alarm Sound auswählen'
                     font_size: 25
