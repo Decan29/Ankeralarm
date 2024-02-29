@@ -12,7 +12,6 @@ from kivymd.uix.button import MDFlatButton
 from kivy_garden.mapview import MapMarkerPopup, MapMarker
 from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
 from kivy.utils import platform
-from android.permissions import Permission, request_permissions
 from kivy.uix.button import Button
 
 from kivy.clock import Clock
@@ -31,6 +30,7 @@ class MainApp(MDApp):
         screen = Builder.load_file("windows.kv")
         #self.map.add_marker(self.circle)
         if platform == 'android':
+            from android.permissions import Permission, request_permissions
             permissions = [Permission.ACCESS_COARSE_LOCATION, Permission.ACCESS_FINE_LOCATION]
             request_permissions(permissions, self.permission_callback)
         return screen
@@ -148,21 +148,24 @@ class MainApp(MDApp):
 
         latitude = kwargs.get('lat', None)
         longitude = kwargs.get('lon', None)
+
         if latitude and longitude:
             print(f"Latitude: {latitude}, Longitude: {longitude}")
             marker = MapMarker(lat=latitude, lon=longitude)
             self.root.ids.mapview.add_marker(marker)
+
             if hasattr(self, 'user_marker'):
                 # Update existing marker
                 self.user_marker.lat = latitude
                 self.user_marker.lon = longitude
+
             else:
                 # Create new marker
                  self.user_marker = MapMarker(lat=latitude, lon=longitude)
                  self.mapview.add_widget(self.user_marker)  # Add the marker to the mapview
-                 self.centerMap()
             # Remove old markers (optional)
             self.remove_old_markers(lat=latitude, lon=longitude)
+            self.centerMap(latitude,longitude)
 
     def remove_old_markers(self):
         # Remove markers other than the user's marker
