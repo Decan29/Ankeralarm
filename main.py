@@ -80,68 +80,68 @@ class MainApp(MDApp):
         self.root.ids.mapview.center_on(lat, lon)
         return
 
-    def radiuserhoehen(self):
-        #Zugriff auf das Widget mit der id 'radius'
-        radius_widget = self.root.ids.radius
-        #Erhöhen des aktuellen Wertes um 1
-        radius_widget.text = str(int(radius_widget.text) + 1)
+    # def radiuserhoehen(self):
+    #     #Zugriff auf das Widget mit der id 'radius'
+    #     radius_widget = self.root.ids.radius
+    #     #Erhöhen des aktuellen Wertes um 1
+    #     radius_widget.text = str(int(radius_widget.text) + 1)
 
-    def radiusverringern(self):
-        # Zugriff auf das Widget mit der id 'radius'
-        radius_widget = self.root.ids.radius
-        # Verringere den aktuellen Wert um 1
-        radius_widget.text = str(int(radius_widget.text) - 1)
+    # def radiusverringern(self):
+    #     # Zugriff auf das Widget mit der id 'radius'
+    #     radius_widget = self.root.ids.radius
+    #     # Verringere den aktuellen Wert um 1
+    #     radius_widget.text = str(int(radius_widget.text) - 1)
     
-    def dateiSchreiben(self):
-        radius_widget = self.root.ids.radius.text
-        spinner_widget = self.root.ids.sound_spinner.text
+    # def dateiSchreiben(self):
+    #     radius_widget = self.root.ids.radius.text
+    #     spinner_widget = self.root.ids.sound_spinner.text
 
-        dictionary = {
-        "Bereich": "Einstellungen",
-        "Radius": radius_widget,
-        'Audio Data': spinner_widget
-        }
-        with open (".\daten.json", "w") as file:
-            json.dump(dictionary,file)
+    #     dictionary = {
+    #     "Bereich": "Einstellungen",
+    #     "Radius": radius_widget,
+    #     'Audio Data': spinner_widget
+    #     }
+    #     with open (".\daten.json", "w") as file:
+    #         json.dump(dictionary,file)
 
-    def toggle_function(self):
-        # Umschaltende Logik, die entscheidet, welche Funktion aufgerufen wird
-        if self.root.ids.launchButton.state == 'normal':
-            self.drawLine()
-        else:
-            print("test")
+    # def toggle_function(self):
+    #     # Umschaltende Logik, die entscheidet, welche Funktion aufgerufen wird
+    #     if self.root.ids.launchButton.state == 'normal':
+    #         self.drawLine()
+    #     else:
+    #         print("test")
 
-    def get_gps(self, *args):
-        gps.configure(on_location=self.on_location)
-        gps.start()
+    # def get_gps(self, *args):
+    #     gps.configure(on_location=self.on_location)
+    #     gps.start()
 
-    def on_location(self, **kwargs):
-        print('Latitude: ', kwargs['lat'], 'Longitude: ', kwargs['lon'])
-        self.map.lat = kwargs['lat']
-        self.map.lon = kwargs['lon']
-        gps.stop()
+    # def on_location(self, **kwargs):
+    #     print('Latitude: ', kwargs['lat'], 'Longitude: ', kwargs['lon'])
+    #     self.map.lat = kwargs['lat']
+    #     self.map.lon = kwargs['lon']
+    #     gps.stop()
 
-    def frage_nach_location(self):
-        # Erstellen eines Dialogs, um den Benutzer zu fragen, ob er seinen Standort teilen möchte
-        dialog = MDDialog(
-             title="Standortfreigabe",
-             text="Möchten Sie Ihren Standort teilen?",
-             buttons=[
-                 MDFlatButton(
-                    text="JA",
-                     on_release=self.get_gps
-                 ),
-                 MDFlatButton(
-                     text="NEIN",
-                     on_release=self.close_dialog
-                 )
-             ]
-         )
-        dialog.open()
+    # def frage_nach_location(self):
+    #     # Erstellen eines Dialogs, um den Benutzer zu fragen, ob er seinen Standort teilen möchte
+    #     dialog = MDDialog(
+    #          title="Standortfreigabe",
+    #          text="Möchten Sie Ihren Standort teilen?",
+    #          buttons=[
+    #              MDFlatButton(
+    #                 text="JA",
+    #                  on_release=self.get_gps
+    #              ),
+    #              MDFlatButton(
+    #                  text="NEIN",
+    #                  on_release=self.close_dialog
+    #              )
+    #          ]
+    #      )
+    #     dialog.open()
 
-    def schliesse_dialog(self, instance):
-        # Schließen des Dialogs
-        instance.parent.parent.parent.dismiss()
+    # def schliesse_dialog(self, instance):
+    #     # Schließen des Dialogs
+    #     instance.parent.parent.parent.dismiss()
 
 class CustomMarker(MapMarkerPopup):
     def __init__(self, **kwargs):
