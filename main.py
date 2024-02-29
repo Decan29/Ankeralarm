@@ -146,11 +146,11 @@ class MainApp(MDApp):
 
     def on_location(self, *args, **kwargs):
 
-        latitude = kwargs.get('lat', None)
-        longitude = kwargs.get('lon', None)
-        if latitude and longitude:
-            print(f"Latitude: {latitude}, Longitude: {longitude}")
-            marker = MapMarker(lat=latitude, lon=longitude)
+        self.root.ids.mapview.lat = kwargs.get('lat', None)
+        self.root.ids.mapview.lon = kwargs.get('lon', None)
+        if self.root.ids.mapview.lat and self.root.ids.mapview.lon:
+            print(f"Latitude: {self.root.ids.mapview.lat}, Longitude: {self.root.ids.mapview.lon}")
+            marker = MapMarker(lat=self.root.ids.mapview.lat, lon=self.root.ids.mapview.lon)
             self.root.ids.mapview.add_marker(marker)
              
     def get_gps_latitude(self):
