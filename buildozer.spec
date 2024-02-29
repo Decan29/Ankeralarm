@@ -5,11 +5,11 @@ package.name = ankeralarm
 package.domain = gsog.test
 
 source.dir = .
-source.include_exts = py,png,jpg,kv,atlas,mp3,json
+source.include_exts = py,png,jpg,kv,atlas,mp3,json,txt
 
 version = 0.1
 requirements = python3,kivy,kivymd==1.1.1,plyer,mapview==1.0.6,Kivy-Garden==0.1.5,pillow==10.2.0,requests==2.31.0,urllib3==2.1.0, charset_normalizer, chardet
-requirements = requirements.txt
+
 # (list) Permissions
 android.permissions = INTERNET,ACCESS_COARSE_LOCATION,ACCESS_FINE_LOCATION
 
