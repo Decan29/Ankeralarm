@@ -30,166 +30,143 @@ class MainApp(MDApp):
     def build(self):
         screen = Builder.load_file("windows.kv")
         #self.map.add_marker(self.circle)
-        # if platform == 'Android':
-        #     from android.permissions import Permission, request_permissions
-        #     def callback(permissions, results):
-        #         if all([res for res in results]):
-        #             print("Habe die Befugnis")
-        #         else:
-        #             print("habe keine Befugnis.")
-        #         request_permissions([Permission.ACCES_COARSE_LOCATION,
-        #                              Permission.ACCESS_FINE_LOCATION],callback)
+        if platform == 'Android':
+             from android.permissions import Permission, request_permissions
+             def callback(permissions, results):
+                 if all([res for res in results]):
+                     print("Habe die Befugnis")
+                 else:
+                     print("habe keine Befugnis.")
+                 request_permissions([Permission.ACCES_COARSE_LOCATION,
+                                      Permission.ACCESS_FINE_LOCATION],callback)
             
 
 
         return screen
     
-#     def set_map_source(self):
-#         my_map_source = MapSource(
-#             url='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-#             min_zoom=0,
-#             max_zoom=19,
-#             attribution='Map data  © OpenStreetMap contributors'
-#         )
-#         self.mapview.map_source = my_map_source
-
-#     def drawCircle(self):
-#         lat=self.root.ids.mapview.lat
-#         lon=self.root.ids.mapview.lon
-#         zoom = 8
-#         radius = str(int(self.root.ids.radius.text))
-
-#         self.lat = lat
-#         self.lan = lon
-#         self.offcenter = 48
-        
-#         self.marker = MapMarker(lat=self.lat, lon=self.lan, source='Goku.jpg')
-#         # self.markerbtn = Button(size=(self.root.width*0.2, self.root.height*0.05), pos=(self.marker.pos[0], self.marker.pos[1]))
-#         # self.marker = CustomMarker(lat=self.lat, lon=self.lan, source='transparent.png')
-#         # self.markerbtn = Image(source="Goku.jpg")
-#         # self.marker.add_widget(self.markerbtn)
-#         self.root.ids.mapview.add_widget(self.marker)
-#         with self.root.canvas:
-#             Color(1,0,0,1)
-#             self.line = Line(circle=(self.marker.pos[0]+self.offcenter, self.marker.pos[1]+self.offcenter, 200), width=4)
-#         Clock.schedule_interval(self.update_circle, 1/500)
-
-#         return
+    def set_map_source(self):
+         my_map_source = MapSource(
+            url='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            min_zoom=0,
+            max_zoom=19,
+            attribution='Map data  © OpenStreetMap contributors'
+         )
+         self.mapview.map_source = my_map_source
     
-#     def update_circle(self, *args):
-#         self.line.circle = float(self.marker.pos[0])+self.offcenter, float(self.marker.pos[1]+self.offcenter), 200
-#         print("circle:",self.line.circle[0], self.line.circle[1])
-#         print("marker:",self.marker.pos[0], self.marker.pos[1])
-#         # self.isInside(self.line.circle[0], self.line.circle[1], 200, self.marker.pos[0]+200, self.marker.pos[1]+200)
+    def drawCircle(self):
+        lat=self.root.ids.mapview.lat
+        lon=self.root.ids.mapview.lon
+        zoom = 8
+        radius = str(int(self.root.ids.radius.text))
 
-#     def isInside(self, circle_x, circle_y, rad, x, y, *args):
-#         if ((x - circle_x) * (x - circle_x) + (y - circle_y) * (y - circle_y) <= rad * rad):
-#             print("inside")
-#         else:
-#             print("outside")
+        self.lat = lat
+        self.lan = lon
+        self.offcenter = 48
+        
+        self.marker = MapMarker(lat=self.lat, lon=self.lan, source='Goku.jpg')
+        self.markerbtn = Button(size=(self.root.width*0.2, self.root.height*0.05), pos=(self.marker.pos[0], self.marker.pos[1]))
+        self.marker = CustomMarker(lat=self.lat, lon=self.lan, source='transparent.png')
+        self.markerbtn = Image(source="Goku.jpg")
+        self.marker.add_widget(self.markerbtn)
+        self.root.ids.mapview.add_widget(self.marker)
+        with self.root.canvas:
+            Color(1,0,0,1)
+            self.line = Line(circle=(self.marker.pos[0]+self.offcenter, self.marker.pos[1]+self.offcenter, 200), width=4)
+        Clock.schedule_interval(self.update_circle, 1/500)
+
+        return
+    
+    def update_circle(self, *args):
+        self.line.circle = float(self.marker.pos[0])+self.offcenter, float(self.marker.pos[1]+self.offcenter), 200
+        print("circle:",self.line.circle[0], self.line.circle[1])
+        print("marker:",self.marker.pos[0], self.marker.pos[1])
+        self.isInside(self.line.circle[0], self.line.circle[1], 200, self.marker.pos[0]+200, self.marker.pos[1]+200)
+
+    def isInside(self, circle_x, circle_y, rad, x, y, *args):
+        if ((x - circle_x) * (x - circle_x) + (y - circle_y) * (y - circle_y) <= rad * rad):
+             print("inside")
+        else:
+             print("outside")
         
 
 
-#     def centerMap(self, lat, lon, zoom=8):
-#         self.root.ids.mapview.zoom = zoom
-#         self.root.ids.mapview.center_on(lat, lon)
-#         return
+    def centerMap(self, lat, lon, zoom=8):
+        self.root.ids.mapview.zoom = zoom
+        self.root.ids.mapview.center_on(lat, lon)
+        return
 
-#     def radiuserhoehen(self):
-#         #Zugriff auf das Widget mit der id 'radius'
-#         radius_widget = self.root.ids.radius
-#         #Erhöhen des aktuellen Wertes um 1
-#         radius_widget.text = str(int(radius_widget.text) + 1)
+    def radiuserhoehen(self):
+        #Zugriff auf das Widget mit der id 'radius'
+        radius_widget = self.root.ids.radius
+        #Erhöhen des aktuellen Wertes um 1
+        radius_widget.text = str(int(radius_widget.text) + 1)
 
-#     def radiusverringern(self):
-#         # Zugriff auf das Widget mit der id 'radius'
-#         radius_widget = self.root.ids.radius
-#         # Verringere den aktuellen Wert um 1
-#         radius_widget.text = str(int(radius_widget.text) - 1)
+    def radiusverringern(self):
+        # Zugriff auf das Widget mit der id 'radius'
+        radius_widget = self.root.ids.radius
+        # Verringere den aktuellen Wert um 1
+        radius_widget.text = str(int(radius_widget.text) - 1)
     
-#     def dateiSchreiben(self):
-#         radius_widget = self.root.ids.radius.text
-#         spinner_widget = self.root.ids.sound_spinner.text
+    def dateiSchreiben(self):
+        radius_widget = self.root.ids.radius.text
+        spinner_widget = self.root.ids.sound_spinner.text
 
-#         dictionary = {
-#         "Bereich": "Einstellungen",
-#         "Radius": radius_widget,
-#         'Audio Data': spinner_widget
-#         }
-#         with open (".\daten.json", "w") as file:
-#             json.dump(dictionary,file)
+        dictionary = {
+        "Bereich": "Einstellungen",
+        "Radius": radius_widget,
+        'Audio Data': spinner_widget
+        }
+        with open (".\daten.json", "w") as file:
+            json.dump(dictionary,file)
 
-#     def toggle_function(self):
-#         # Umschaltende Logik, die entscheidet, welche Funktion aufgerufen wird
-#         if self.root.ids.launchButton.state == 'normal':
-#             self.drawLine()
-#         else:
-#             print("test")
+    def toggle_function(self):
+         # Umschaltende Logik, die entscheidet, welche Funktion aufgerufen wird
+        if self.root.ids.launchButton.state == 'normal':
+            self.drawLine()
+        else:
+            print("test")
 
-#     def get_gps(self, *args):
-#         if platform == 'android' or platform == 'ios':
-#             from plyer import gps         
-#             gps.configure(on_location=self.on_location, on_status=self.on_status)
-#             gps.start(minTime=1000, minDistance=0)
+    def get_gps(self, *args):
+        if platform == 'android' or platform == 'ios':
+             from plyer import gps         
+             gps.configure(on_location=self.on_location, on_status=self.on_status)
+             gps.start(minTime=1000, minDistance=0)
 
            
-#     def on_status(self, general_status, status_message):
-#         if general_status== 'provider-enabled':
-#             pass
-#         else:
-#             self.open_gps_access_popup()
+    def on_status(self, general_status, status_message):
+        if general_status== 'provider-enabled':
+            pass
+        else:
+            self.open_gps_access_popup()
 
-#     def open_gps_access_popup(self):
-#         dialog = MDDialog(title="GPS Error", text= "Sie müssen die GPS daten aktivieren.")
-#         dialog.size_hint = [.8,.8]
-#         dialog.pos_hint = {'center_x':.5,'center_y':.5}
-#         dialog.open()
+    def open_gps_access_popup(self):
+        dialog = MDDialog(title="GPS Error", text= "Sie müssen die GPS daten aktivieren.")
+        dialog.size_hint = [.8,.8]
+        dialog.pos_hint = {'center_x':.5,'center_y':.5}
+        dialog.open()
 
 
-#     def on_location(self, *args, **kwargs):
-#             print('Latitude: ', kwargs['lat'], 'Longitude: ', kwargs['lon'])
-#             self.lat = kwargs.get('lat')
-#             self.lon = kwargs.get('lon')
-#             map = self.get_running_app().root.ids.mapview
-#             map = self.centerMap( self.lat, self.lon)
+    def on_location(self, *args, **kwargs):
+        print('Latitude: ', kwargs['lat'], 'Longitude: ', kwargs['lon'])
+        self.lat = kwargs.get('lat')
+        self.lon = kwargs.get('lon')
+        map = self.get_running_app().root.ids.mapview
+        map = self.centerMap( self.lat, self.lon)
              
-#     def get_gps_latitude(self):
-#         return self.root.ids.mapview.lat
+    def get_gps_latitude(self):
+        return self.root.ids.mapview.lat
          
 
-#     def get_gps_longitude(self):        
-#         return self.root.ids.mapview.lon
-        
+    def get_gps_longitude(self):        
+        return self.root.ids.mapview.lon       
 
-#     def frage_nach_location(self):
-#         # Erstellen eines Dialogs, um den Benutzer zu fragen, ob er seinen Standort teilen möchte
-#         dialog = MDDialog(
-#              title="Standortfreigabe",
-#              text="Möchten Sie Ihren Standort teilen?",
-#              buttons=[
-#                  MDFlatButton(
-#                     text="JA",
-#                      on_release=self.get_gps
-#                  ),
-#                  MDFlatButton(
-#                      text="NEIN",
-#                      on_release=self.close_dialog
-#                  )
-#              ]
-#          )
-#         dialog.open()
+class CustomMarker(MapMarkerPopup):
+    def __init__(self, **kwargs):
+        super(CustomMarker, self).__init__(**kwargs)
 
-#     def schliesse_dialog(self, instance):
-#         # Schließen des Dialogs
-#         instance.parent.parent.parent.dismiss()
-
-# class CustomMarker(MapMarkerPopup):
-#     def __init__(self, **kwargs):
-#         super(CustomMarker, self).__init__(**kwargs)
-
-#         with self.canvas:
-#             self.image = Image(source='Goku.jpg')
-#             self.image.pos = self.pos[0] + 12, self.pos[1] + 12
+        with self.canvas:
+            self.image = Image(source='Goku.jpg')
+            self.image.pos = self.pos[0] + 12, self.pos[1] + 12
 
 if __name__ == "__main__":
     MainApp().run()
