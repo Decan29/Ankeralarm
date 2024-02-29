@@ -127,8 +127,7 @@ class MainApp(MDApp):
     def get_gps(self, *args):
         if platform == 'android' or platform == 'ios':
             from plyer import gps   
-            try:
-                            
+            try:                           
                 gps.configure(on_location=self.on_location, on_status=self.on_status)
                 gps.start(minTime=1000, minDistance=0)
             except:
@@ -161,28 +160,28 @@ class MainApp(MDApp):
             self.root.ids.mapview.lat = latitude
             self.root.ids.mapview.lon = longitude
 
-            if hasattr(self, 'user_marker'):
-                # Update existing marker
-                self.user_marker.lat = latitude
-                self.user_marker.lon = longitude
-                self.root.ids.mapview.lat = latitude
-                self.root.ids.mapview.lon = longitude
+    #         if hasattr(self, 'user_marker'):
+    #             # Update existing marker
+    #             self.user_marker.lat = latitude
+    #             self.user_marker.lon = longitude
+    #             self.root.ids.mapview.lat = latitude
+    #             self.root.ids.mapview.lon = longitude
 
-            else:
-                # Create new marker
-                self.user_marker = MapMarker(lat=latitude, lon=longitude)
-                self.mapview.add_widget(self.user_marker)  # Add the marker to the mapview
-                self.root.ids.mapview.lat = latitude
-                self.root.ids.mapview.lon = longitude
-            # Remove old markers (optional)
-            self.remove_old_markers(lat=latitude, lon=longitude)
-            self.centerMap(latitude,longitude)
+    #         else:
+    #             # Create new marker
+    #             self.user_marker = MapMarker(lat=latitude, lon=longitude)
+    #             self.mapview.add_widget(self.user_marker)  # Add the marker to the mapview
+    #             self.root.ids.mapview.lat = latitude
+    #             self.root.ids.mapview.lon = longitude
+    #         # Remove old markers (optional)
+    #         self.remove_old_markers(lat=latitude, lon=longitude)
+    #         self.centerMap(latitude,longitude)
 
-    def remove_old_markers(self):
-        # Remove markers other than the user's marker
-        for marker in self.mapview.children:
-            if isinstance(marker, MapMarker) and marker != self.user_marker:
-                self.mapview.remove_widget(marker)
+    # def remove_old_markers(self):
+    #     # Remove markers other than the user's marker
+    #     for marker in self.mapview.children:
+    #         if isinstance(marker, MapMarker) and marker != self.user_marker:
+    #             self.mapview.remove_widget(marker)
 
              
     def get_gps_latitude(self):
