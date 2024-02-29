@@ -158,16 +158,22 @@ class MainApp(MDApp):
             print(f"Latitude: {latitude}, Longitude: {longitude}")
             marker = MapMarker(lat=latitude, lon=longitude)
             self.root.ids.mapview.add_marker(marker)
+            self.root.ids.mapview.lat = latitude
+            self.root.ids.mapview.lon = longitude
 
             if hasattr(self, 'user_marker'):
                 # Update existing marker
                 self.user_marker.lat = latitude
                 self.user_marker.lon = longitude
+                self.root.ids.mapview.lat = latitude
+                self.root.ids.mapview.lon = longitude
 
             else:
                 # Create new marker
-                 self.user_marker = MapMarker(lat=latitude, lon=longitude)
-                 self.mapview.add_widget(self.user_marker)  # Add the marker to the mapview
+                self.user_marker = MapMarker(lat=latitude, lon=longitude)
+                self.mapview.add_widget(self.user_marker)  # Add the marker to the mapview
+                self.root.ids.mapview.lat = latitude
+                self.root.ids.mapview.lon = longitude
             # Remove old markers (optional)
             self.remove_old_markers(lat=latitude, lon=longitude)
             self.centerMap(latitude,longitude)
