@@ -44,14 +44,14 @@ class MainApp(MDApp):
 
         with self.root.canvas:
             Color(1,0,0,1)
-            self.line = Line(circle=(self.marker.pos[0]+self.offcenter, self.marker.pos[1]+self.offcenter, 200), width=4)
-        Clock.schedule_interval(self.update_circle, 1/500)
+            self.line = Line(circle=(self.marker.pos[0]+self.offcenter, self.marker.pos[1]+self.offcenter, int(self.root.ids.radius.text)), width=4)
+        self.clock = Clock.schedule_interval(self.update_circle, 1/500)
 
         return
     
     def update_circle(self, *args):
-        self.line.circle = self.marker.pos[0]+self.offcenter, self.marker.pos[1]+self.offcenter, 200
-        coord = self.root.ids.mapview.get_latlon_at(self.marker.pos[0]+200, self.marker.pos[1]+200)
+        self.line.circle = self.marker.pos[0]+self.offcenter, self.marker.pos[1]+self.offcenter, int(self.root.ids.radius.text)
+        coord = self.root.ids.mapview.get_latlon_at(self.marker.pos[0] + int(self.root.ids.radius.text), self.marker.pos[1] + int(self.root.ids.radius.text))
         
         # disable zoom
         self.root.ids.mapview.zoom = 8
@@ -69,27 +69,31 @@ class MainApp(MDApp):
         self.root.ids.mapview.zoom = zoom
         self.root.ids.mapview.center_on(lat, lon)
         return
-
+    
+    def Stop_Update_Circle(self):
+        self.clock.cancel()
+        # self.root.canvas.clear()
+        self.line.circle = 0,0,0
     def radiuserhoehen(self):
         #Zugriff auf das Widget mit der id 'radius'
-        radius_widget = self.root.ids.radius
+        self.radius_widget = self.root.ids.radius
         #Erhöhen des aktuellen Wertes um 1
-        radius_widget.text = str(int(radius_widget.text) + 1)
+        self.radius_widget.text = str(int(self.radius_widget.text) + 10)
 
     def radiusverringern(self):
         # Zugriff auf das Widget mit der id 'radius'
-        radius_widget = self.root.ids.radius
+        self.radius_widget = self.root.ids.radius
         # Verringere den aktuellen Wert um 1
-        radius_widget.text = str(int(radius_widget.text) - 1)
+        self.radius_widget.text = str(int(self.radius_widget.text) - 10)
     
     def dateiSchreiben(self):
-        radius_widget = self.root.ids.radius.text
-        spinner_widget = self.root.ids.sound_spinner.text
+        self.radius_widget = self.root.ids.radius.text
+        self.spinner_widget = self.root.ids.sound_spinner.text
 
         dictionary = {
         "Bereich": "Einstellungen",
-        "Radius": radius_widget,
-        'Audio Data': spinner_widget
+        "Radius": self.radius_widget,
+        'Audio Data': self.spinner_widget
         }
         with open ("src/json/daten.json", "w") as file:
             json.dump(dictionary,file)

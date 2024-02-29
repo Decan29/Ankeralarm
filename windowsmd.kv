@@ -44,6 +44,7 @@ MDScreenManager:
                 MDIconButton:
                     icon: "file-settings"
                     md_bg_color: "#5780FF"
+                    on_press: app.Stop_Update_Circle()
                     on_release:
                         root.current_heroes = ["hero"]
                         root.current = "settings"
@@ -150,10 +151,11 @@ MDScreenManager:
                 MDIconButton:
                     icon:"arrow-left"
                     md_bg_color: "#8470ff"
-                    size_hint:0.1,0.1   
+                    size_hint:0.1,0.1
                     on_release:
                         root.current_heroes = ["hero"]
-                        root.current = "main" 
+                        root.current = "main"
+                        app.drawCircle()
 
                 MDLabel:
                     text: "Einstellungen"
@@ -183,7 +185,7 @@ MDScreenManager:
                     # helper_text: "Bitte den Radius in Meter eingeben"
                     helper_text_mode: "persistent"
                     halign:"center"
-                    text: "20"
+                    text: "200"
                     required: True
                     font_size: 38
                     input_filter: 'int'
