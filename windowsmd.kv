@@ -229,14 +229,13 @@ MDScreenManager:
             MDGridLayout:
                 size_hint_:0.4
                 
-                    
-
+    
     MDScreen:
         name: "info"
-        hero_to: hero_to
+        hero_to: hero_to_info
 
         MDHeroTo:
-            id: hero_to
+            id: hero_to_info
             tag: "hero"
 
             MDIconButton:
@@ -245,13 +244,30 @@ MDScreenManager:
 
         MDGridLayout:
             cols: 1
-            rows: 4
+            rows: 2
             size_hint_y: 1
 
             MDGridLayout:
                 cols: 1
+                rows: 2
+                size_hint_y: 0.2
+
+                MDLabel:
+                    #color: 1,1,1,1
+                    text: "Ersteller: Daniel, Florian, Katja"
+                    valign: 'center'
+                    halign: 'center'
+
+                MDLabel:
+                    #color:1,1,1,1
+                    text: "App-Version: 1.0"
+                    valign: 'center'
+                    halign: 'center'
+
+            MDGridLayout:
+                cols: 1
                 rows: 1
-                size_hint_y: 0.06
+                size_hint_y: 0.5
 
                 Button:
                     text: "Zurück"
@@ -259,17 +275,5 @@ MDScreenManager:
                         root.current_heroes = ["hero"]
                         root.current = "main" 
     
-            MDGridLayout:
-                cols: 1
-                rows: 2
-                size_hint_y: 0.5
-
-                MDLabel:
-                    color: 1,1,1,1
-                    text: "Ersteller: Daniel, Florian, Katja"
-
-                MDLabel:
-                    color:1,1,1,1
-                    text: "App-Version: 1.0"
 
                     

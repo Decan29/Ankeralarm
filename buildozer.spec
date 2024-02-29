@@ -4,7 +4,7 @@ title = Ankeralarm
 package.name = ankeralarm
 package.domain = gsog.de
 
-icon.filename = Goku.jpg
+icon.filename = src/image/Goku.jpg
 
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,mp3,json
