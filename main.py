@@ -1,11 +1,9 @@
 import json
 from plyer import gps
-from random import random
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.graphics import Line
 from kivy.graphics import Color
-from kivy.core.window import Window
 from kivymd.uix.dialog import MDDialog
 from kivy_garden.mapview import MapSource
 from kivymd.uix.button import MDFlatButton
