@@ -2,10 +2,8 @@ import json
 from kivy.clock import Clock
 from kivymd.app import MDApp
 from kivy.lang import Builder
-from kivy.graphics import Line
-from kivy.graphics import Color
 from kivy.uix.image import Image
-from kivymd.uix.dialog import MDDialog
+from kivy.graphics import Color, Line
 from kivy_garden.mapview import MapSource
 from kivymd.uix.button import MDFlatButton
 from kivy_garden.mapview import MapMarkerPopup, MapMarker
