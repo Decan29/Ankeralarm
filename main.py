@@ -12,7 +12,7 @@ from kivymd.uix.button import MDFlatButton
 from kivy_garden.mapview import MapMarkerPopup, MapMarker
 from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
 from kivy.utils import platform
-
+from android.permissions import Permission, request_permissions
 from kivy.uix.button import Button
 
 from kivy.clock import Clock
@@ -30,20 +30,18 @@ class MainApp(MDApp):
     def build(self):
         screen = Builder.load_file("windows.kv")
         #self.map.add_marker(self.circle)
-        if platform == 'Android':
-             from android.permissions import Permission, request_permissions
-             def callback(permissions, results):
-                 if all([res for res in results]):
-                     print("Habe die Befugnis")
-                 else:
-                     print("habe keine Befugnis.")
-                 request_permissions([Permission.ACCES_COARSE_LOCATION,
-                                      Permission.ACCESS_FINE_LOCATION],callback)
-            
-
-
+        if platform == 'android':
+            permissions = [Permission.ACCESS_COARSE_LOCATION, Permission.ACCESS_FINE_LOCATION]
+            request_permissions(permissions, self.permission_callback)
         return screen
     
+    def permission_callback(self, permissions, results):
+        if all(results):
+            print("Permission granted")
+        else:
+            print("Permission denied")
+
+   
     def set_map_source(self):
          my_map_source = MapSource(
             url='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -147,11 +145,13 @@ class MainApp(MDApp):
 
 
     def on_location(self, *args, **kwargs):
-        print('Latitude: ', kwargs['lat'], 'Longitude: ', kwargs['lon'])
-        self.lat = kwargs.get('lat')
-        self.lon = kwargs.get('lon')
-        map = self.get_running_app().root.ids.mapview
-        map = self.centerMap( self.lat, self.lon)
+
+        latitude = kwargs.get('lat', None)
+        longitude = kwargs.get('lon', None)
+        if latitude and longitude:
+            print(f"Latitude: {latitude}, Longitude: {longitude}")
+            marker = MapMarker(lat=latitude, lon=longitude)
+            self.root.ids.mapview.add_marker(marker)
              
     def get_gps_latitude(self):
         return self.root.ids.mapview.lat
