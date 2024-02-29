@@ -8,7 +8,7 @@ source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,mp3,json
 
 version = 0.1
-requirements = python3,kivy,kivymd==1.1.1,plyer,mapview==1.0.6,Kivy-Garden==0.1.5,pillow==10.2.0
+requirements = python3,kivy,kivymd==1.1.1,plyer,mapview==1.0.6,Kivy-Garden==0.1.5,pillow==10.2.0,requests==2.31.0
 # (list) Permissions
 android.permissions = INTERNET,ACCESS_COARSE_LOCATION,ACCESS_FINE_LOCATION
 
