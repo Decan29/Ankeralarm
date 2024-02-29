@@ -11,7 +11,6 @@ from kivymd.uix.button import MDFlatButton
 from kivy_garden.mapview import MapMarkerPopup, MapMarker
 from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
 
-
 class MyToggleButton(MDFlatButton, MDToggleButton):
     pass
 
