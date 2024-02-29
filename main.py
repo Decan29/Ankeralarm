@@ -69,11 +69,11 @@ class MainApp(MDApp):
         # print("marker:",self.marker.pos[0], self.marker.pos[1])
         # self.isInside(self.line.circle[0], self.line.circle[1], 200, self.marker.pos[0]+200, self.marker.pos[1]+200)
 
-    def isInside(self, circle_x, circle_y, rad, x, y, *args):
-        if ((x - circle_x) * (x - circle_x) + (y - circle_y) * (y - circle_y) <= rad * rad):
-            print("inside")
-        else:
-            print("outside")
+    # def isInside(self, circle_x, circle_y, rad, x, y, *args):
+    #     if ((x - circle_x) * (x - circle_x) + (y - circle_y) * (y - circle_y) <= rad * rad):
+    #         print("inside")
+    #     else:
+    #         print("outside")
         
     def centerMap(self, lat=49.566848, lon=77.377053, zoom=8):
         self.root.ids.mapview.zoom = zoom
