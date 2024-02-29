@@ -1,4 +1,4 @@
-import json
+# import json
 from plyer import gps
 from random import random
 from kivymd.app import MDApp
