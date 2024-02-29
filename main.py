@@ -1,6 +1,6 @@
 # import json
-from plyer import gps
-from random import random
+# from plyer import gps
+# from random import random
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.graphics import Line
