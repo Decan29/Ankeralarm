@@ -1,7 +1,6 @@
 appdirs==1.4.4
 asgiref==3.7.2
 asttokens==2.4.1
-beautifulsoup4==4.12.3
 black==22.12.0
 certifi==2023.11.17
 charset-normalizer==3.3.2
@@ -20,7 +19,6 @@ executing==2.0.1
 ffmpeg==1.4
 filelock==3.13.1
 fonttools==4.49.0
-forge==0.22.0
 forge-core==0.4.0
 forge-db==0.3.4
 forge-heroku==0.4.0
