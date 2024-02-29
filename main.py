@@ -38,6 +38,7 @@ class MainApp(MDApp):
     def permission_callback(self, permissions, results):
         if all(results):
             print("Permission granted")
+            self.get_gps()
         else:
             print("Permission denied")
 
@@ -91,7 +92,6 @@ class MainApp(MDApp):
     def centerMap(self, lat, lon, zoom=8):
         self.root.ids.mapview.zoom = zoom
         self.root.ids.mapview.center_on(lat, lon)
-        return
 
     def radiuserhoehen(self):
         #Zugriff auf das Widget mit der id 'radius'
@@ -146,12 +146,30 @@ class MainApp(MDApp):
 
     def on_location(self, *args, **kwargs):
 
-        self.root.ids.mapview.lat = kwargs.get('lat', None)
-        self.root.ids.mapview.lon = kwargs.get('lon', None)
-        if self.root.ids.mapview.lat and self.root.ids.mapview.lon:
-            print(f"Latitude: {self.root.ids.mapview.lat}, Longitude: {self.root.ids.mapview.lon}")
-            marker = MapMarker(lat=self.root.ids.mapview.lat, lon=self.root.ids.mapview.lon)
+        latitude = kwargs.get('lat', None)
+        longitude = kwargs.get('lon', None)
+        if latitude and longitude:
+            print(f"Latitude: {latitude}, Longitude: {longitude}")
+            marker = MapMarker(lat=latitude, lon=longitude)
             self.root.ids.mapview.add_marker(marker)
+            if hasattr(self, 'user_marker'):
+                # Update existing marker
+                self.user_marker.lat = latitude
+                self.user_marker.lon = longitude
+            else:
+                # Create new marker
+                 self.user_marker = MapMarker(lat=latitude, lon=longitude)
+                 self.mapview.add_widget(self.user_marker)  # Add the marker to the mapview
+                 self.centerMap()
+            # Remove old markers (optional)
+            self.remove_old_markers(lat=latitude, lon=longitude)
+
+    def remove_old_markers(self):
+        # Remove markers other than the user's marker
+        for marker in self.mapview.children:
+            if isinstance(marker, MapMarker) and marker != self.user_marker:
+                self.mapview.remove_widget(marker)
+
              
     def get_gps_latitude(self):
         return self.root.ids.mapview.lat
