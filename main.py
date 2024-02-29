@@ -1,17 +1,16 @@
 import json
-from plyer import gps
+from kivy.clock import Clock
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.graphics import Line
 from kivy.graphics import Color
+from kivy.uix.image import Image
 from kivymd.uix.dialog import MDDialog
 from kivy_garden.mapview import MapSource
 from kivymd.uix.button import MDFlatButton
 from kivy_garden.mapview import MapMarkerPopup, MapMarker
 from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
 
-from kivy.clock import Clock
-from kivy.uix.image import Image
 
 class MyToggleButton(MDFlatButton, MDToggleButton):
     pass
@@ -104,34 +103,6 @@ class MainApp(MDApp):
             self.drawLine()
         else:
             print("test")
-
-    def get_gps(self, *args):
-        gps.configure(on_location=self.on_location)
-        gps.start()
-
-    def on_location(self, **kwargs):
-        print('Latitude: ', kwargs['lat'], 'Longitude: ', kwargs['lon'])
-        self.map.lat = kwargs['lat']
-        self.map.lon = kwargs['lon']
-        gps.stop()
-
-    def frage_nach_location(self):
-        # Erstellen eines Dialogs, um den Benutzer zu fragen, ob er seinen Standort teilen möchte
-        dialog = MDDialog(
-             title="Standortfreigabe",
-             text="Möchten Sie Ihren Standort teilen?",
-             buttons=[
-                 MDFlatButton(
-                    text="JA",
-                     on_release=self.get_gps
-                 ),
-                 MDFlatButton(
-                     text="NEIN",
-                     on_release=self.close_dialog
-                 )
-             ]
-         )
-        dialog.open()
 
     def schliesse_dialog(self, instance):
         # Schließen des Dialogs
