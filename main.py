@@ -126,10 +126,15 @@ class MainApp(MDApp):
 
     def get_gps(self, *args):
         if platform == 'android' or platform == 'ios':
-             from plyer import gps         
-             gps.configure(on_location=self.on_location, on_status=self.on_status)
-             gps.start(minTime=1000, minDistance=0)
-
+            from plyer import gps   
+            try:
+                            
+                gps.configure(on_location=self.on_location, on_status=self.on_status)
+                gps.start(minTime=1000, minDistance=0)
+            except:
+                import traceback
+                traceback.print_exc()
+                self.gps_status= "GPS is not implemented for your platform"
            
     def on_status(self, general_status, status_message):
         if general_status== 'provider-enabled':

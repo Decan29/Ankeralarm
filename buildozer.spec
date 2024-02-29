@@ -12,7 +12,7 @@ requirements = python3,kivy,kivymd==1.1.1,pillow,plyer, requests, openssl, urlli
 
 
 # (list) Permissions
-android.permissions =ACCESS_COARSE_LOCATION,ACCESS_FINE_LOCATION
+android.permissions =ACCESS_COARSE_LOCATION,ACCESS_FINE_LOCATION,INTERNET
 
 orientation = portrait
 fullscreen = 0
