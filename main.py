@@ -13,6 +13,8 @@ from kivy_garden.mapview import MapMarkerPopup, MapMarker
 from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
 from kivy.utils import platform
 from kivy.uix.button import Button
+from kivy.uix.filechooser import FileChooserListView
+from kivy.uix.popup import Popup
 
 from kivy.clock import Clock
 from kivy.uix.image import Image
@@ -20,6 +22,13 @@ from kivy.uix.image import Image
 class MyToggleButton(MDFlatButton, MDToggleButton):
     pass
 
+class FileChooserPopup(Popup):
+    def __init__(self, **kwargs):
+        super(FileChooserPopup, self).__init__(**kwargs)
+        self.title = "Datei auswählen"
+        self.size_hint = (0.9, 0.9)
+        self.filechooser = FileChooserListView()
+        self.add_widget(self.filechooser)
 
 class MainApp(MDApp):
     def __init__(self, **kwargs):
@@ -29,9 +38,16 @@ class MainApp(MDApp):
     def build(self):
         self.get_permission 
         screen = Builder.load_file("windows.kv")
-        #self.map.add_marker(self.circle)
-             
+        #self.map.add_marker(self.circle)          
         return screen
+    
+    def set_filechooser(self):
+        self.root.ids.sound_spinner.bind(text=self.show_filechooser)  
+
+    def show_filechooser(self, text):
+        if text == 'Datei auswählen':
+            popup = FileChooserPopup()
+            popup.open()
     
     def get_permission(self):
          if platform == 'android':
@@ -93,7 +109,7 @@ class MainApp(MDApp):
         
 
 
-    def centerMap(self, lat, lon, zoom=8):
+    def centerMap(self,lat, lon, zoom=8):
         self.root.ids.mapview.zoom = zoom
         self.root.ids.mapview.center_on(lat, lon)
 

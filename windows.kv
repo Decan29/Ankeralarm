@@ -51,7 +51,7 @@ MDScreenManager:
             MapView:
                 id: mapview
                 zoom: 16
-                lat:55.3333
+                lat:60.3333
                 lot:6.9999
                 size_hint_y: 0.6
                 pos_hint_y: 0.9
@@ -88,6 +88,7 @@ MDScreenManager:
                         md_bg_color: "#5780FF"
                         size_hint_x: 1
                         size_hint_y: 1
+                        on_press: app.centerMap()
                     MDIconButton:
                         md_bg_color: "#5780FF"
                         size_hint_x: 1
@@ -218,7 +219,7 @@ MDScreenManager:
                 Spinner:
                     id: sound_spinner
                     text: 'Sound'
-                    values: ('Sound 1', 'Sound 2', 'Sound 3')
+                    values: ('Sound 1', 'Sound 2', 'Datei auswählen')
                     on_text: app.dateiSchreiben()
 
             MDGridLayout:
