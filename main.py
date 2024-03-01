@@ -62,17 +62,14 @@ class MainApp(MDApp):
         return
     
     def MoveAnchor(self, direction):
-        match direction:
-            case 'up':
-                self.marker_anchor.lat +=0.0001
-            case 'left':
-                self.marker_anchor.lon -=0.0001
-            case 'right':
-                self.marker_anchor.lon += 0.0001
-            case 'down':
-                self.marker_anchor.lat -= 0.0001
-            case _:
-                return
+        if direction == 'up':
+            self.marker_anchor.lat +=0.0001
+        if direction == 'left':
+            self.marker_anchor.lon -=0.0001
+        if direction == 'right':
+            self.marker_anchor.lon += 0.0001
+        if direction == 'down':
+            self.marker_anchor.lat -= 0.0001
         
         self.root.ids.mapview.trigger_update('full')
 
