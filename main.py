@@ -61,9 +61,8 @@ class MainApp(MDApp):
 
         return
     
-    def MoveAnchor(self, key):
-        print(key)
-        match key:
+    def MoveAnchor(self, direction):
+        match direction:
             case 'up':
                 self.marker_anchor.lat +=0.0001
             case 'left':
