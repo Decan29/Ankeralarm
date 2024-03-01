@@ -27,14 +27,18 @@ class MainApp(MDApp):
         super().__init__(**kwargs)
     
     def build(self):
+        self.get_permission 
         screen = Builder.load_file("windows.kv")
         #self.map.add_marker(self.circle)
-        if platform == 'android':
-            from android.permissions import Permission, request_permissions
-            permissions = [Permission.ACCESS_COARSE_LOCATION, Permission.ACCESS_FINE_LOCATION]
-            request_permissions(permissions, self.permission_callback)
+             
         return screen
     
+    def get_permission(self):
+         if platform == 'android':
+            from android.permissions import Permission, request_permissions
+            permissions = [Permission.ACCESS_COARSE_LOCATION, Permission.ACCESS_FINE_LOCATION]
+            request_permissions(permissions, self.permission_callback) 
+
     def permission_callback(self, permissions, results):
         if all(results):
             print("Permission granted")
@@ -155,8 +159,7 @@ class MainApp(MDApp):
 
         if latitude and longitude:
             print(f"Latitude: {latitude}, Longitude: {longitude}")
-            self.root.ids.mapview.lat = latitude
-            self.root.ids.mapview.lon = longitude
+            self.centerMap(lat= latitude, lon= longitude)
 
     #         if hasattr(self, 'user_marker'):
     #             # Update existing marker
