@@ -1,4 +1,5 @@
 import json
+import os
 from kivy.clock import Clock
 from random import random
 from kivymd.app import MDApp
@@ -13,8 +14,9 @@ from kivy_garden.mapview import MapMarkerPopup, MapMarker
 from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
 from kivy.utils import platform
 from kivy.uix.button import Button
-from kivy.uix.filechooser import FileChooserListView
-from kivy.uix.popup import Popup
+# from kivy.uix.filechooser import FileChooserListView
+# from kivy.uix.popup import Popup
+from kivy.core.audio import SoundLoader
 
 from kivy.clock import Clock
 from kivy.uix.image import Image
@@ -22,13 +24,24 @@ from kivy.uix.image import Image
 class MyToggleButton(MDFlatButton, MDToggleButton):
     pass
 
-class FileChooserPopup(Popup):
-    def __init__(self, **kwargs):
-        super(FileChooserPopup, self).__init__(**kwargs)
-        self.title = "Datei auswählen"
-        self.size_hint = (0.9, 0.9)
-        self.filechooser = FileChooserListView()
-        self.add_widget(self.filechooser)
+# class FileChooserPopup(Popup):
+#     def __init__(self, **kwargs):
+#         super(FileChooserPopup, self).__init__(**kwargs)
+#         self.title = "Datei auswählen"
+#         self.size_hint = (0.9, 0.9)
+#         self.filechooser = FileChooserListView(filters=['*.mp3'])
+#         self.filechooser.bind(on_selection=self.load_sound)
+#         self.add_widget(self.filechooser)
+    
+#     def load_sound(self, instance, filename):
+#         if instance:
+#             sound = SoundLoader.load(os.path.join(instance.path, filename[0]))
+#             self.root.ids.sound_spinner.text = filename
+#             print("Ausgewählte Datei:", filename[0])
+#             # Schließen Sie das Popup-Fenster
+#             self.dismiss()
+#             if sound:
+#                 sound.play()
 
 class MainApp(MDApp):
     def __init__(self, **kwargs):
@@ -39,15 +52,12 @@ class MainApp(MDApp):
         self.get_permission 
         screen = Builder.load_file("windows.kv")
         #self.map.add_marker(self.circle)          
-        return screen
-    
-    def set_filechooser(self):
-        self.root.ids.sound_spinner.bind(text=self.show_filechooser)  
+        return screen    
 
-    def show_filechooser(self, text):
-        if text == 'Datei auswählen':
-            popup = FileChooserPopup()
-            popup.open()
+    # def show_filechooser(self,text):
+    #         if text == 'Datei auswählen':
+    #             popup = FileChooserPopup()
+    #             popup.open()
     
     def get_permission(self):
          if platform == 'android':
@@ -128,7 +138,6 @@ class MainApp(MDApp):
     def dateiSchreiben(self):
         radius_widget = self.root.ids.radius.text
         spinner_widget = self.root.ids.sound_spinner.text
-
         dictionary = {
         "Bereich": "Einstellungen",
         "Radius": radius_widget,
@@ -136,6 +145,23 @@ class MainApp(MDApp):
         }
         with open (".\daten.json", "w") as file:
             json.dump(dictionary,file)
+
+        
+    
+    def choose_sound(self):
+        #TODO ALARM mp3 übergeben.
+        wahlsound = self.root.ids.sound_spinner.text
+        sound = SoundLoader.load(os.path.join('alarm.mp3'))
+        if wahlsound == "Alarm1":
+            sound = SoundLoader.load(os.path.join('alarm1.mp3'))
+            print("Alarm")
+        elif wahlsound == "Alarm2":
+            sound = SoundLoader.load(os.path.join('alarm2.mp3'))           
+            print("Alarm2")
+        #else:
+            #self.show_filechooser(audiotext)
+        return 
+
 
     def toggle_function(self):
          # Umschaltende Logik, die entscheidet, welche Funktion aufgerufen wird
