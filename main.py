@@ -37,21 +37,32 @@ class MainApp(MDApp):
 
         self.lat = lat
         self.lan = lon
-        self.offcenter = 48
+        self.offcenter = 21
         
-        self.marker = MapMarker(lat=self.lat, lon=self.lan, source='src/images/Goku.jpg')
+        self.marker_anchor = MapMarker(lat=self.lat, lon=self.lan, source='src/images/anchor_32.png')
+        self.root.ids.mapview.add_widget(self.marker_anchor)
         
-        self.root.ids.mapview.add_widget(self.marker)
+        # Boot immer bei GPS Position
+        # self.marker_boat = MapMarker(lat=self.marker_anchor.lat, lon=self.marker_anchor.lon, source='src/images/boat_32.png')
+        # self.root.ids.mapview.add_widget(self.marker_boat)
+
 
         self.calculate_distance()
 
         with self.root.canvas:
             Color(1,0,0,1)
-            self.line = Line(circle=(self.marker.pos[0]+self.offcenter, self.marker.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter), width=2)
-        self.clock = Clock.schedule_interval(self.update_circle, 1/500)
+            self.line = Line(circle=(self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter), width=2)
+        self.clock = Clock.schedule_interval(self.update_circle, 1/50)
 
         return
     
+    def MoveAnchor(self):
+        # links und rechts
+        self.marker_anchor.lon += 0.1
+        
+        # hoch und runter
+        #self.marker_anchor.lat
+
     def calculate_distance(self):
         current_width_x=self.root.size[0]
 
@@ -71,11 +82,9 @@ class MainApp(MDApp):
 
     def update_circle(self, *args):
         self.calculate_distance()
-        self.line.circle = self.marker.pos[0]+self.offcenter, self.marker.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter
-        coord = self.root.ids.mapview.get_latlon_at(self.marker.pos[0] + int(self.root.ids.radius.text), self.marker.pos[1] + int(self.root.ids.radius.text))
-        
-        print("current zoom:", self.root.ids.mapview.zoom)
-
+        self.line.circle = self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter
+        coord = self.root.ids.mapview.get_latlon_at(self.marker_anchor.pos[0] + int(self.root.ids.radius.text), self.marker_anchor.pos[1] + int(self.root.ids.radius.text))
+        print("Anchor lon", self.marker_anchor.lon)
         # self.isInside(self.line.circle[0], self.line.circle[1], 200, self.marker.pos[0]+200, self.marker.pos[1]+200)
 
     # check if point is inside circle
