@@ -71,9 +71,13 @@ class MainApp(MDApp):
         return
     
     def Stop_Update_Circle(self):
-        self.clock.cancel()
+        try:
+            self.clock.cancel()
+            self.line.circle = 0,0,0
+        except AttributeError:
+            print("AttributeError crash bei Stop_Update_Circle wurde abgefangen!")
         # self.root.canvas.clear()
-        self.line.circle = 0,0,0
+
     def radiuserhoehen(self):
         #Zugriff auf das Widget mit der id 'radius'
         self.radius_widget = self.root.ids.radius
