@@ -17,6 +17,7 @@ class MainApp(MDApp):
     def __init__(self, **kwargs):
         self.title = "Ankeralarm"
         super().__init__(**kwargs)
+        self.marker = False
     
     def build(self):
         screen = Builder.load_file("windowsmd.kv")
@@ -31,20 +32,25 @@ class MainApp(MDApp):
         )
         self.mapview.map_source = my_map_source
 
-    def drawCircle(self):
-        lat= 48.4715279
-        lon= 7.9512879
-
-        self.lat = lat
-        self.lan = lon
-        self.offcenter = 21
+    def AddMarker(self, lat, lon):
+        if self.marker:
+            return
         
-        self.marker_anchor = MapMarker(lat=self.lat, lon=self.lan, source='src/images/anchor_32.png')
+        self.marker_anchor = MapMarker(lat=lat, lon=lon, source='src/images/anchor_32.png')
         self.root.ids.mapview.add_widget(self.marker_anchor)
         
         # Boot immer bei GPS Position
         self.marker_boat = MapMarker(lat=self.marker_anchor.lat, lon=self.marker_anchor.lon, source='src/images/boat_32.png')
         self.root.ids.mapview.add_widget(self.marker_boat)
+
+        self.marker = True
+
+    def drawCircle(self):
+        lat= 48.4715279
+        lon= 7.9512879
+        self.offcenter = 21
+
+        self.AddMarker(lat, lon)
 
         self.calculate_distance()
 
@@ -71,10 +77,6 @@ class MainApp(MDApp):
         
         self.root.ids.mapview.trigger_update('full')
 
-
-        # hoch und runter
-        #self.marker_anchor.lat
-
     def calculate_distance(self):
         current_width_x=self.root.size[0]
 
@@ -97,8 +99,8 @@ class MainApp(MDApp):
         self.line.circle = self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter
         coord = self.root.ids.mapview.get_latlon_at(self.marker_anchor.pos[0] + int(self.root.ids.radius.text), self.marker_anchor.pos[1] + int(self.root.ids.radius.text))
         print("Anchor lon", self.marker_anchor.lon)
-        # self.isInside(self.line.circle[0], self.line.circle[1], 200, self.marker.pos[0]+200, self.marker.pos[1]+200)
         self.isInside(self.line.circle[0], self.line.circle[1], int(self.root.ids.radius.text)*self.pixel_per_meter, self.marker_boat.pos[0], self.marker_boat.pos[1])
+    
     # check if point is inside circle
     def isInside(self, circle_x, circle_y, rad, x, y, *args):
         if ((x - circle_x) * (x - circle_x) + (y - circle_y) * (y - circle_y) <= rad * rad):
@@ -115,6 +117,9 @@ class MainApp(MDApp):
         try:
             self.clock.cancel()
             self.line.circle = 0,0,0
+            self.root.ids.mapview.remove_widget(self.marker_anchor)
+            self.root.ids.mapview.remove_widget(self.marker_boat)
+            self.marker = False
         except AttributeError:
             print("AttributeError crash bei Stop_Update_Circle wurde abgefangen!")
         # self.root.canvas.clear()
