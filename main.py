@@ -156,10 +156,9 @@ class MainApp(MDApp):
 
         latitude = kwargs.get('lat', None)
         longitude = kwargs.get('lon', None)
-
+        self.centerMap(lat= latitude, lon= longitude)
         if latitude and longitude:
             print(f"Latitude: {latitude}, Longitude: {longitude}")
-            self.centerMap(lat= latitude, lon= longitude)
 
     #         if hasattr(self, 'user_marker'):
     #             # Update existing marker
