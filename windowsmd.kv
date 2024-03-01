@@ -89,7 +89,8 @@ MDScreenManager:
                         md_bg_color: "#5780FF"
                         size_hint_x: 1
                         size_hint_y: 1
-                        on_press: app.MoveAnchor()
+                        id: up
+                        on_press: app.MoveAnchor('up')
                     MDIconButton:
                         md_bg_color: "#5780FF"
                         size_hint_x: 1
@@ -100,6 +101,8 @@ MDScreenManager:
                         md_bg_color: "#5780FF"
                         size_hint_x: 1
                         size_hint_y: 1
+                        id: left
+                        on_press: app.MoveAnchor('left')
                     MDIconButton:
                         md_bg_color: "#FFFFFF"
                         size_hint_x: 1
@@ -109,6 +112,8 @@ MDScreenManager:
                         md_bg_color: "#5780FF"
                         size_hint_x: 1
                         size_hint_y: 1
+                        id: right
+                        on_press: app.MoveAnchor('right')
                     MDIconButton:
                         md_bg_color: "#5780FF"
                         size_hint_x: 1
@@ -119,6 +124,8 @@ MDScreenManager:
                         md_bg_color: "#5780FF"
                         size_hint_x: 1
                         size_hint_y: 1
+                        id: down
+                        on_press: app.MoveAnchor('down')
                     MDIconButton:
                         md_bg_color: "#5780FF"
                         size_hint_x: 1

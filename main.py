@@ -43,23 +43,35 @@ class MainApp(MDApp):
         self.root.ids.mapview.add_widget(self.marker_anchor)
         
         # Boot immer bei GPS Position
-        # self.marker_boat = MapMarker(lat=self.marker_anchor.lat, lon=self.marker_anchor.lon, source='src/images/boat_32.png')
-        # self.root.ids.mapview.add_widget(self.marker_boat)
-
+        self.marker_boat = MapMarker(lat=self.marker_anchor.lat, lon=self.marker_anchor.lon, source='src/images/boat_32.png')
+        self.root.ids.mapview.add_widget(self.marker_boat)
 
         self.calculate_distance()
 
         with self.root.canvas:
             Color(1,0,0,1)
             self.line = Line(circle=(self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter), width=2)
-        self.clock = Clock.schedule_interval(self.update_circle, 1/50)
+        self.clock = Clock.schedule_interval(self.update_circle, 1/500)
 
         return
     
-    def MoveAnchor(self):
-        # links und rechts
-        self.marker_anchor.lon += 0.1
+    def MoveAnchor(self, key):
+        print(key)
+        match key:
+            case 'up':
+                self.marker_anchor.lat +=0.0001
+            case 'left':
+                self.marker_anchor.lon -=0.0001
+            case 'right':
+                self.marker_anchor.lon += 0.0001
+            case 'down':
+                self.marker_anchor.lat -= 0.0001
+            case _:
+                return
         
+        self.root.ids.mapview.trigger_update('full')
+
+
         # hoch und runter
         #self.marker_anchor.lat
 
@@ -86,7 +98,7 @@ class MainApp(MDApp):
         coord = self.root.ids.mapview.get_latlon_at(self.marker_anchor.pos[0] + int(self.root.ids.radius.text), self.marker_anchor.pos[1] + int(self.root.ids.radius.text))
         print("Anchor lon", self.marker_anchor.lon)
         # self.isInside(self.line.circle[0], self.line.circle[1], 200, self.marker.pos[0]+200, self.marker.pos[1]+200)
-
+        self.isInside(self.line.circle[0], self.line.circle[1], int(self.root.ids.radius.text)*self.pixel_per_meter, self.marker_boat.pos[0], self.marker_boat.pos[1])
     # check if point is inside circle
     def isInside(self, circle_x, circle_y, rad, x, y, *args):
         if ((x - circle_x) * (x - circle_x) + (y - circle_y) * (y - circle_y) <= rad * rad):
