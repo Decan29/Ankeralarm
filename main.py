@@ -1,4 +1,5 @@
 import json
+import math
 from kivy.clock import Clock
 from kivymd.app import MDApp
 from kivy.lang import Builder
@@ -31,8 +32,8 @@ class MainApp(MDApp):
         self.mapview.map_source = my_map_source
 
     def drawCircle(self):
-        lat=49.566848
-        lon=77.377053
+        lat= 48.4715279
+        lon= 7.9512879
 
         self.lat = lat
         self.lan = lon
@@ -42,19 +43,38 @@ class MainApp(MDApp):
         
         self.root.ids.mapview.add_widget(self.marker)
 
+        self.calculate_distance()
+
         with self.root.canvas:
             Color(1,0,0,1)
-            self.line = Line(circle=(self.marker.pos[0]+self.offcenter, self.marker.pos[1]+self.offcenter, int(self.root.ids.radius.text)), width=4)
+            self.line = Line(circle=(self.marker.pos[0]+self.offcenter, self.marker.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter), width=2)
         self.clock = Clock.schedule_interval(self.update_circle, 1/500)
 
         return
     
+    def calculate_distance(self):
+        current_width_x=self.root.size[0]
+
+        # hole Koordinaten vom linken Rand
+        left_coord = self.root.ids.mapview.get_latlon_at(0,0,self.root.ids.mapview.zoom)
+        # hole Koordinaten vom rechten Rand
+        right_coord = self.root.ids.mapview.get_latlon_at(current_width_x,0,self.root.ids.mapview.zoom)
+
+        # Entfernungsberechnung
+        dx = 71.5 * (left_coord[1] - right_coord[1])
+        dy = 111.3 * (left_coord[0] - right_coord[0])
+
+        distance = math.sqrt((dx * dx) + (dy * dy))
+
+        # Umrechnung von Fensterbreite in Pixel und Distanz in Meter zu Pixel Pro Meter 
+        self.pixel_per_meter = (current_width_x / distance) / 1000
+
     def update_circle(self, *args):
-        self.line.circle = self.marker.pos[0]+self.offcenter, self.marker.pos[1]+self.offcenter, int(self.root.ids.radius.text)
+        self.calculate_distance()
+        self.line.circle = self.marker.pos[0]+self.offcenter, self.marker.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter
         coord = self.root.ids.mapview.get_latlon_at(self.marker.pos[0] + int(self.root.ids.radius.text), self.marker.pos[1] + int(self.root.ids.radius.text))
         
-        # disable zoom
-        self.root.ids.mapview.zoom = 8
+        print("current zoom:", self.root.ids.mapview.zoom)
 
         # self.isInside(self.line.circle[0], self.line.circle[1], 200, self.marker.pos[0]+200, self.marker.pos[1]+200)
 
@@ -65,7 +85,7 @@ class MainApp(MDApp):
         else:
             print("outside")
         
-    def centerMap(self, lat=49.566848, lon=77.377053, zoom=8):
+    def centerMap(self, lat=48.4715279, lon=7.9512879, zoom=16):
         self.root.ids.mapview.zoom = zoom
         self.root.ids.mapview.center_on(lat, lon)
         return
