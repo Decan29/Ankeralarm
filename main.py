@@ -155,8 +155,6 @@ class MainApp(MDApp):
 
         if latitude and longitude:
             print(f"Latitude: {latitude}, Longitude: {longitude}")
-            marker = MapMarker(lat=latitude, lon=longitude)
-            self.root.ids.mapview.add_marker(marker)
             self.root.ids.mapview.lat = latitude
             self.root.ids.mapview.lon = longitude
 
