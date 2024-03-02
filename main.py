@@ -144,8 +144,7 @@ class MainApp(MDApp):
         #coord = self.root.ids.mapview.get_latlon_at(self.marker_anchor.pos[0] + int(self.root.ids.radius.text), self.marker_anchor.pos[1] + int(self.root.ids.radius.text))
         #self.on_location()
         
-        self.lst = list(self.line.circle)
-        self.isInside(self.lst[0], self.lst[1], int(self.root.ids.radius.text)*self.pixel_per_meter, self.marker_boat.pos[0], self.marker_boat.pos[1])
+        self.isInside(self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter, self.marker_boat.pos[0], self.marker_boat.pos[1])
      
         print("circle: ", self.line.circle[0], self.line.circle[1])
     
