@@ -49,7 +49,9 @@ class MainApp(MDApp):
         self.marker = False
     
     def build(self):
-        self.get_permission() 
+        self.get_permission()
+        if self.get_permission():
+            self.centerMap(lat= self.gps_latitude, lon= self.gps_longitude)
         screen = Builder.load_file("windowsmd.kv")
         return screen
     
@@ -57,7 +59,10 @@ class MainApp(MDApp):
          if platform == 'android':
             from android.permissions import Permission, request_permissions
             permissions = [Permission.ACCESS_COARSE_LOCATION, Permission.ACCESS_FINE_LOCATION]
-            request_permissions(permissions, self.permission_callback) 
+            request_permissions(permissions, self.permission_callback)
+            return True
+         else:
+             return False 
 
     def permission_callback(self, permissions, results):
         if all(results):
@@ -236,7 +241,7 @@ class MainApp(MDApp):
 
         self.gps_latitude = kwargs.get('lat', None)
         self.gps_longitude = kwargs.get('lon', None)
-        #self.centerMap(lat= latitude, lon= longitude)
+
         if self.gps_latitude and self.gps_longitude:
             print(f"Latitude: {self.gps_latitude}, Longitude: {self.gps_longitude}")
 
