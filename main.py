@@ -49,8 +49,22 @@ class MainApp(MDApp):
         self.marker = False
     
     def build(self):
+        self.get_permission() 
         screen = Builder.load_file("windowsmd.kv")
         return screen
+    
+    def get_permission(self):
+         if platform == 'android':
+            from android.permissions import Permission, request_permissions
+            permissions = [Permission.ACCESS_COARSE_LOCATION, Permission.ACCESS_FINE_LOCATION]
+            request_permissions(permissions, self.permission_callback) 
+
+    def permission_callback(self, permissions, results):
+        if all(results):
+            print("Permission granted")
+            self.get_gps()
+        else:
+            print("Permission denied")
     
     def set_map_source(self):
         my_map_source = MapSource(
@@ -152,13 +166,13 @@ class MainApp(MDApp):
     def radiuserhoehen(self):
         #Zugriff auf das Widget mit der id 'radius'
         self.radius_widget = self.root.ids.radius
-        #Erhöhen des aktuellen Wertes um 1
+        #Erhöhen des aktuellen Wertes um 10
         self.radius_widget.text = str(int(self.radius_widget.text) + 10)
 
     def radiusverringern(self):
         # Zugriff auf das Widget mit der id 'radius'
         self.radius_widget = self.root.ids.radius
-        # Verringere den aktuellen Wert um 1
+        # Verringere den aktuellen Wert um 10
         self.radius_widget.text = str(int(self.radius_widget.text) - 10)
     
     def dateiSchreiben(self):
@@ -173,10 +187,25 @@ class MainApp(MDApp):
         with open ("src/json/daten.json", "w") as file:
             json.dump(dictionary,file)
 
+
+    def choose_sound(self):
+        #TODO ALARM mp3 übergeben.
+        wahlsound = self.root.ids.sound_spinner.text
+        sound = SoundLoader.load(os.path.join('alarm.mp3'))
+        if wahlsound == "Alarm1":
+            sound = SoundLoader.load(os.path.join('alarm1.mp3'))
+            print("Alarm")
+        elif wahlsound == "Alarm2":
+            sound = SoundLoader.load(os.path.join('alarm2.mp3'))           
+            print("Alarm2")
+        #else:
+            #self.show_filechooser(audiotext)
+
     def toggle_function(self):
         # Umschaltende Logik, die entscheidet, welche Funktion aufgerufen wird
         if self.root.ids.launchButton.state == 'normal':
             self.drawLine()
+            self.root.ids.launchButton.text = "Stop"
         else:
             print("test")
 
