@@ -94,7 +94,7 @@ class MainApp(MDApp):
         self.offcenter = 21
 
         self.on_location()
-        self.AddMarker(self.gps_latitude, self.gps_longitude)
+        self.AddMarker(lat=lat, lon=lon)
 
         self.calculate_distance()
 
@@ -187,7 +187,6 @@ class MainApp(MDApp):
         }
         with open ("src/json/daten.json", "w") as file:
             json.dump(dictionary,file)
-
 
     def choose_sound(self):
         #TODO ALARM mp3 übergeben.
