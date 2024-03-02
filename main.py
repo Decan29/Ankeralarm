@@ -148,9 +148,7 @@ class MainApp(MDApp):
         #self.on_location()
         
         self.isInside(self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter, self.marker_boat.pos[0], self.marker_boat.pos[1])
-     
-        print("circle: ", self.line.circle[0], self.line.circle[1])
-    
+         
     # check if point is inside circle
     def isInside(self, circle_x, circle_y, rad, x, y, *args):
         if ((x - circle_x) * (x - circle_x) + (y - circle_y) * (y - circle_y) <= rad * rad):
