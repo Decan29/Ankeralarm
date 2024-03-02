@@ -93,7 +93,7 @@ class MainApp(MDApp):
         lon= 7.9512879
         self.offcenter = 21
 
-        self.on_location()
+        #self.on_location()
         self.AddMarker(lat=lat, lon=lon)
 
         self.calculate_distance()
@@ -138,7 +138,7 @@ class MainApp(MDApp):
         self.calculate_distance()
         self.line.circle = self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter
         coord = self.root.ids.mapview.get_latlon_at(self.marker_anchor.pos[0] + int(self.root.ids.radius.text), self.marker_anchor.pos[1] + int(self.root.ids.radius.text))
-        self.on_location()
+        #self.on_location()
         self.isInside(self.line.circle[0], self.line.circle[1], int(self.root.ids.radius.text)*self.pixel_per_meter, self.marker_boat.pos[0], self.marker_boat.pos[1])
     
     # check if point is inside circle
