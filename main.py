@@ -50,8 +50,6 @@ class MainApp(MDApp):
     
     def build(self):
         self.get_permission()
-        if self.get_permission():
-            self.centerMap(lat= self.gps_latitude, lon= self.gps_longitude)
         screen = Builder.load_file("windowsmd.kv")
         return screen
     
