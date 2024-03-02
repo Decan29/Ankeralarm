@@ -5,7 +5,7 @@ from kivy.clock import Clock
 from random import random
 from kivymd.app import MDApp
 from kivy.lang import Builder
-from kivy.graphics import Line,Color
+from kivy.graphics import Line, Color
 from kivy.core.window import Window
 from kivymd.uix.dialog import MDDialog
 from kivy.uix.image import Image
@@ -137,9 +137,9 @@ class MainApp(MDApp):
     def update_circle(self, *args):
         self.calculate_distance()
         self.line.circle = self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter
-        coord = self.root.ids.mapview.get_latlon_at(self.marker_anchor.pos[0] + int(self.root.ids.radius.text), self.marker_anchor.pos[1] + int(self.root.ids.radius.text))
+        #coord = self.root.ids.mapview.get_latlon_at(self.marker_anchor.pos[0] + int(self.root.ids.radius.text), self.marker_anchor.pos[1] + int(self.root.ids.radius.text))
         #self.on_location()
-        self.isInside(self.line.circle[0], self.line.circle[1], int(self.root.ids.radius.text)*self.pixel_per_meter, self.marker_boat.pos[0], self.marker_boat.pos[1])
+        #self.isInside(self.line.circle[0], self.line.circle[1], int(self.root.ids.radius.text)*self.pixel_per_meter, self.marker_boat.pos[0], self.marker_boat.pos[1])
     
     # check if point is inside circle
     def isInside(self, circle_x, circle_y, rad, x, y, *args):
