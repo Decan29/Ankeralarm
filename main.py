@@ -79,12 +79,12 @@ class MainApp(MDApp):
         if self.marker:
             return
         
-        self.marker_anchor = MapMarker(lat=lat, lon=lon, source='src/images/anchor_32.png')
-        self.root.ids.mapview.add_widget(self.marker_anchor)
-        
         # Boot immer bei GPS Position
-        self.marker_boat = MapMarker(lat=self.marker_anchor.lat, lon=self.marker_anchor.lon, source='src/images/boat_32.png')
+        self.marker_boat = MapMarker(lat=lat, lon=lon, source='src/images/boat_32.png')
         self.root.ids.mapview.add_widget(self.marker_boat)
+
+        self.marker_anchor = MapMarker(lat=self.marker_boat.lat, lon=self.marker_boat.lon, source='src/images/anchor_32.png')
+        self.root.ids.mapview.add_widget(self.marker_anchor)
 
         self.marker = True
 
@@ -93,7 +93,8 @@ class MainApp(MDApp):
         lon= 7.9512879
         self.offcenter = 21
 
-        self.AddMarker(lat, lon)
+        self.on_location()
+        self.AddMarker(self.gps_latitude, self.gps_longitude)
 
         self.calculate_distance()
 
@@ -137,7 +138,7 @@ class MainApp(MDApp):
         self.calculate_distance()
         self.line.circle = self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter
         coord = self.root.ids.mapview.get_latlon_at(self.marker_anchor.pos[0] + int(self.root.ids.radius.text), self.marker_anchor.pos[1] + int(self.root.ids.radius.text))
-        print("Anchor lon", self.marker_anchor.lon)
+        self.on_location()
         self.isInside(self.line.circle[0], self.line.circle[1], int(self.root.ids.radius.text)*self.pixel_per_meter, self.marker_boat.pos[0], self.marker_boat.pos[1])
     
     # check if point is inside circle
@@ -232,14 +233,13 @@ class MainApp(MDApp):
         dialog.pos_hint = {'center_x':.5,'center_y':.5}
         dialog.open()
 
-
     def on_location(self, *args, **kwargs):
 
-        latitude = kwargs.get('lat', None)
-        longitude = kwargs.get('lon', None)
-        self.centerMap(lat= latitude, lon= longitude)
-        if latitude and longitude:
-            print(f"Latitude: {latitude}, Longitude: {longitude}")
+        self.gps_latitude = kwargs.get('lat', None)
+        self.gps_longitude = kwargs.get('lon', None)
+        #self.centerMap(lat= latitude, lon= longitude)
+        if self.gps_latitude and self.gps_longitude:
+            print(f"Latitude: {self.gps_latitude}, Longitude: {self.gps_longitude}")
 
     #         if hasattr(self, 'user_marker'):
     #             # Update existing marker
