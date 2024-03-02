@@ -140,7 +140,10 @@ class MainApp(MDApp):
 
     def update_circle(self, *args):
         self.calculate_distance()
-        self.line.circle = self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter
+        try:
+            self.line.circle = self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter
+        except AttributeError:
+            print("self.line.circle Error")
         #coord = self.root.ids.mapview.get_latlon_at(self.marker_anchor.pos[0] + int(self.root.ids.radius.text), self.marker_anchor.pos[1] + int(self.root.ids.radius.text))
         #self.on_location()
         
