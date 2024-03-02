@@ -93,8 +93,8 @@ class MainApp(MDApp):
         self.marker = True
 
     def drawCircle(self):
-        lat= 48.4715279
-        lon= 7.9512879
+        lat= self.get_gps_latitude
+        lon= self.get_gps_longitude
         self.offcenter = 21
 
         #self.on_location()
@@ -156,7 +156,7 @@ class MainApp(MDApp):
         else:
             print("outside")
         
-    def centerMap(self, lat=48.4715279, lon=7.9512879, zoom=16):
+    def centerMap(self, lat, lon, zoom=16):
         self.root.ids.mapview.zoom = zoom
         self.root.ids.mapview.center_on(lat, lon)
         return
