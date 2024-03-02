@@ -66,6 +66,7 @@ class MainApp(MDApp):
         if all(results):
             print("Permission granted")
             self.get_gps()
+            self.centerMap(self.get_gps_latitude,self.get_gps_longitude)
         else:
             print("Permission denied")
     
