@@ -10,7 +10,11 @@ source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,mp3,json,txt
 
 version = 0.1
-requirements = python3,kivy,kivymd==1.1.1,pillow,plyer, requests, openssl, urllib3, mapview, kivy_garden, charset_normalizer, chardet, idna
+requirements = python3,kivy,kivymd==1.1.1,pillow,https://github.com/HyTurtle/plyer/archive/master.zip, requests, openssl, urllib3, mapview, kivy_garden, charset_normalizer, chardet, idna
+
+
+# (list) Permissions
+android.permissions = ACCESS_COARSE_LOCATION,ACCESS_FINE_LOCATION,INTERNET
 
 orientation = portrait
 fullscreen = 0
@@ -28,4 +32,3 @@ ios.codesign.allowed = false
 
 [buildozer]
 log_level = 2
-warn_on_root = 1

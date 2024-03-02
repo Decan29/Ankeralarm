@@ -1,17 +1,46 @@
 import json
+import os
 import math
 from kivy.clock import Clock
+from random import random
 from kivymd.app import MDApp
 from kivy.lang import Builder
+from kivy.graphics import Line,Color
+from kivy.core.window import Window
+from kivymd.uix.dialog import MDDialog
 from kivy.uix.image import Image
-from kivy.graphics import Color, Line
 from kivy_garden.mapview import MapSource
 from kivymd.uix.button import MDFlatButton
 from kivy_garden.mapview import MapMarkerPopup, MapMarker
 from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
+from kivy.utils import platform
+from kivy.uix.button import Button
+# from kivy.uix.filechooser import FileChooserListView
+# from kivy.uix.popup import Popup
+from kivy.core.audio import SoundLoader
+
 
 class MyToggleButton(MDFlatButton, MDToggleButton):
     pass
+
+# class FileChooserPopup(Popup):
+#     def __init__(self, **kwargs):
+#         super(FileChooserPopup, self).__init__(**kwargs)
+#         self.title = "Datei auswählen"
+#         self.size_hint = (0.9, 0.9)
+#         self.filechooser = FileChooserListView(filters=['*.mp3'])
+#         self.filechooser.bind(on_selection=self.load_sound)
+#         self.add_widget(self.filechooser)
+    
+#     def load_sound(self, instance, filename):
+#         if instance:
+#             sound = SoundLoader.load(os.path.join(instance.path, filename[0]))
+#             self.root.ids.sound_spinner.text = filename
+#             print("Ausgewählte Datei:", filename[0])
+#             # Schließen Sie das Popup-Fenster
+#             self.dismiss()
+#             if sound:
+#                 sound.play()
 
 class MainApp(MDApp):
     def __init__(self, **kwargs):
@@ -151,9 +180,68 @@ class MainApp(MDApp):
         else:
             print("test")
 
-    def schliesse_dialog(self, instance):
-        # Schließen des Dialogs
-        instance.parent.parent.parent.dismiss()
+    def get_gps(self, *args):
+        if platform == 'android' or platform == 'ios':
+            from plyer import gps   
+            try:                           
+                gps.configure(on_location=self.on_location, on_status=self.on_status)
+                gps.start(minTime=1000, minDistance=0)
+            except:
+                import traceback
+                traceback.print_exc()
+                self.gps_status= "GPS is not implemented for your platform"
+           
+    def on_status(self, general_status, status_message):
+        if general_status== 'provider-enabled':
+            pass
+        else:
+            self.open_gps_access_popup()
+
+    def open_gps_access_popup(self):
+        dialog = MDDialog(title="GPS Error", text= "Sie müssen die GPS daten aktivieren.")
+        dialog.size_hint = [.8,.8]
+        dialog.pos_hint = {'center_x':.5,'center_y':.5}
+        dialog.open()
+
+
+    def on_location(self, *args, **kwargs):
+
+        latitude = kwargs.get('lat', None)
+        longitude = kwargs.get('lon', None)
+        self.centerMap(lat= latitude, lon= longitude)
+        if latitude and longitude:
+            print(f"Latitude: {latitude}, Longitude: {longitude}")
+
+    #         if hasattr(self, 'user_marker'):
+    #             # Update existing marker
+    #             self.user_marker.lat = latitude
+    #             self.user_marker.lon = longitude
+    #             self.root.ids.mapview.lat = latitude
+    #             self.root.ids.mapview.lon = longitude
+
+    #         else:
+    #             # Create new marker
+    #             self.user_marker = MapMarker(lat=latitude, lon=longitude)
+    #             self.mapview.add_widget(self.user_marker)  # Add the marker to the mapview
+    #             self.root.ids.mapview.lat = latitude
+    #             self.root.ids.mapview.lon = longitude
+    #         # Remove old markers (optional)
+    #         self.remove_old_markers(lat=latitude, lon=longitude)
+    #         self.centerMap(latitude,longitude)
+
+    # def remove_old_markers(self):
+    #     # Remove markers other than the user's marker
+    #     for marker in self.mapview.children:
+    #         if isinstance(marker, MapMarker) and marker != self.user_marker:
+    #             self.mapview.remove_widget(marker)
+
+             
+    def get_gps_latitude(self):
+        return self.root.ids.mapview.lat
+         
+
+    def get_gps_longitude(self):        
+        return self.root.ids.mapview.lon       
 
 class CustomMarker(MapMarkerPopup):
     def __init__(self, **kwargs):
