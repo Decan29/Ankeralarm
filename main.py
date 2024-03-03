@@ -83,6 +83,7 @@ class MainApp(MDApp):
             attribution='Map data  © OpenStreetMap contributors'
         )
         self.mapview.map_source = my_map_source
+        self.centerMap(self.gps_longitude, self.gps_longitude, 16)
 
     def AddMarker(self, lat, lon):
         if self.marker:
@@ -100,6 +101,7 @@ class MainApp(MDApp):
     def UpdateBoat(self):
         self.marker_boat.lat = self.gps_latitude
         self.marker_boat.lon = self.gps_longitude
+        self.root.ids.mapview.trigger_update('full')
 
     def drawCircle(self):
         self.offcenter = 21
@@ -118,7 +120,6 @@ class MainApp(MDApp):
             Color(1,0,0,1)
             self.line = Line(circle=(self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter), width=2)
         self.clock = Clock.schedule_interval(self.update_circle, 1/250)
-        self.root.ids.mapview.trigger_update('full')
 
         return
     
