@@ -97,14 +97,18 @@ class MainApp(MDApp):
 
         self.marker = True
 
+    def UpdateBoat(self):
+        self.marker_boat.lat = self.gps_latitude
+        self.marker_boat.lon = self.gps_longitude
+
     def drawCircle(self):
         self.offcenter = 21
 
-        # lat = self.gps_latitude
-        # lon = self.gps_longitude
+        lat = self.gps_latitude
+        lon = self.gps_longitude
 
-        lat =  48.4715279
-        lon= 7.9512879
+        # lat =  48.4715279
+        # lon = 7.9512879
 
         self.centerMap(lat=lat, lon=lon, zoom=16)
         self.AddMarker(lat=lat, lon=lon)
@@ -149,7 +153,7 @@ class MainApp(MDApp):
     def update_circle(self, *args):
         self.calculate_distance()
         self.line.circle = self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter
-        
+        self.UpdateBoat()
         self.isInside(self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter, self.marker_boat.pos[0], self.marker_boat.pos[1])
          
     # check if point is inside circle
