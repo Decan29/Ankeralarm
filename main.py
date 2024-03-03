@@ -80,13 +80,16 @@ class MainApp(MDApp):
         if self.marker:
             return
         
-        # Boot immer bei GPS Position
-        self.marker_boat = MapMarker(lat=lat, lon=lon, source='src/images/boat_32.png')
-        self.root.ids.mapview.add_widget(self.marker_boat)
+        try:
+            # Boot immer bei GPS Position
+            self.marker_boat = MapMarker(lat=lat, lon=lon, source='src/images/boat_32.png')
+            self.root.ids.mapview.add_widget(self.marker_boat)
 
-        self.marker_anchor = MapMarker(lat=self.marker_boat.lat, lon=self.marker_boat.lon, source='src/images/anchor_32.png')
-        self.root.ids.mapview.add_widget(self.marker_anchor)
-
+            self.marker_anchor = MapMarker(lat=self.marker_boat.lat, lon=self.marker_boat.lon, source='src/images/anchor_32.png')
+            self.root.ids.mapview.add_widget(self.marker_anchor)
+        except ValueError:
+            print("MARKER HAT KEINE WERTER LAN")
+            
         self.marker = True
 
     def drawCircle(self):
