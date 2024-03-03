@@ -216,7 +216,6 @@ class MainApp(MDApp):
             try:                           
                 gps.configure(on_location=self.on_location, on_status=self.on_status)
                 gps.start(minTime=1000, minDistance=0)
-                self.centerMap(self.gps_latitude, self.gps_longitude, 16)
             except:
                 import traceback
                 traceback.print_exc()
