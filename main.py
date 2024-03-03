@@ -81,7 +81,7 @@ class MainApp(MDApp):
             return
         
         # Boot immer bei GPS Position
-        self.marker_boat = MapMarker(lat=self.gps_latitude, lon=self.gps_longitude, source='src/images/boat_32.png')
+        self.marker_boat = MapMarker(lat=self.lat, lon=self.lon, source='src/images/boat_32.png')
         self.root.ids.mapview.add_widget(self.marker_boat)
 
         self.marker_anchor = MapMarker(lat=self.marker_boat.lat, lon=self.marker_boat.lon, source='src/images/anchor_32.png')
@@ -90,12 +90,10 @@ class MainApp(MDApp):
         self.marker = True
 
     def drawCircle(self):
-        lat= self.gps_latitude
-        lon= self.gps_longitude
         self.offcenter = 21
 
         self.on_location()
-        self.AddMarker(lat=lat, lon=lon)
+        self.AddMarker(lat=self.gps_latitude, lon=self.gps_longitude)
 
         self.calculate_distance()
 
