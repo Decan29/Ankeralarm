@@ -83,7 +83,8 @@ class MainApp(MDApp):
             return
         
         # Boot immer bei GPS Position
-
+        self.marker_boat = MapMarker(lat=self.gps_latitude, lon=self.gps_longitude, source='src/images/boat_32.png')
+        self.root.ids.mapview.add_widget(self.marker_boat)
         self.marker_anchor = MapMarker(lat=self.marker_boat.lat, lon=self.marker_boat.lon, source='src/images/anchor_32.png')
         self.root.ids.mapview.add_widget(self.marker_anchor)
 
@@ -244,8 +245,6 @@ class MainApp(MDApp):
         self.centerMap(self.gps_latitude,self.gps_longitude)
         if self.gps_latitude and self.gps_longitude:
             print(f"Latitude: {self.gps_latitude}, Longitude: {self.gps_longitude}")
-            self.marker_boat = MapMarker(lat=self.gps_latitude, lon=self.gps_longitude, source='src/images/boat_32.png')
-            self.root.ids.mapview.add_widget(self.marker_boat)
 
     #         if hasattr(self, 'user_marker'):
     #             # Update existing marker
