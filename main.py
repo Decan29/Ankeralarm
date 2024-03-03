@@ -226,11 +226,9 @@ class MainApp(MDApp):
 
     def play_sound(self):
         wahlsound = self.root.ids.sound_spinner.text
-        if wahlsound == "Alarm1":
-            self.sound = SoundLoader.load(os.path.join('src/sounds/alarm1.MP3'))
-            self.sound.play()
-        elif wahlsound == "Alarm2":
-            self.sound = SoundLoader.load(os.path.join('src/sounds/alarm2.MP3'))           
+        soundNamenListe =["Alarm1","Alarm2","Alarm3"]
+        if wahlsound in soundNamenListe:
+            self.sound = SoundLoader.load(os.path.join(f'src/sounds/{wahlsound}.MP3'))
             self.sound.play()
 
     def toggle_function(self):
