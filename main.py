@@ -49,11 +49,13 @@ class MainApp(MDApp):
     def build(self):
         self.get_permission()
         screen = Builder.load_file("windowsmd.kv")
+        self.on_location()
         if self.get_permission:
-            try:
-                self.centerMap(self.gps_latitude,self.gps_longitude)
-            except:
-                print(f"Fehler Werte kaputt oder anderweitiger fehler. Latitude: {self.gps_latitude},Longitude: {self.gps_longitude}")
+            print("I HAVE THE POWEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEER")
+            # try:
+            #     self.centerMap(self.gps_latitude,self.gps_longitude)
+            # except:
+            #     print(f"Fehler Werte kaputt oder anderweitiger fehler. Latitude: {self.gps_latitude},Longitude: {self.gps_longitude}")
         return screen
     
     def get_permission(self):
@@ -101,8 +103,15 @@ class MainApp(MDApp):
         self.offcenter = 21
 
         self.on_location()
-        self.AddMarker(lat=self.gps_latitude, lon=self.gps_longitude)
+        lat = self.gps_latitude
+        lon = self.gps_longitude
+        if self.gps_latitude == None or self.gps_longitude == None:
+            lat = 48.4715279
+            lon = 7.9512879
+            print("GPS ERROR IN DRAW CIRCLE")
 
+        self.centerMap(lat=lat, lon=lon, zoom=16)
+        self.AddMarker(lat=lat, lon=lon)
         self.calculate_distance()
 
         with self.root.canvas:
@@ -151,9 +160,11 @@ class MainApp(MDApp):
     # check if point is inside circle
     def isInside(self, circle_x, circle_y, rad, x, y, *args):
         if ((x - circle_x) * (x - circle_x) + (y - circle_y) * (y - circle_y) <= rad * rad):
-            print("inside")
+            #print("inside")
+            return
         else:
-            print("outside")
+            #print("outside")
+            return
         
     def centerMap(self, lat, lon, zoom=16):
         self.root.ids.mapview.zoom = zoom
@@ -245,7 +256,7 @@ class MainApp(MDApp):
         self.gps_longitude = kwargs.get('lon', None)
         #self.centerMap(self.gps_latitude,self.gps_longitude)
         if self.gps_latitude and self.gps_longitude:
-            print(f"Latitude: {self.gps_latitude}, Longitude: {self.gps_longitude}")
+            print(f"GPS DATEN: Latitude: {self.gps_latitude}, Longitude: {self.gps_longitude}")
 
     #         if hasattr(self, 'user_marker'):
     #             # Update existing marker
