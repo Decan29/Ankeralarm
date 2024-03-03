@@ -49,6 +49,11 @@ class MainApp(MDApp):
     def build(self):
         self.get_permission()
         screen = Builder.load_file("windowsmd.kv")
+        if self.get_permission:
+            try:
+                self.centerMap(self.gps_latitude,self.gps_longitude)
+            except:
+                print(f"Fehler Werte kaputt oder anderweitiger fehler. Latitude: {self.gps_latitude},Longitude: {self.gps_longitude}")
         return screen
     
     def get_permission(self):
