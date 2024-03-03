@@ -84,17 +84,17 @@ class MainApp(MDApp):
     def AddMarker(self, lat, lon):
         if self.marker:
             return
+        if lat == None or lon == None:
+            lat=48.4715279
+            lon=7.9512879
         
-        try:
-            # Boot immer bei GPS Position
-            self.marker_boat = MapMarker(lat=lat, lon=lon, source='src/images/boat_32.png')
-            self.root.ids.mapview.add_widget(self.marker_boat)
+        # Boot immer bei GPS Position
+        self.marker_boat = MapMarker(lat=lat, lon=lon, source='src/images/boat_32.png')
+        self.root.ids.mapview.add_widget(self.marker_boat)
 
-            self.marker_anchor = MapMarker(lat=self.marker_boat.lat, lon=self.marker_boat.lon, source='src/images/anchor_32.png')
-            self.root.ids.mapview.add_widget(self.marker_anchor)
-        except ValueError:
-            print("MARKER HAT KEINE WERTER LAN")
-            
+        self.marker_anchor = MapMarker(lat=self.marker_boat.lat, lon=self.marker_boat.lon, source='src/images/anchor_32.png')
+        self.root.ids.mapview.add_widget(self.marker_anchor)
+
         self.marker = True
 
     def drawCircle(self):
@@ -145,7 +145,7 @@ class MainApp(MDApp):
         self.calculate_distance()
         self.line.circle = self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter
         
-        self.on_location()
+        #self.on_location()
         self.isInside(self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter, self.marker_boat.pos[0], self.marker_boat.pos[1])
          
     # check if point is inside circle
