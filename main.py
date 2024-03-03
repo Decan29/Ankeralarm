@@ -66,7 +66,7 @@ class MainApp(MDApp):
         if all(results):
             print("Permission granted")
             self.get_gps()
-            self.centerMap(self.get_gps_latitude,self.get_gps_longitude)
+            self.centerMap(self.gps_latitude,self.gps_longitude)
         else:
             print("Permission denied")
     
@@ -93,8 +93,8 @@ class MainApp(MDApp):
         self.marker = True
 
     def drawCircle(self):
-        lat= self.get_gps_latitude
-        lon= self.get_gps_longitude
+        lat= self.gps_latitude
+        lon= self.gps_longitude
         self.offcenter = 21
 
         #self.on_location()
@@ -240,9 +240,9 @@ class MainApp(MDApp):
         dialog.pos_hint = {'center_x':.5,'center_y':.5}
         dialog.open()
 
-    def on_location(self, *args, **kwargs):
+    def on_location(self, **kwargs):
 
-        self.gps_latitude = kwargs.get('lat', None)
+        self.gps_latitude = kwargs.get('lat', None) 
         self.gps_longitude = kwargs.get('lon', None)
 
         if self.gps_latitude and self.gps_longitude:
