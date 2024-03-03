@@ -8,16 +8,17 @@ from kivy.lang import Builder
 from kivy.utils import platform
 from kivy.uix.image import Image
 from kivy.core.window import Window
+from kivymd.uix.label import MDLabel
 from kivy.graphics import Line, Color
 from kivymd.uix.dialog import MDDialog
 from kivy.core.audio import SoundLoader
 from kivy_garden.mapview import MapSource
 from kivymd.uix.button import MDFlatButton
-from kivy_garden.mapview import MapMarkerPopup, MapMarker
+from kivymd.uix.boxlayout import MDBoxLayout
+from kivy_garden.mapview import MapMarker, MapMarkerPopup
 from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
 # from kivy.uix.filechooser import FileChooserListView
 # from kivy.uix.popup import Popup
-
 class MyToggleButton(MDFlatButton, MDToggleButton):
     pass
 
@@ -163,13 +164,25 @@ class MainApp(MDApp):
     def show_dialog(self):
         if not self.dialog:
             self.dialog = MDDialog(
-                title="Deine Mum",
+                title="ALARM!",
                 type="custom",
-                # Empty layout
+                md_bg_color= "#880015",
+                content_cls=MDBoxLayout(
+                    Image(source='src/images/error.png'),
+                    MDLabel( 
+                        text='IHR SCHIFF TREIBT AB!',
+                        halign="center"
+                    ),
+                    orientation="vertical",
+                    spacing="12dp",
+                    size_hint_y=None,
+                    height="120dp"
+                ),
                 buttons=[
                     MDFlatButton(
                         text="CLOSE",
                         on_release=self.close_dialog,
+                        
                     )
                 ],
             )
