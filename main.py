@@ -1,24 +1,22 @@
 import json
 import os
 import math
-from kivy.clock import Clock
 from random import random
+from kivy.clock import Clock
 from kivymd.app import MDApp
 from kivy.lang import Builder
-from kivy.graphics import Line, Color
-from kivy.core.window import Window
-from kivymd.uix.dialog import MDDialog
+from kivy.utils import platform
 from kivy.uix.image import Image
+from kivy.core.window import Window
+from kivy.graphics import Line, Color
+from kivymd.uix.dialog import MDDialog
+from kivy.core.audio import SoundLoader
 from kivy_garden.mapview import MapSource
 from kivymd.uix.button import MDFlatButton
 from kivy_garden.mapview import MapMarkerPopup, MapMarker
 from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
-from kivy.utils import platform
-from kivy.uix.button import Button
 # from kivy.uix.filechooser import FileChooserListView
 # from kivy.uix.popup import Popup
-from kivy.core.audio import SoundLoader
-
 
 class MyToggleButton(MDFlatButton, MDToggleButton):
     pass
@@ -85,6 +83,7 @@ class MainApp(MDApp):
         # Boot immer bei GPS Position
         self.marker_boat = MapMarker(lat=self.gps_latitude, lon=self.gps_longitude, source='src/images/boat_32.png')
         self.root.ids.mapview.add_widget(self.marker_boat)
+
         self.marker_anchor = MapMarker(lat=self.marker_boat.lat, lon=self.marker_boat.lon, source='src/images/anchor_32.png')
         self.root.ids.mapview.add_widget(self.marker_anchor)
 
@@ -95,7 +94,7 @@ class MainApp(MDApp):
         lon= self.gps_longitude
         self.offcenter = 21
 
-        #self.on_location()
+        self.on_location()
         self.AddMarker(lat=lat, lon=lon)
 
         self.calculate_distance()
@@ -138,13 +137,9 @@ class MainApp(MDApp):
 
     def update_circle(self, *args):
         self.calculate_distance()
-        try:
-            self.line.circle = self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter
-        except AttributeError:
-            print("self.line.circle Error")
-        #coord = self.root.ids.mapview.get_latlon_at(self.marker_anchor.pos[0] + int(self.root.ids.radius.text), self.marker_anchor.pos[1] + int(self.root.ids.radius.text))
-        #self.on_location()
+        self.line.circle = self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter
         
+        self.on_location()
         self.isInside(self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter, self.marker_boat.pos[0], self.marker_boat.pos[1])
          
     # check if point is inside circle
@@ -221,6 +216,7 @@ class MainApp(MDApp):
             try:                           
                 gps.configure(on_location=self.on_location, on_status=self.on_status)
                 gps.start(minTime=1000, minDistance=0)
+                self.centerMap(self.gps_latitude, self.gps_longitude, 16)
             except:
                 import traceback
                 traceback.print_exc()
@@ -242,7 +238,7 @@ class MainApp(MDApp):
 
         self.gps_latitude = kwargs.get('lat', None) 
         self.gps_longitude = kwargs.get('lon', None)
-        self.centerMap(self.gps_latitude,self.gps_longitude)
+        #self.centerMap(self.gps_latitude,self.gps_longitude)
         if self.gps_latitude and self.gps_longitude:
             print(f"Latitude: {self.gps_latitude}, Longitude: {self.gps_longitude}")
 
