@@ -85,9 +85,6 @@ class MainApp(MDApp):
     def AddMarker(self, lat, lon):
         if self.marker:
             return
-        if lat == None or lon == None:
-            lat=48.4715279
-            lon=7.9512879
         
         # Boot immer bei GPS Position
         self.marker_boat = MapMarker(lat=lat, lon=lon, source='src/images/boat_32.png')
@@ -101,7 +98,6 @@ class MainApp(MDApp):
     def drawCircle(self):
         self.offcenter = 21
 
-        self.on_location()
         lat = self.gps_latitude
         lon = self.gps_longitude
 
