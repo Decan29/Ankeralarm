@@ -117,7 +117,8 @@ class MainApp(MDApp):
         with self.root.canvas:
             Color(1,0,0,1)
             self.line = Line(circle=(self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter), width=2)
-        self.clock = Clock.schedule_interval(self.update_circle, 1/500)
+        self.clock = Clock.schedule_interval(self.update_circle, 1/250)
+        self.root.ids.mapview.trigger_update('full')
 
         return
     
