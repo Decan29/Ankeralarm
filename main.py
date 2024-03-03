@@ -66,7 +66,6 @@ class MainApp(MDApp):
         if all(results):
             print("Permission granted")
             self.get_gps()
-            self.centerMap(self.gps_latitude,self.gps_longitude)
         else:
             print("Permission denied")
     
@@ -84,8 +83,6 @@ class MainApp(MDApp):
             return
         
         # Boot immer bei GPS Position
-        self.marker_boat = MapMarker(lat=lat, lon=lon, source='src/images/boat_32.png')
-        self.root.ids.mapview.add_widget(self.marker_boat)
 
         self.marker_anchor = MapMarker(lat=self.marker_boat.lat, lon=self.marker_boat.lon, source='src/images/anchor_32.png')
         self.root.ids.mapview.add_widget(self.marker_anchor)
@@ -244,9 +241,11 @@ class MainApp(MDApp):
 
         self.gps_latitude = kwargs.get('lat', None) 
         self.gps_longitude = kwargs.get('lon', None)
-
+        self.centerMap(self.gps_latitude,self.gps_longitude)
         if self.gps_latitude and self.gps_longitude:
             print(f"Latitude: {self.gps_latitude}, Longitude: {self.gps_longitude}")
+            self.marker_boat = MapMarker(lat=self.gps_latitude, lon=self.gps_longitude, source='src/images/boat_32.png')
+            self.root.ids.mapview.add_widget(self.marker_boat)
 
     #         if hasattr(self, 'user_marker'):
     #             # Update existing marker
