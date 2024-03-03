@@ -45,6 +45,7 @@ class MainApp(MDApp):
         self.title = "Ankeralarm"
         super().__init__(**kwargs)
         self.marker = False
+        self.dialog = None
     
     def build(self):
         self.get_permission()
@@ -98,8 +99,11 @@ class MainApp(MDApp):
     def drawCircle(self):
         self.offcenter = 21
 
-        lat = self.gps_latitude
-        lon = self.gps_longitude
+        # lat = self.gps_latitude
+        # lon = self.gps_longitude
+
+        lat =  48.4715279
+        lon= 7.9512879
 
         self.centerMap(lat=lat, lon=lon, zoom=16)
         self.AddMarker(lat=lat, lon=lon)
@@ -150,12 +154,35 @@ class MainApp(MDApp):
     # check if point is inside circle
     def isInside(self, circle_x, circle_y, rad, x, y, *args):
         if ((x - circle_x) * (x - circle_x) + (y - circle_y) * (y - circle_y) <= rad * rad):
-            #print("inside")
             return
         else:
-            #print("outside")
+            self.Stop_Update_Circle()
+            self.show_dialog()
             return
-        
+    
+    def show_dialog(self):
+        if not self.dialog:
+            self.dialog = MDDialog(
+                title="Deine Mum",
+                type="custom",
+                # Empty layout
+                buttons=[
+                    MDFlatButton(
+                        text="CLOSE",
+                        on_release=self.close_dialog,
+                    )
+                ],
+            )
+        self.dialog.open()
+
+    def close_dialog(self, *args):
+        self.dialog.dismiss()
+        self.drawCircle()
+
+
+    def centerMapButton(self):
+        self.centerMap(self.gps_latitude, self.gps_longitude, zoom=16)
+
     def centerMap(self, lat, lon, zoom=16):
         self.root.ids.mapview.zoom = zoom
         self.root.ids.mapview.center_on(lat, lon)
