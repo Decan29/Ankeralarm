@@ -154,7 +154,7 @@ class MainApp(MDApp):
         self.calculate_distance()
         self.line.circle = self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter
         
-        #self.on_location()
+        self.on_location()
         self.isInside(self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter, self.marker_boat.pos[0], self.marker_boat.pos[1])
          
     # check if point is inside circle
@@ -251,44 +251,12 @@ class MainApp(MDApp):
         dialog.open()
 
     def on_location(self, **kwargs):
-
         self.gps_latitude = kwargs.get('lat', None) 
         self.gps_longitude = kwargs.get('lon', None)
         #self.centerMap(self.gps_latitude,self.gps_longitude)
         if self.gps_latitude and self.gps_longitude:
             print(f"GPS DATEN: Latitude: {self.gps_latitude}, Longitude: {self.gps_longitude}")
-
-    #         if hasattr(self, 'user_marker'):
-    #             # Update existing marker
-    #             self.user_marker.lat = latitude
-    #             self.user_marker.lon = longitude
-    #             self.root.ids.mapview.lat = latitude
-    #             self.root.ids.mapview.lon = longitude
-
-    #         else:
-    #             # Create new marker
-    #             self.user_marker = MapMarker(lat=latitude, lon=longitude)
-    #             self.mapview.add_widget(self.user_marker)  # Add the marker to the mapview
-    #             self.root.ids.mapview.lat = latitude
-    #             self.root.ids.mapview.lon = longitude
-    #         # Remove old markers (optional)
-    #         self.remove_old_markers(lat=latitude, lon=longitude)
-    #         self.centerMap(latitude,longitude)
-
-    # def remove_old_markers(self):
-    #     # Remove markers other than the user's marker
-    #     for marker in self.mapview.children:
-    #         if isinstance(marker, MapMarker) and marker != self.user_marker:
-    #             self.mapview.remove_widget(marker)
-
-             
-    def get_gps_latitude(self):
-        return self.root.ids.mapview.lat
-         
-
-    def get_gps_longitude(self):        
-        return self.root.ids.mapview.lon       
-
+ 
 class CustomMarker(MapMarkerPopup):
     def __init__(self, **kwargs):
         super(CustomMarker, self).__init__(**kwargs)
