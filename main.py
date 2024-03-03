@@ -49,7 +49,6 @@ class MainApp(MDApp):
     def build(self):
         self.get_permission()
         screen = Builder.load_file("windowsmd.kv")
-        self.on_location()
         if self.get_permission:
             print("I HAVE THE POWEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEER")
             # try:
@@ -105,10 +104,6 @@ class MainApp(MDApp):
         self.on_location()
         lat = self.gps_latitude
         lon = self.gps_longitude
-        if self.gps_latitude == None or self.gps_longitude == None:
-            lat = 48.4715279
-            lon = 7.9512879
-            print("GPS ERROR IN DRAW CIRCLE")
 
         self.centerMap(lat=lat, lon=lon, zoom=16)
         self.AddMarker(lat=lat, lon=lon)
@@ -154,7 +149,6 @@ class MainApp(MDApp):
         self.calculate_distance()
         self.line.circle = self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter
         
-        self.on_location()
         self.isInside(self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter, self.marker_boat.pos[0], self.marker_boat.pos[1])
          
     # check if point is inside circle
