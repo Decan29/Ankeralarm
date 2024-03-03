@@ -158,6 +158,7 @@ class MainApp(MDApp):
         else:
             self.Stop_Update_Circle()
             self.show_dialog()
+            self.play_sound()
             return
     
     def show_dialog(self):
@@ -178,7 +179,7 @@ class MainApp(MDApp):
     def close_dialog(self, *args):
         self.dialog.dismiss()
         self.drawCircle()
-
+        self.sound.stop()
 
     def centerMapButton(self):
         self.centerMap(self.gps_latitude, self.gps_longitude, zoom=16)
@@ -223,18 +224,14 @@ class MainApp(MDApp):
         with open ("src/json/daten.json", "w") as file:
             json.dump(dictionary,file)
 
-    def choose_sound(self):
-        #TODO ALARM mp3 übergeben.
+    def play_sound(self):
         wahlsound = self.root.ids.sound_spinner.text
-        sound = SoundLoader.load(os.path.join('alarm.mp3'))
         if wahlsound == "Alarm1":
-            sound = SoundLoader.load(os.path.join('alarm1.mp3'))
-            print("Alarm")
+            self.sound = SoundLoader.load(os.path.join('src/sounds/alarm1.MP3'))
+            self.sound.play()
         elif wahlsound == "Alarm2":
-            sound = SoundLoader.load(os.path.join('alarm2.mp3'))           
-            print("Alarm2")
-        #else:
-            #self.show_filechooser(audiotext)
+            self.sound = SoundLoader.load(os.path.join('src/sounds/alarm2.MP3'))           
+            self.sound.play()
 
     def toggle_function(self):
         # Umschaltende Logik, die entscheidet, welche Funktion aufgerufen wird
