@@ -1,5 +1,5 @@
-import json
 import os
+import json
 import math
 from random import random
 from kivy.clock import Clock
@@ -19,6 +19,7 @@ from kivy_garden.mapview import MapMarker, MapMarkerPopup
 from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
 # from kivy.uix.filechooser import FileChooserListView
 # from kivy.uix.popup import Popup
+
 class MyToggleButton(MDFlatButton, MDToggleButton):
     pass
 
@@ -84,9 +85,6 @@ class MainApp(MDApp):
         )
         self.mapview.map_source = my_map_source
         self.centerMap(self.gps_latitude, self.gps_longitude, 16)
-        # Boot immer bei GPS Position
-        self.marker_boat = MapMarker(lat=self.gps_latitude, lon=self.gps_longitude, source='src/images/boat_32.png')
-        self.root.ids.mapview.add_widget(self.marker_boat)
 
     def AddMarker(self, lat, lon):
         if self.marker:
@@ -102,18 +100,23 @@ class MainApp(MDApp):
         self.marker = True
 
     def UpdateBoat(self):
-        self.marker_boat.lat = self.gps_latitude
-        self.marker_boat.lon = self.gps_longitude
+        if platform == 'win':
+            self.marker_boat.lat = 48.4715279
+            self.marker_boat.lon = 7.9512879
+        elif platform == 'android':
+            self.marker_boat.lat = self.gps_latitude
+            self.marker_boat.lon = self.gps_longitude
         self.root.ids.mapview.trigger_update('full')
 
     def drawCircle(self):
         self.offcenter = 21
 
-        lat = self.gps_latitude
-        lon = self.gps_longitude
-
-        # lat =  48.4715279
-        # lon = 7.9512879
+        if platform == 'win':
+            lat =  48.4715279
+            lon = 7.9512879
+        elif platform == 'android':
+            lat = self.gps_latitude
+            lon = self.gps_longitude
 
         self.centerMap(lat=lat, lon=lon, zoom=16)
         self.AddMarker(lat=lat, lon=lon)
@@ -127,16 +130,19 @@ class MainApp(MDApp):
         return
     
     def MoveAnchor(self, direction):
-        if direction == 'up':
-            self.marker_anchor.lat +=0.0001
-        if direction == 'left':
-            self.marker_anchor.lon -=0.0001
-        if direction == 'right':
-            self.marker_anchor.lon += 0.0001
-        if direction == 'down':
-            self.marker_anchor.lat -= 0.0001
+        try:
+            if direction == 'up':
+                self.marker_anchor.lat +=0.0001
+            if direction == 'left':
+                self.marker_anchor.lon -=0.0001
+            if direction == 'right':
+                self.marker_anchor.lon += 0.0001
+            if direction == 'down':
+                self.marker_anchor.lat -= 0.0001
         
-        self.root.ids.mapview.trigger_update('full')
+            self.root.ids.mapview.trigger_update('full')
+        except AttributeError:
+            print("Anchor-Objekt bei MoveAnchor nicht gefunden!")
 
     def calculate_distance(self):
         current_width_x=self.root.size[0]
@@ -204,7 +210,12 @@ class MainApp(MDApp):
         self.sound.stop()
 
     def centerMapButton(self):
-        self.centerMap(self.gps_latitude, self.gps_longitude, zoom=16)
+        if platform == 'win':
+            lat =  48.4715279
+            lon = 7.9512879
+            self.centerMap(lat, lon, 16)
+        elif platform == 'android':
+            self.centerMap(self.gps_latitude, self.gps_longitude, zoom=16)
 
     def centerMap(self, lat, lon, zoom=16):
         self.root.ids.mapview.zoom = zoom
@@ -290,6 +301,12 @@ class MainApp(MDApp):
         #self.centerMap(self.gps_latitude,self.gps_longitude)
         if self.gps_latitude and self.gps_longitude:
             print(f"GPS DATEN: Latitude: {self.gps_latitude}, Longitude: {self.gps_longitude}")
+    def test(self):
+        # Boot immer bei GPS Position
+        lat =  48.4715279
+        lon = 7.9512879
+        self.marker_boat = MapMarker(lat=lat, lon=lon, source='src/images/boat_32.png')
+        self.root.ids.mapview.add_widget(self.marker_boat)
  
 class CustomMarker(MapMarkerPopup):
     def __init__(self, **kwargs):
