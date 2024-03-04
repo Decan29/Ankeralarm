@@ -38,7 +38,6 @@ MDScreenManager:
                     halign: "center"
                     valign: "top"
                     md_bg_color: "#5780FF"
-                    #adaptive_height: True
                     text_size: root.width, root.height
                     font_size: 32
 
@@ -58,26 +57,13 @@ MDScreenManager:
                 size_hint_y: 0.6
                 pos_hint_y: 0.9
                 on_map_relocated: 
-                    app.test()
+                    app.ZeichneBootMarker()
                     app.settingsLaden()
                                  
-                
             MDGridLayout:
                 cols: 2
                 rows: 1
                 size_hint_y: 0.25
-
-                # MyToggleButton:
-                #     id: launchButton
-                #     group: "toggle_group"
-                #     md_bg_color: "#5780FF"
-                #     text: "Start"
-                #     size_hint_x: 1
-                #     size_hint_y: 1
-                #     halign: "center"
-                #     font_color_normal:  1,  1,  1,  1  # Rote Farbe im normalen Zustand
-                #     font_color_down:  1,  1,  1,  1  # Grüne Farbe im gedrückten Zustand
-                #     on_release: app.drawCircle()
 
                 MDFlatButton:
                     id: launchButton
