@@ -318,13 +318,18 @@ class MainApp(MDApp):
         #self.centerMap(self.gps_latitude,self.gps_longitude)
         if self.gps_latitude and self.gps_longitude:
             print(f"GPS DATEN: Latitude: {self.gps_latitude}, Longitude: {self.gps_longitude}")
-    def test(self):
+    
+    def ZeichneBootMarker(self):
+        if platform == 'win':
+            lat =  48.4715279
+            lon = 7.9512879
+        elif platform == 'android':
+            lat = self.gps_latitude
+            lon = self.gps_longitude
         # Boot immer bei GPS Position
-        lat =  48.4715279
-        lon = 7.9512879
         self.marker_boat = MapMarker(lat=lat, lon=lon, source='src/images/boat_32.png')
         self.root.ids.mapview.add_widget(self.marker_boat)
- 
+        
 class CustomMarker(MapMarkerPopup):
     def __init__(self, **kwargs):
         super(CustomMarker, self).__init__(**kwargs)
