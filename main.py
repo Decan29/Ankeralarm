@@ -83,15 +83,18 @@ class MainApp(MDApp):
             attribution='Map data  © OpenStreetMap contributors'
         )
         self.mapview.map_source = my_map_source
-        self.centerMap(self.gps_longitude, self.gps_longitude, 16)
+        self.centerMap(self.gps_latitude, self.gps_longitude, 16)
+        # Boot immer bei GPS Position
+        self.marker_boat = MapMarker(lat=self.gps_latitude, lon=self.gps_longitude, source='src/images/boat_32.png')
+        self.root.ids.mapview.add_widget(self.marker_boat)
 
     def AddMarker(self, lat, lon):
         if self.marker:
             return
         
-        # Boot immer bei GPS Position
-        self.marker_boat = MapMarker(lat=lat, lon=lon, source='src/images/boat_32.png')
-        self.root.ids.mapview.add_widget(self.marker_boat)
+        # # Boot immer bei GPS Position
+        # self.marker_boat = MapMarker(lat=lat, lon=lon, source='src/images/boat_32.png')
+        # self.root.ids.mapview.add_widget(self.marker_boat)
 
         self.marker_anchor = MapMarker(lat=self.marker_boat.lat, lon=self.marker_boat.lon, source='src/images/anchor_32.png')
         self.root.ids.mapview.add_widget(self.marker_anchor)
