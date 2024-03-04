@@ -4,7 +4,7 @@ title = Ankeralarm
 package.name = ankeralarm
 package.domain = gsog.de
 
-icon.filename = src/images/icon.png
+icon.filename = src/images/ankeralarm.png
 
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,mp3,json,txt
