@@ -48,6 +48,7 @@ class MainApp(MDApp):
         super().__init__(**kwargs)
         self.marker = False
         self.dialog = None
+        self.isProgrammStoped = True
     
     def build(self):
         self.get_permission()
@@ -86,13 +87,21 @@ class MainApp(MDApp):
         self.mapview.map_source = my_map_source
         self.centerMap(self.gps_latitude, self.gps_longitude, 16)
 
+    def ToggleProgramm(self):
+        if self.isProgrammStoped:
+            self.drawCircle()
+            self.root.ids.launchButton.text = "Stop"
+            self.isProgrammStoped = False
+            return
+        if not self.isProgrammStoped:
+            self.Stop_Update_Circle()
+            self.root.ids.launchButton.text = "Start"
+            self.isProgrammStoped = True
+            return
+
     def AddMarker(self, lat, lon):
         if self.marker:
             return
-        
-        # # Boot immer bei GPS Position
-        # self.marker_boat = MapMarker(lat=lat, lon=lon, source='src/images/boat_32.png')
-        # self.root.ids.mapview.add_widget(self.marker_boat)
 
         self.marker_anchor = MapMarker(lat=self.marker_boat.lat, lon=self.marker_boat.lon, source='src/images/anchor_32.png')
         self.root.ids.mapview.add_widget(self.marker_anchor)

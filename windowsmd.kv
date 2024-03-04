@@ -31,6 +31,7 @@ MDScreenManager:
                     on_release:
                         root.current_heroes = ["hero"]
                         root.current = "info"
+                        app.Stop_Update_Circle()
             
                 MDLabel:           
                     text: "Ankeralarm"
@@ -63,17 +64,26 @@ MDScreenManager:
                 rows: 1
                 size_hint_y: 0.25
 
-                MyToggleButton:
+                # MyToggleButton:
+                #     id: launchButton
+                #     group: "toggle_group"
+                #     md_bg_color: "#5780FF"
+                #     text: "Start"
+                #     size_hint_x: 1
+                #     size_hint_y: 1
+                #     halign: "center"
+                #     font_color_normal:  1,  1,  1,  1  # Rote Farbe im normalen Zustand
+                #     font_color_down:  1,  1,  1,  1  # Grüne Farbe im gedrückten Zustand
+                #     on_release: app.drawCircle()
+
+                MDFlatButton:
                     id: launchButton
-                    group: "toggle_group"
-                    md_bg_color: "#5780FF"
                     text: "Start"
+                    md_bg_color: "#5780FF"
                     size_hint_x: 1
                     size_hint_y: 1
                     halign: "center"
-                    font_color_normal:  1,  1,  1,  1  # Rote Farbe im normalen Zustand
-                    font_color_down:  1,  1,  1,  1  # Grüne Farbe im gedrückten Zustand
-                    on_release: app.drawCircle()
+                    on_press: app.ToggleProgramm()
                 
                 MDGridLayout:
                     cols: 3
@@ -284,6 +294,7 @@ MDScreenManager:
                     on_release:
                         root.current_heroes = ["hero"]
                         root.current = "main" 
+                        app.drawCircle()
     
 
                     
