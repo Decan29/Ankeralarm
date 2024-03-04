@@ -54,10 +54,13 @@ MDScreenManager:
                 id: mapview
                 lat: 48.4715279
                 lon: 7.9512879
-                zoom: 16
+                zoom: 18
                 size_hint_y: 0.6
                 pos_hint_y: 0.9
-                on_map_relocated: app.test()
+                on_map_relocated: 
+                    app.test()
+                    app.settingsLaden()
+                                 
                 
             MDGridLayout:
                 cols: 2

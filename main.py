@@ -224,9 +224,9 @@ class MainApp(MDApp):
             lon = 7.9512879
             self.centerMap(lat, lon, 16)
         elif platform == 'android':
-            self.centerMap(self.gps_latitude, self.gps_longitude, zoom=16)
+            self.centerMap(self.gps_latitude, self.gps_longitude, zoom=19)
 
-    def centerMap(self, lat, lon, zoom=16):
+    def centerMap(self, lat, lon, zoom=19):
         self.root.ids.mapview.zoom = zoom
         self.root.ids.mapview.center_on(lat, lon)
         return
@@ -265,6 +265,14 @@ class MainApp(MDApp):
         }
         with open ("src/json/daten.json", "w") as file:
             json.dump(dictionary,file)
+
+    def settingsLaden(self):
+        f = open("src/json/daten.json")
+        data = json.load(f)
+        self.root.ids.radius.text = data['Radius']
+        self.root.ids.sound_spinner.text = data['Audio Data']
+        f.close()
+
 
     def play_sound(self):
         wahlsound = self.root.ids.sound_spinner.text
