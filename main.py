@@ -75,6 +75,7 @@ class MainApp(MDApp):
         if all(results):
             print("Rechte erteilt")
             self.GetGps()
+            Clock.schedule_interval(self.AddBoatMarker(), 0.1) 
         else:
             print("Rechte abgelehnt")
     
@@ -328,8 +329,7 @@ class MainApp(MDApp):
             self.useOnce = False
 
         if self.gps_latitude and self.gps_longitude:
-            print(f"GPS DATEN: Latitude: {self.gps_latitude}, Longitude: {self.gps_longitude}") 
-            Clock.schedule_interval(self.AddBoatMarker(), 0.01)          
+            print(f"GPS DATEN: Latitude: {self.gps_latitude}, Longitude: {self.gps_longitude}")          
             if hasattr(self, 'marker_boat'):
                 self.UpdateBoat()
                          
