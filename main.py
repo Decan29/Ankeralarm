@@ -55,12 +55,6 @@ class MainApp(MDApp):
     def build(self):
         self.get_permission()
         screen = Builder.load_file("windowsmd.kv")
-        if self.get_permission:
-            print("Rechte wurden erteilt!")
-            # try:
-            #     self.centerMap(self.gps_latitude,self.gps_longitude)
-            # except:
-            #     print(f"Fehler Werte kaputt oder anderweitiger fehler. Latitude: {self.gps_latitude},Longitude: {self.gps_longitude}")
         return screen
     
     def get_permission(self):
@@ -322,7 +316,7 @@ class MainApp(MDApp):
 
         if self.gps_latitude and self.gps_longitude:
             print(f"GPS DATEN: Latitude: {self.gps_latitude}, Longitude: {self.gps_longitude}")
-            self.AddBoatMarker() 
+            Clock.schedule_once(self.AddBoatMarker()) 
                       
             if hasattr(self, 'marker_boat'):
                 self.UpdateBoat()
