@@ -340,15 +340,17 @@ class MainApp(MDApp):
             self.root.ids.mapview.add_widget(self.marker_boat)
             
     def ClassThatDoesEverything(self, dt):
-        if platform == 'win':
-            lat = 50.0
-            lon = 8.0
-        elif platform == 'android':
-            try:
-                lat = self.gps_latitude
-                lon = self.gps_longitude
-            except AttributeError:
-                self.ClassThatDoesEverything()
+        while 1:
+            if platform == 'win':
+                lat = 50.0
+                lon = 8.0
+            elif platform == 'android':
+                try:
+                    lat = self.gps_latitude
+                    lon = self.gps_longitude
+                    break
+                except AttributeError:
+                    print("Fehler bei ClassThatDo")
 
         self.AddBoatMarker()
         self.CenterMap(lat, lon)
