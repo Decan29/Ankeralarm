@@ -31,7 +31,7 @@ MDScreenManager:
                     on_release:
                         root.current_heroes = ["hero"]
                         root.current = "info"
-                        app.Stop_Update_Circle()
+                        app.StopUpdateCircle()
             
                 MDLabel:           
                     text: "Ankeralarm"
@@ -44,7 +44,7 @@ MDScreenManager:
                 MDIconButton:
                     icon: "file-settings"
                     md_bg_color: "#5780FF"
-                    on_press: app.Stop_Update_Circle()
+                    on_press: app.StopUpdateCircle()
                     on_release:
                         root.current_heroes = ["hero"]
                         root.current = "settings"
@@ -57,8 +57,8 @@ MDScreenManager:
                 size_hint_y: 0.6
                 pos_hint_y: 0.9
                 on_map_relocated: 
-                    app.ZeichneBootMarker()
-                    app.settingsLaden()
+                    app.AddBoatMarker()
+                    app.LoadSettings()
                                  
             MDGridLayout:
                 cols: 2
@@ -72,7 +72,7 @@ MDScreenManager:
                     size_hint_x: 1
                     size_hint_y: 1
                     halign: "center"
-                    on_press: app.ToggleProgramm()
+                    on_press: app.ToggleProgram()
                 
                 MDGridLayout:
                     cols: 3
@@ -106,7 +106,7 @@ MDScreenManager:
                         md_bg_color: "#FFFFFF"
                         size_hint_x: 1
                         size_hint_y: 1
-                        on_press: app.centerMapButton()
+                        on_press: app.CenterMapButton()
                     MDIconButton:
                         md_bg_color: "#5780FF"
                         size_hint_x: 1
@@ -162,7 +162,7 @@ MDScreenManager:
                     on_release:
                         root.current_heroes = ["hero"]
                         root.current = "main"
-                        app.drawCircle()
+                        app.DrawCircle()
 
                 MDLabel:
                     text: "Einstellungen"
@@ -178,13 +178,6 @@ MDScreenManager:
                 size_hint_y: 0.4
                 padding: [20,20]
 
-                # MDLabel:
-                #     text: 'Radius'
-                #     halign: "left"
-                #     valign: "middle"
-                #     text_size: root.width, root.height
-                #     font_size: 25
-
                 MDTextField:
                     id: radius
                     mode: "fill"
@@ -197,21 +190,21 @@ MDScreenManager:
                     font_size: 38
                     input_filter: 'int'
                     size_hint: 1, 1
-                    on_text: app.dateiSchreiben()
+                    on_text: app.WriteToFile()
 
                 MDIconButton:
                     icon: "plus"
                     valign: "center"
                     size_hint: 1, 1
-                    on_press: app.radiuserhoehen()
-                    on_release: app.dateiSchreiben()
+                    on_press: app.IncreaseRadius()
+                    on_release: app.WriteToFile()
 
                 MDIconButton:
                     icon: "minus"
                     valign: "center"
                     size_hint: 1, 1
-                    on_press: app.radiusverringern()
-                    on_release: app.dateiSchreiben()                        
+                    on_press: app.DecreaseRadius()
+                    on_release: app.WriteToFile()                        
 
             MDGridLayout:
                 rows: 1
@@ -229,7 +222,7 @@ MDScreenManager:
                     id: sound_spinner
                     text: 'Alarm1'
                     values: ('Alarm1', 'Alarm2', 'Alarm3')
-                    on_text: app.dateiSchreiben()
+                    on_text: app.WriteToFile()
 
             MDGridLayout:
                 rows:1
@@ -283,7 +276,7 @@ MDScreenManager:
                     on_release:
                         root.current_heroes = ["hero"]
                         root.current = "main" 
-                        app.drawCircle()
+                        app.DrawCircle()
     
 
                     
