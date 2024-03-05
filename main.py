@@ -75,7 +75,6 @@ class MainApp(MDApp):
         if all(results):
             print("Rechte erteilt")
             self.GetGps()
-            Clock.schedule_once(self.AddBoatMarker()) 
         else:
             print("Rechte abgelehnt")
         print("Permission wird aufgerufen")
@@ -89,6 +88,7 @@ class MainApp(MDApp):
             attribution='Map data  © OpenStreetMap contributors'
         )
         self.mapview.map_source = my_map_source
+        Clock.schedule_once(self.AddBoatMarker()) 
         self.CenterMap(self.gps_latitude, self.gps_longitude, 16)
 
     def ToggleProgram(self):
