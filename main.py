@@ -80,7 +80,7 @@ class MainApp(MDApp):
     def set_map_source(self):
         my_map_source = MapSource(
             url='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            min_zoom=8,
+            min_zoom=16,
             max_zoom=19,
             attribution='Map data  © OpenStreetMap contributors'
         )
@@ -311,13 +311,20 @@ class MainApp(MDApp):
         self.gps_latitude = kwargs.get('lat', None) 
         self.gps_longitude = kwargs.get('lon', None)
         #self.centerMap(self.gps_latitude,self.gps_longitude)
+
+        self.root.ids.mapview.lat = self.gps_latitude
+        self.root.ids.mapview.lon = self.gps_longitude
+        self.CenterMap(self.gps_latitude, self.gps_longitude)
+
+        self.AddBoatMarker(self.gps_latitude, self.gps_longitude)
+
         if self.gps_latitude and self.gps_longitude:
             print(f"GPS DATEN: Latitude: {self.gps_latitude}, Longitude: {self.gps_longitude}")
     
-    def AddBoatMarker(self):
+    def AddBoatMarker(self, lat, lon):
         # if platform == 'win':
-        lat =  48.4715279
-        lon = 7.9512879
+        # lat =  48.4715279
+        # lon = 7.9512879
         # elif platform == 'android':
         #     lat = self.gps_latitude
         #     lon = self.gps_longitude

@@ -55,9 +55,10 @@ MDScreenManager:
                 lon: 7.9512879
                 zoom: 18
                 size_hint_y: 0.6
+                max_zoom: 16
                 pos_hint_y: 0.9
                 on_map_relocated: 
-                    app.AddBoatMarker()
+                    # app.AddBoatMarker()
                     app.LoadSettings()
                                  
             MDGridLayout:
