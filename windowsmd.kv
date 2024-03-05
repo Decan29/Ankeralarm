@@ -58,8 +58,9 @@ MDScreenManager:
                 max_zoom: 16
                 pos_hint_y: 0.9
                 on_map_source: 
-                    app.AddBoatMarker()
+                    app.set_map_source()
                     app.LoadSettings()
+                    app.AddBoatMarker()
                                  
             MDGridLayout:
                 cols: 2

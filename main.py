@@ -50,7 +50,6 @@ class MainApp(MDApp):
         self.dialog = None
         self.isProgramStopped = True
         self.useOnce = True
-        self.useOnce2 = True
     
     def build(self):
         self.get_permission()
@@ -79,15 +78,16 @@ class MainApp(MDApp):
         else:
             print("Rechte abgelehnt")
     
-    def set_map_source(self):
-        my_map_source = MapSource(
-            url='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            min_zoom=16,
-            max_zoom=19,
-            attribution='Map data  © OpenStreetMap contributors'
-        )
-        self.mapview.map_source = my_map_source
-        self.CenterMap(self.gps_latitude, self.gps_longitude, 16)
+    # def set_map_source(self):
+    #     my_map_source = MapSource(
+    #         url='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    #         min_zoom=16,
+    #         max_zoom=19,
+    #         attribution='Map data  © OpenStreetMap contributors'
+    #     )
+    #     self.mapview.map_source = my_map_source
+    #     self.CenterMap(self.gps_latitude, self.gps_longitude, 16)
+    #     print("SETTET MAP SOURCE LAN BRO ASDKLHAKLJHFELKJHFLKJHEFKLJSDLKFJHSLDKFLSKDJFKSDLJFFFFFFFFSKLDJHFKLJSDHFLKJSHDFKJSHD")
 
     def ToggleProgram(self):
         if self.isProgramStopped:
@@ -123,14 +123,18 @@ class MainApp(MDApp):
         self.offcenter = 21
 
         if platform == 'win':
-            lat =  48.4715279
+            lat = 48.4715279
             lon = 7.9512879
         elif platform == 'android':
             lat = self.gps_latitude
             lon = self.gps_longitude
 
-        self.marker_boat.lat = lat
-        self.marker_boat.lon = lon
+        try:
+            self.marker_boat.lat = lat
+            self.marker_boat.lon = lon
+        except AttributeError:
+            print("Marker Boot bei DrawCircle wurde nicht gefunden!")
+            return
 
         self.CenterMap(lat=lat, lon=lon, zoom=16)
         self.AddMarker()
@@ -312,7 +316,6 @@ class MainApp(MDApp):
     def on_location(self, **kwargs):
         self.gps_latitude = kwargs.get('lat', None) 
         self.gps_longitude = kwargs.get('lon', None)
-        #self.centerMap(self.gps_latitude,self.gps_longitude)
 
         if self.useOnce:
             self.root.ids.mapview.lat = self.gps_latitude
@@ -320,7 +323,6 @@ class MainApp(MDApp):
             self.CenterMap(self.gps_latitude, self.gps_longitude)
             self.useOnce = False
                         
-
     def AddBoatMarker(self):
         # if platform == 'win':
         lat = self.root.ids.mapview.lat
@@ -330,10 +332,10 @@ class MainApp(MDApp):
         #     lon = self.gps_longitude
         # Boot immer bei GPS Position
 
-        if self.useOnce2:
+        if not self.useOnce2:
             self.marker_boat = MapMarker(lat=lat, lon=lon, source='src/images/boat_32.png')
             self.root.ids.mapview.add_widget(self.marker_boat)
-            self.useOnce2 = False
+            
 
 if __name__ == "__main__":
     MainApp().run()
