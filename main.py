@@ -316,15 +316,13 @@ class MainApp(MDApp):
         self.root.ids.mapview.lon = self.gps_longitude
         self.CenterMap(self.gps_latitude, self.gps_longitude)
 
-        self.AddBoatMarker(self.gps_latitude, self.gps_longitude)
-
         if self.gps_latitude and self.gps_longitude:
             print(f"GPS DATEN: Latitude: {self.gps_latitude}, Longitude: {self.gps_longitude}")
     
-    def AddBoatMarker(self, lat, lon):
+    def AddBoatMarker(self):
         # if platform == 'win':
-        # lat =  48.4715279
-        # lon = 7.9512879
+        lat = self.root.ids.mapview.lat
+        lon = self.root.ids.mapview.lon
         # elif platform == 'android':
         #     lat = self.gps_latitude
         #     lon = self.gps_longitude
