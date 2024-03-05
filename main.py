@@ -87,7 +87,8 @@ class MainApp(MDApp):
             max_zoom=19,
             attribution='Map data  © OpenStreetMap contributors'
         )
-        self.mapview.map_source = my_map_source 
+        self.mapview.map_source = my_map_source
+        Clock.schedule_once(self.AddBoatMarker()) 
         self.CenterMap(self.gps_latitude, self.gps_longitude, 16)
 
     def ToggleProgram(self):
