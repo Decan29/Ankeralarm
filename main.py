@@ -315,9 +315,8 @@ class MainApp(MDApp):
             self.useOnce = False
 
         if self.gps_latitude and self.gps_longitude:
-            print(f"GPS DATEN: Latitude: {self.gps_latitude}, Longitude: {self.gps_longitude}")
-            Clock.schedule_once(self.AddBoatMarker()) 
-                      
+            print(f"GPS DATEN: Latitude: {self.gps_latitude}, Longitude: {self.gps_longitude}") 
+            Clock.schedule_interval(self.AddBoatMarker, 0.01)          
             if hasattr(self, 'marker_boat'):
                 self.UpdateBoat()
                         
