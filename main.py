@@ -335,12 +335,9 @@ class MainApp(MDApp):
                          
 
     def AddBoatMarker(self):
-        lat = self.gps_latitude
-        lon = self.gps_longitude
-
         """Fügt einen Marker hinzu."""
         if not hasattr(self, 'marker_boat'):
-            self.marker_boat = MapMarker(lat=lat, lon=lon, source='src/images/boat_32.png')
+            self.marker_boat = MapMarker(lat=self.gps_latitude, lon=self.gps_longitude, source='src/images/boat_32.png')
             self.root.ids.mapview.add_widget(self.marker_boat)
 
 if __name__ == "__main__":
