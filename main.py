@@ -51,7 +51,7 @@ class MainApp(MDApp):
         self.isProgramStopped = True
         self.useOnce = True
         Clock.schedule_once(self.get_permission, 0)
-        Clock.schedule_once(self.ClassThatDoesEverything, 0)
+        Clock.schedule_once(self.ClassThatDoesEverything, 1)
     
     def build(self):
         screen = Builder.load_file("windowsmd.kv")
