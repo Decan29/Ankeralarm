@@ -49,6 +49,7 @@ class MainApp(MDApp):
         self.marker = False
         self.dialog = None
         self.isProgramStopped = True
+        self.useOnce = True
     
     def build(self):
         self.get_permission()
@@ -312,9 +313,11 @@ class MainApp(MDApp):
         self.gps_longitude = kwargs.get('lon', None)
         #self.centerMap(self.gps_latitude,self.gps_longitude)
 
-        self.root.ids.mapview.lat = self.gps_latitude
-        self.root.ids.mapview.lon = self.gps_longitude
-        self.CenterMap(self.gps_latitude, self.gps_longitude)
+        if self.useOnce:
+            self.root.ids.mapview.lat = self.gps_latitude
+            self.root.ids.mapview.lon = self.gps_longitude
+            self.CenterMap(self.gps_latitude, self.gps_longitude)
+            self.useOnce = False
 
         if self.gps_latitude and self.gps_longitude:
             print(f"GPS DATEN: Latitude: {self.gps_latitude}, Longitude: {self.gps_longitude}")
