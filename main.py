@@ -54,7 +54,6 @@ class MainApp(MDApp):
         self.isProgramStopped = True
         self.useOnce = True
         self.GetPermission()
-        Clock.schedule_once(self.AddBoatMarker(), 1)
     
     def build(self):
         """Baut die Benutzeroberfläche."""
@@ -75,7 +74,8 @@ class MainApp(MDApp):
         """Callback-Funktion für Berechtigungen."""
         if all(results):
             print("Rechte erteilt")
-            self.GetGps() 
+            self.GetGps()
+            Clock.schedule_once(self.AddBoatMarker()) 
         else:
             print("Rechte abgelehnt")
         print("Permission wird aufgerufen")
