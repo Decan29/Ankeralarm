@@ -50,19 +50,20 @@ class MainApp(MDApp):
         self.dialog = None
         self.isProgramStopped = True
         self.useOnce = True
+        Clock.schedule_once(self.get_permission, 0)
+        Clock.schedule_once(self.ClassThatDoesEverything, 0)
     
     def build(self):
-        self.get_permission()
         screen = Builder.load_file("windowsmd.kv")
-        if self.get_permission:
-            print("Rechte wurden erteilt!")
+        # if self.get_permission:
+        #     print("Rechte wurden erteilt!")
             # try:
             #     self.centerMap(self.gps_latitude,self.gps_longitude)
             # except:
             #     print(f"Fehler Werte kaputt oder anderweitiger fehler. Latitude: {self.gps_latitude},Longitude: {self.gps_longitude}")
         return screen
     
-    def get_permission(self):
+    def get_permission(self, dt):
          if platform == 'android':
             from android.permissions import Permission, request_permissions
             permissions = [Permission.ACCESS_COARSE_LOCATION, Permission.ACCESS_FINE_LOCATION]
@@ -123,8 +124,11 @@ class MainApp(MDApp):
         self.offcenter = 21
 
         if platform == 'win':
-            lat = 48.4715279
-            lon = 7.9512879
+            # lat = 48.4715279
+            # lon = 7.9512879
+            lat = 50.0
+            lon = 8.0
+            print("indo")
         elif platform == 'android':
             lat = self.gps_latitude
             lon = self.gps_longitude
@@ -136,7 +140,7 @@ class MainApp(MDApp):
             print("Marker Boot bei DrawCircle wurde nicht gefunden!")
             return
 
-        self.CenterMap(lat=lat, lon=lon, zoom=16)
+        self.CenterMap(lat=lat, lon=lon)
         self.AddMarker()
         self.CalculateDistance()
 
@@ -246,7 +250,7 @@ class MainApp(MDApp):
             self.clock.cancel()
             self.line.circle = 0,0,0
             self.root.ids.mapview.remove_widget(self.marker_anchor)
-            self.root.ids.mapview.remove_widget(self.marker_boat)
+            # self.root.ids.mapview.remove_widget(self.marker_boat)
             self.marker = False
         except AttributeError:
             print("AttributeError crash bei Stop_Update_Circle wurde abgefangen!")
@@ -324,17 +328,27 @@ class MainApp(MDApp):
             self.useOnce = False
                         
     def AddBoatMarker(self):
-        # if platform == 'win':
-        lat = self.root.ids.mapview.lat
-        lon = self.root.ids.mapview.lon
-        # elif platform == 'android':
-        #     lat = self.gps_latitude
-        #     lon = self.gps_longitude
-        # Boot immer bei GPS Position
+        if platform == 'win':
+            lat = 50.0
+            lon = 8.0
+        elif platform == 'android':
+            lat = self.gps_latitude
+            lon = self.gps_longitude
+
         if not hasattr(self, 'marker_boat'):
             self.marker_boat = MapMarker(lat=lat, lon=lon, source='src/images/boat_32.png')
             self.root.ids.mapview.add_widget(self.marker_boat)
             
+    def ClassThatDoesEverything(self, dt):
+        if platform == 'win':
+            lat = 50.0
+            lon = 8.0
+        elif platform == 'android':
+            lat = self.gps_latitude
+            lon = self.gps_longitude
 
+        self.AddBoatMarker()
+        self.CenterMap(lat, lon)
+        
 if __name__ == "__main__":
     MainApp().run()
