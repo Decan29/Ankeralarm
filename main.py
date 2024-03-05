@@ -53,10 +53,11 @@ class MainApp(MDApp):
         self.dialog = None
         self.isProgramStopped = True
         self.useOnce = True
+        self.GetPermission()
+        Clock.schedule_once(self.AddBoatMarker(), 1)
     
     def build(self):
         """Baut die Benutzeroberfläche."""
-        self.GetPermission()
         screen = Builder.load_file("windowsmd.kv")
         return screen
     
@@ -74,10 +75,10 @@ class MainApp(MDApp):
         """Callback-Funktion für Berechtigungen."""
         if all(results):
             print("Rechte erteilt")
-            self.GetGps()
-            Clock.schedule_interval(self.AddBoatMarker(), 1) 
+            self.GetGps() 
         else:
             print("Rechte abgelehnt")
+        print("Permission wird aufgerufen")
     
     def set_map_source(self):
         """Setzt die Kartenquelle."""
@@ -105,13 +106,12 @@ class MainApp(MDApp):
 
     def AddMarker(self):
         """Fügt einen Marker hinzu."""
-        if self.marker:
+        if hasattr(self, 'marker_anchor'):
             return
 
         self.marker_anchor = MapMarker(lat=self.marker_boat.lat, lon=self.marker_boat.lon, source='src/images/anchor_32.png')
         self.root.ids.mapview.add_widget(self.marker_anchor)
 
-        self.marker = True
 
     def UpdateBoat(self):
         """Aktualisiert den aktuellen Standort."""
