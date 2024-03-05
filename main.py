@@ -50,6 +50,7 @@ class MainApp(MDApp):
         self.dialog = None
         self.isProgramStopped = True
         self.useOnce = True
+        self.useOnce2 = True
     
     def build(self):
         self.get_permission()
@@ -318,11 +319,6 @@ class MainApp(MDApp):
             self.root.ids.mapview.lon = self.gps_longitude
             self.CenterMap(self.gps_latitude, self.gps_longitude)
             self.useOnce = False
-
-        if self.gps_latitude and self.gps_longitude:
-            print(f"GPS DATEN: Latitude: {self.gps_latitude}, Longitude: {self.gps_longitude}")
-            if hasattr(self, 'marker_boat'):
-                self.UpdateBoat()
                         
 
     def AddBoatMarker(self):
@@ -333,16 +329,11 @@ class MainApp(MDApp):
         #     lat = self.gps_latitude
         #     lon = self.gps_longitude
         # Boot immer bei GPS Position
-        self.marker_boat = MapMarker(lat=lat, lon=lon, source='src/images/boat_32.png')
-        self.root.ids.mapview.add_widget(self.marker_boat)
 
-class CustomMarker(MapMarkerPopup):
-    def __init__(self, **kwargs):
-        super(CustomMarker, self).__init__(**kwargs)
-
-        with self.canvas:
-            self.image = Image(source='src/images/Goku.jpg')
-            self.image.pos = self.pos[0] + 12, self.pos[1] + 12
+        if self.useOnce2:
+            self.marker_boat = MapMarker(lat=lat, lon=lon, source='src/images/boat_32.png')
+            self.root.ids.mapview.add_widget(self.marker_boat)
+            self.useOnce2 = False
 
 if __name__ == "__main__":
     MainApp().run()
