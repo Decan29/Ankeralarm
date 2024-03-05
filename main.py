@@ -319,6 +319,13 @@ class MainApp(MDApp):
             self.root.ids.mapview.lon = self.gps_longitude
             self.CenterMap(self.gps_latitude, self.gps_longitude)
             self.useOnce = False
+
+        if self.gps_latitude and self.gps_longitude:
+            print(f"GPS DATEN: Latitude: {self.gps_latitude}, Longitude: {self.gps_longitude}")
+            self.AddBoatMarker() 
+                      
+            if hasattr(self, 'marker_boat'):
+                self.UpdateBoat()
                         
 
     def AddBoatMarker(self):
