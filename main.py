@@ -127,6 +127,8 @@ class MainApp(MDApp):
             lat = self.gps_latitude
             lon = self.gps_longitude
 
+        self.marker_boat.lat = lat
+        self.marker_boat.lon = lon
         self.centerMap(lat=lat, lon=lon, zoom=16)
         self.AddMarker(lat=lat, lon=lon)
         self.calculate_distance()
@@ -272,7 +274,6 @@ class MainApp(MDApp):
         self.root.ids.radius.text = data['Radius']
         self.root.ids.sound_spinner.text = data['Audio Data']
         f.close()
-
 
     def play_sound(self):
         wahlsound = self.root.ids.sound_spinner.text
