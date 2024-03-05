@@ -43,30 +43,35 @@ class MyToggleButton(MDFlatButton, MDToggleButton):
 #                 sound.play()
 
 class MainApp(MDApp):
+    """Hauptklasse der Anwendung."""
+
     def __init__(self, **kwargs):
+        """Initialisiert die Anwendung."""
         self.title = "Ankeralarm"
         super().__init__(**kwargs)
         self.marker = False
         self.dialog = None
         self.isProgramStopped = True
         self.useOnce = True
-        self.useOnce2 = True
     
     def build(self):
-        self.get_permission()
+        """Baut die Benutzeroberfläche."""
+        self.GetPermission()
         screen = Builder.load_file("windowsmd.kv")
         return screen
     
-    def get_permission(self):
+    def GetPermission(self):
+         """Überprüft und fordert Berechtigungen an."""
          if platform == 'android':
             from android.permissions import Permission, request_permissions
             permissions = [Permission.ACCESS_COARSE_LOCATION, Permission.ACCESS_FINE_LOCATION]
-            request_permissions(permissions, self.permission_callback)
+            request_permissions(permissions, self.PermissionCallback)
             return True
          else:
              return False 
 
-    def permission_callback(self, permissions, results):
+    def PermissionCallback(self, permissions, results):
+        """Callback-Funktion für Berechtigungen."""
         if all(results):
             print("Rechte erteilt")
             self.GetGps()
@@ -74,6 +79,7 @@ class MainApp(MDApp):
             print("Rechte abgelehnt")
     
     def set_map_source(self):
+        """Setzt die Kartenquelle."""
         my_map_source = MapSource(
             url='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
             min_zoom=16,
@@ -84,6 +90,7 @@ class MainApp(MDApp):
         self.CenterMap(self.gps_latitude, self.gps_longitude, 16)
 
     def ToggleProgram(self):
+        """Startet oder stoppt das Programm."""
         if self.isProgramStopped:
             self.DrawCircle()
             self.root.ids.launchButton.text = "Stop"
@@ -96,6 +103,7 @@ class MainApp(MDApp):
             return
 
     def AddMarker(self):
+        """Fügt einen Marker hinzu."""
         if self.marker:
             return
 
@@ -105,6 +113,7 @@ class MainApp(MDApp):
         self.marker = True
 
     def UpdateBoat(self):
+        """Aktualisiert den aktuellen Standort."""
         if platform == 'win':
             self.marker_boat.lat = 48.4715279
             self.marker_boat.lon = 7.9512879
@@ -139,6 +148,7 @@ class MainApp(MDApp):
         return
     
     def MoveAnchor(self, direction):
+        """Bewegt mit dem D.PAD den Anker."""
         try:
             if direction == 'up':
                 self.marker_anchor.lat +=0.0001
@@ -171,6 +181,7 @@ class MainApp(MDApp):
         self.pixel_per_meter = (current_width_x / distance) / 1000
 
     def UpdateCircle(self, *args):
+        """Aktualisiere den Kreis auf dem Canvas"""
         self.CalculateDistance()
         self.line.circle = self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter
         #self.UpdateBoat()
@@ -187,6 +198,7 @@ class MainApp(MDApp):
             return
     
     def ShowDialog(self):
+        """Alarm Meldung falls der Kreis verlassen wurde."""
         if not self.dialog:
             self.dialog = MDDialog(
                 title="ALARM!",
@@ -214,6 +226,7 @@ class MainApp(MDApp):
         self.dialog.open()
 
     def CloseDialog(self, *args):
+        """Schließe den Dialog mit dem Titel ALARM! """
         self.dialog.dismiss()
         self.DrawCircle()
         self.sound.stop()
@@ -316,24 +329,19 @@ class MainApp(MDApp):
 
         if self.gps_latitude and self.gps_longitude:
             print(f"GPS DATEN: Latitude: {self.gps_latitude}, Longitude: {self.gps_longitude}") 
-            Clock.schedule_interval(self.AddBoatMarker, 0.01)          
+            Clock.schedule_interval(self.AddBoatMarker(), 0.01)          
             if hasattr(self, 'marker_boat'):
                 self.UpdateBoat()
-                        
+                         
 
     def AddBoatMarker(self):
-        # if platform == 'win':
-        lat = self.root.ids.mapview.lat
-        lon = self.root.ids.mapview.lon
-        # elif platform == 'android':
-        #     lat = self.gps_latitude
-        #     lon = self.gps_longitude
-        # Boot immer bei GPS Position
+        lat = self.gps_latitude
+        lon = self.gps_longitude
 
-        if self.useOnce2:
+        """Fügt einen Marker hinzu."""
+        if not hasattr(self, 'marker_boat'):
             self.marker_boat = MapMarker(lat=lat, lon=lon, source='src/images/boat_32.png')
             self.root.ids.mapview.add_widget(self.marker_boat)
-            self.useOnce2 = False
 
 if __name__ == "__main__":
     MainApp().run()
