@@ -87,8 +87,7 @@ class MainApp(MDApp):
             max_zoom=19,
             attribution='Map data  © OpenStreetMap contributors'
         )
-        self.mapview.map_source = my_map_source
-        Clock.schedule_once(self.AddBoatMarker()) 
+        self.mapview.map_source = my_map_source 
         self.CenterMap(self.gps_latitude, self.gps_longitude, 16)
 
     def ToggleProgram(self):
@@ -243,6 +242,7 @@ class MainApp(MDApp):
     def CenterMap(self, lat, lon, zoom=19):
         self.root.ids.mapview.zoom = zoom
         self.root.ids.mapview.center_on(lat, lon)
+        Clock.schedule_once(self.AddBoatMarker())
         return
     
     def StopUpdateCircle(self):
