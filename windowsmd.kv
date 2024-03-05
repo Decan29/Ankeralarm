@@ -55,13 +55,12 @@ MDScreenManager:
                 lon: 7.9512879
                 zoom: 18
                 size_hint_y: 0.6
-                max_zoom: 16
                 pos_hint_y: 0.9
                 on_map_source: 
                     app.set_map_source()
-                    app.LoadSettings()
+                    app.LoadSettings()                    
                     app.AddBoatMarker()
-                                 
+  
             MDGridLayout:
                 cols: 2
                 rows: 1
@@ -133,7 +132,6 @@ MDScreenManager:
                         size_hint_y: 1
                         disabled: True
                         opacity: 0.0
-
 
     MDScreen:
         name: "settings"

@@ -331,8 +331,7 @@ class MainApp(MDApp):
         #     lat = self.gps_latitude
         #     lon = self.gps_longitude
         # Boot immer bei GPS Position
-
-        if not self.useOnce2:
+        if not hasattr(self, 'marker_boat'):
             self.marker_boat = MapMarker(lat=lat, lon=lon, source='src/images/boat_32.png')
             self.root.ids.mapview.add_widget(self.marker_boat)
             
