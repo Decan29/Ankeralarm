@@ -178,7 +178,7 @@ class MainApp(MDApp):
     def UpdateCircle(self, *args):
         self.CalculateDistance()
         self.line.circle = self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter
-        self.UpdateBoat()
+        #self.UpdateBoat()
         self.IsInsideCircle(self.marker_anchor.pos[0]+self.offcenter, self.marker_anchor.pos[1]+self.offcenter, int(self.root.ids.radius.text)*self.pixel_per_meter, self.marker_boat.pos[0], self.marker_boat.pos[1])
          
     # check if point is inside circle
@@ -321,7 +321,10 @@ class MainApp(MDApp):
 
         if self.gps_latitude and self.gps_longitude:
             print(f"GPS DATEN: Latitude: {self.gps_latitude}, Longitude: {self.gps_longitude}")
-    
+            if hasattr(self, 'marker_boat'):
+                self.UpdateBoat()
+                        
+
     def AddBoatMarker(self):
         # if platform == 'win':
         lat = self.root.ids.mapview.lat
