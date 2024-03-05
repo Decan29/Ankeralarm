@@ -75,7 +75,7 @@ class MainApp(MDApp):
         if all(results):
             print("Rechte erteilt")
             self.GetGps()
-            Clock.schedule_interval(self.AddBoatMarker(), 0.1) 
+            Clock.schedule_interval(self.AddBoatMarker(), 1) 
         else:
             print("Rechte abgelehnt")
     
