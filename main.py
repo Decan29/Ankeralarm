@@ -87,8 +87,7 @@ class MainApp(MDApp):
             max_zoom=19,
             attribution='Map data  © OpenStreetMap contributors'
         )
-        self.mapview.map_source = my_map_source
-        Clock.schedule_once(self.AddBoatMarker()) 
+        self.mapview.map_source = my_map_source 
         self.CenterMap(self.gps_latitude, self.gps_longitude, 16)
 
     def ToggleProgram(self):
@@ -116,11 +115,11 @@ class MainApp(MDApp):
     def UpdateBoat(self):
         """Aktualisiert den aktuellen Standort."""
         if platform == 'win':
-            self.marker_boat.lat = 48.4715279
-            self.marker_boat.lon = 7.9512879
+            self.root.ids.BoatMarker.lat = 48.4715279
+            self.root.ids.BoatMarker.lon = 7.9512879
         elif platform == 'android':
-            self.marker_boat.lat = self.gps_latitude
-            self.marker_boat.lon = self.gps_longitude
+            self.root.ids.BoatMarker.lat = self.gps_latitude
+            self.root.ids.BoatMarker.lon = self.gps_longitude
         self.root.ids.mapview.trigger_update('full')
 
     def DrawCircle(self):
@@ -330,8 +329,7 @@ class MainApp(MDApp):
                     self.on_location
             print(f"GPS DATEN: Latitude: {self.gps_latitude}, Longitude: {self.gps_longitude}") 
 
-            if hasattr(self, 'marker_boat'):
-                self.UpdateBoat()
+            self.UpdateBoat()
                          
     def SetMap(self):        
             self.root.ids.mapview.lat = self.gps_latitude
@@ -339,11 +337,6 @@ class MainApp(MDApp):
             self.CenterMap(self.gps_latitude, self.gps_longitude)
             self.useOnce = False
             
-    def AddBoatMarker(self):
-        """Fügt einen Marker hinzu."""
-        if not hasattr(self, 'marker_boat'):
-            self.marker_boat = MapMarker(lat=self.gps_latitude, lon=self.gps_longitude, source='src/images/boat_32.png')
-            self.root.ids.mapview.add_widget(self.marker_boat)
 
 if __name__ == "__main__":
     MainApp().run()
