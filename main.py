@@ -55,7 +55,6 @@ class MainApp(MDApp):
         self.useOnce = True
         Clock.schedule_once(self.get_permission, 0)
         Clock.schedule_once(self.ClassThatDoesEverything, 1)
-        os.environ["SDL_AUDIODRIVER"] = "android"
     
     def build(self):
         screen = Builder.load_file("windowsmd.kv")
@@ -72,6 +71,7 @@ class MainApp(MDApp):
             from android.permissions import Permission, request_permissions
             permissions = [Permission.ACCESS_COARSE_LOCATION, Permission.ACCESS_FINE_LOCATION]
             request_permissions(permissions, self.PermissionCallback)
+            os.environ["SDL_AUDIODRIVER"] = "android"
             return True
          else:
              return False 
@@ -356,6 +356,7 @@ class MainApp(MDApp):
             if platform == 'win':
                 lat = 50.0
                 lon = 8.0
+                break
             elif platform == 'android':
                 try:
                     lat = self.gps_latitude
