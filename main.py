@@ -343,7 +343,7 @@ class MainApp(MDApp):
 
     def LoadSettings(self):
         if platform == 'android':
-            data_dir = MainApp().user_data_dir + "daten.json"
+            data_dir = MainApp().user_data_dir + "/daten.json"
         elif platform == 'win':
             data_dir = "src/json/daten.json"
 
