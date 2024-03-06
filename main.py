@@ -92,7 +92,7 @@ class MainApp(MDApp):
             from plyer import gps   
             try:                           
                 gps.configure(on_location=self.on_location, on_status=self.on_status)
-                gps.start(minTime=1000, minDistance=0)
+                gps.start(minTime=100, minDistance=0)
             except:
                 import traceback
                 traceback.print_exc()
@@ -377,8 +377,7 @@ class MainApp(MDApp):
                     lon = self.gps_longitude
                     break
                 except AttributeError:
-                    print("Fehler bei ClassThatDo")
-
+                    pass
         self.AddBoatMarker()
         self.CenterMap(lat, lon)
         self.root.ids.mapview.trigger_update('full')
