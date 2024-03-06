@@ -303,7 +303,7 @@ class MainApp(MDApp):
         wahlsound = self.root.ids.sound_spinner.text
         soundNamenListe =["Alarm1","Alarm2","Alarm3"]
         if wahlsound in soundNamenListe:
-            self.sound = SoundLoader.load(os.path.join(f'src/sounds/{wahlsound}.wav'))
+            self.sound = SoundLoader.load(os.path.join(f'src/sounds/{wahlsound}.mp3'))
             self.sound.play()
 
     def GetGps(self, *args):
