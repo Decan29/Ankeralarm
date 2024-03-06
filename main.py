@@ -322,7 +322,12 @@ class MainApp(MDApp):
         self.spinner_widget = self.root.ids.sound_spinner.text
         
         if platform == 'android':
-            data_dir = MainApp().user_data_dir
+            data_dir = MainApp().user_data_dir#
+            dictionary = {
+            "Bereich": "Einstellungen",
+            "Radius": self.radius_widget,
+            'Audio Data': self.spinner_widget
+            }
             with open (data_dir, "w") as file:
                 json.dump(dictionary,file)
         elif platform == 'win':
