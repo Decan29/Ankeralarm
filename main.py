@@ -377,7 +377,7 @@ class MainApp(MDApp):
                     lon = self.gps_longitude
                     break
                 except AttributeError:
-                    pass
+                    print("Exception in ClassThatDoes")
         self.AddBoatMarker()
         self.CenterMap(lat, lon)
         self.root.ids.mapview.trigger_update('full')
