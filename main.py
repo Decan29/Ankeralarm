@@ -44,7 +44,6 @@ class MyToggleButton(MDFlatButton, MDToggleButton):
 
 class MainApp(MDApp):
     """Hauptklasse der Anwendung."""
-
     def __init__(self, **kwargs):
         """Initialisiert die Anwendung."""
         self.title = "Ankeralarm"
@@ -56,7 +55,6 @@ class MainApp(MDApp):
         Clock.schedule_once(self.get_permission, 0)
         Clock.schedule_once(self.ClassThatDoesEverything, 1)
         os.environ["SDL_AUDIODRIVER"] = "android"
-
     
     def build(self):
         screen = Builder.load_file("windowsmd.kv")
@@ -68,6 +66,7 @@ class MainApp(MDApp):
             #     print(f"Fehler Werte kaputt oder anderweitiger fehler. Latitude: {self.gps_latitude},Longitude: {self.gps_longitude}")
         return screen
     
+    #region GPS
     def get_permission(self, dt):
          if platform == 'android':
             from android.permissions import Permission, request_permissions
@@ -84,6 +83,41 @@ class MainApp(MDApp):
             self.GetGps()
         else:
             print("Rechte abgelehnt")
+
+    def GetGps(self, *args):
+        if platform == 'android' or platform == 'ios':
+            from plyer import gps   
+            try:                           
+                gps.configure(on_location=self.on_location, on_status=self.on_status)
+                gps.start(minTime=500, minDistance=0)
+            except:
+                import traceback
+                traceback.print_exc()
+                self.gps_status= "GPS is not implemented for your platform"
+           
+    def on_status(self, general_status, status_message):
+        if general_status== 'provider-enabled':
+            pass
+        else:
+            self.OpenGpsAccessPopup()
+
+    def OpenGpsAccessPopup(self):
+        dialog = MDDialog(title="GPS Error", text= "Sie müssen die GPS daten aktivieren.")
+        dialog.size_hint = [.8,.8]
+        dialog.pos_hint = {'center_x':.5,'center_y':.5}
+        dialog.open()
+
+    def on_location(self, **kwargs):
+        self.gps_latitude = kwargs.get('lat', None) 
+        self.gps_longitude = kwargs.get('lon', None)
+
+        if self.useOnce:
+            self.root.ids.mapview.lat = self.gps_latitude
+            self.root.ids.mapview.lon = self.gps_longitude
+            self.CenterMap(self.gps_latitude, self.gps_longitude)
+            self.useOnce = False
+    
+    #endregion
     
     # def set_map_source(self):
     #     my_map_source = MapSource(
@@ -306,39 +340,6 @@ class MainApp(MDApp):
         if wahlsound in soundNamenListe:
             self.sound = SoundLoader.load(os.path.join(f'src/sounds/{wahlsound}.wav'))
             self.sound.play()
-
-    def GetGps(self, *args):
-        if platform == 'android' or platform == 'ios':
-            from plyer import gps   
-            try:                           
-                gps.configure(on_location=self.on_location, on_status=self.on_status)
-                gps.start(minTime=500, minDistance=0)
-            except:
-                import traceback
-                traceback.print_exc()
-                self.gps_status= "GPS is not implemented for your platform"
-           
-    def on_status(self, general_status, status_message):
-        if general_status== 'provider-enabled':
-            pass
-        else:
-            self.OpenGpsAccessPopup()
-
-    def OpenGpsAccessPopup(self):
-        dialog = MDDialog(title="GPS Error", text= "Sie müssen die GPS daten aktivieren.")
-        dialog.size_hint = [.8,.8]
-        dialog.pos_hint = {'center_x':.5,'center_y':.5}
-        dialog.open()
-
-    def on_location(self, **kwargs):
-        self.gps_latitude = kwargs.get('lat', None) 
-        self.gps_longitude = kwargs.get('lon', None)
-
-        if self.useOnce:
-            self.root.ids.mapview.lat = self.gps_latitude
-            self.root.ids.mapview.lon = self.gps_longitude
-            self.CenterMap(self.gps_latitude, self.gps_longitude)
-            self.useOnce = False
                         
     def AddBoatMarker(self):
         if platform == 'win':
