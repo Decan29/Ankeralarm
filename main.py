@@ -89,7 +89,7 @@ class MainApp(MDApp):
             from plyer import gps   
             try:                           
                 gps.configure(on_location=self.on_location, on_status=self.on_status)
-                gps.start(minTime=500, minDistance=0)
+                gps.start(minTime=1000, minDistance=0)
             except:
                 import traceback
                 traceback.print_exc()
