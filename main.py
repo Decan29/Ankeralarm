@@ -53,15 +53,20 @@ class MainApp(MDApp):
         self.dialog = None
         self.isProgramStopped = True
         self.useOnce = True
+        Clock.schedule_once(self.get_permission, 0)
+        Clock.schedule_once(self.ClassThatDoesEverything, 1)
     
     def build(self):
-        """Baut die Benutzeroberfläche."""
-        self.GetPermission()
         screen = Builder.load_file("windowsmd.kv")
+        # if self.get_permission:
+        #     print("Rechte wurden erteilt!")
+            # try:
+            #     self.centerMap(self.gps_latitude,self.gps_longitude)
+            # except:
+            #     print(f"Fehler Werte kaputt oder anderweitiger fehler. Latitude: {self.gps_latitude},Longitude: {self.gps_longitude}")
         return screen
     
-    def GetPermission(self):
-         """Überprüft und fordert Berechtigungen an."""
+    def get_permission(self, dt):
          if platform == 'android':
             from android.permissions import Permission, request_permissions
             permissions = [Permission.ACCESS_COARSE_LOCATION, Permission.ACCESS_FINE_LOCATION]
@@ -78,16 +83,16 @@ class MainApp(MDApp):
         else:
             print("Rechte abgelehnt")
     
-    def set_map_source(self):
-        """Setzt die Kartenquelle."""
-        my_map_source = MapSource(
-            url='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            min_zoom=16,
-            max_zoom=19,
-            attribution='Map data  © OpenStreetMap contributors'
-        )
-        self.mapview.map_source = my_map_source
-        self.CenterMap(self.gps_latitude, self.gps_longitude, 16)
+    # def set_map_source(self):
+    #     my_map_source = MapSource(
+    #         url='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    #         min_zoom=16,
+    #         max_zoom=19,
+    #         attribution='Map data  © OpenStreetMap contributors'
+    #     )
+    #     self.mapview.map_source = my_map_source
+    #     self.CenterMap(self.gps_latitude, self.gps_longitude, 16)
+    #     print("SETTET MAP SOURCE LAN BRO ASDKLHAKLJHFELKJHFLKJHEFKLJSDLKFJHSLDKFLSKDJFKSDLJFFFFFFFFSKLDJHFKLJSDHFLKJSHDFKJSHD")
 
     def ToggleProgram(self):
         """Startet oder stoppt das Programm."""
@@ -126,16 +131,23 @@ class MainApp(MDApp):
         self.offcenter = 21
 
         if platform == 'win':
-            lat =  48.4715279
-            lon = 7.9512879
+            # lat = 48.4715279
+            # lon = 7.9512879
+            lat = 50.0
+            lon = 8.0
+            print("indo")
         elif platform == 'android':
             lat = self.gps_latitude
             lon = self.gps_longitude
 
-        self.marker_boat.lat = lat
-        self.marker_boat.lon = lon
+        try:
+            self.marker_boat.lat = lat
+            self.marker_boat.lon = lon
+        except AttributeError:
+            print("Marker Boot bei DrawCircle wurde nicht gefunden!")
+            return
 
-        self.CenterMap(lat=lat, lon=lon, zoom=16)
+        self.CenterMap(lat=lat, lon=lon)
         self.AddMarker()
         self.CalculateDistance()
 
@@ -249,7 +261,7 @@ class MainApp(MDApp):
             self.clock.cancel()
             self.line.circle = 0,0,0
             self.root.ids.mapview.remove_widget(self.marker_anchor)
-            self.root.ids.mapview.remove_widget(self.marker_boat)
+            # self.root.ids.mapview.remove_widget(self.marker_boat)
             self.marker = False
         except AttributeError:
             print("AttributeError crash bei Stop_Update_Circle wurde abgefangen!")
@@ -290,7 +302,7 @@ class MainApp(MDApp):
         wahlsound = self.root.ids.sound_spinner.text
         soundNamenListe =["Alarm1","Alarm2","Alarm3"]
         if wahlsound in soundNamenListe:
-            self.sound = SoundLoader.load(os.path.join(f'src/sounds/{wahlsound}.MP3'))
+            self.sound = SoundLoader.load(os.path.join(f'src/sounds/{wahlsound}.wav'))
             self.sound.play()
 
     def GetGps(self, *args):
@@ -319,29 +331,40 @@ class MainApp(MDApp):
     def on_location(self, **kwargs):
         self.gps_latitude = kwargs.get('lat', None) 
         self.gps_longitude = kwargs.get('lon', None)
-        #self.centerMap(self.gps_latitude,self.gps_longitude)
 
         if self.useOnce:
             self.root.ids.mapview.lat = self.gps_latitude
             self.root.ids.mapview.lon = self.gps_longitude
             self.CenterMap(self.gps_latitude, self.gps_longitude)
             self.useOnce = False
-
-        if self.gps_latitude and self.gps_longitude:
-            print(f"GPS DATEN: Latitude: {self.gps_latitude}, Longitude: {self.gps_longitude}") 
-            Clock.schedule_interval(self.AddBoatMarker(), 0.01)          
-            if hasattr(self, 'marker_boat'):
-                self.UpdateBoat()
-                         
-
+                        
     def AddBoatMarker(self):
-        lat = self.gps_latitude
-        lon = self.gps_longitude
+        if platform == 'win':
+            lat = 50.0
+            lon = 8.0
+        elif platform == 'android':
+            lat = self.gps_latitude
+            lon = self.gps_longitude
 
-        """Fügt einen Marker hinzu."""
         if not hasattr(self, 'marker_boat'):
             self.marker_boat = MapMarker(lat=lat, lon=lon, source='src/images/boat_32.png')
             self.root.ids.mapview.add_widget(self.marker_boat)
+            
+    def ClassThatDoesEverything(self, dt):
+        while 1:
+            if platform == 'win':
+                lat = 50.0
+                lon = 8.0
+            elif platform == 'android':
+                try:
+                    lat = self.gps_latitude
+                    lon = self.gps_longitude
+                    break
+                except AttributeError:
+                    print("Fehler bei ClassThatDo")
 
+        self.AddBoatMarker()
+        self.CenterMap(lat, lon)
+        
 if __name__ == "__main__":
     MainApp().run()
