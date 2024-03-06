@@ -115,7 +115,7 @@ class MainApp(MDApp):
         self.gps_longitude = kwargs.get('lon', None)
 
         if self.useOnce:
-            if self.gps_latitude and self.gps_longitude:
+            if hasattr(self,'gps_latitude') and hasattr(self,'gps_longitude'):
                 self.root.ids.mapview.lat = self.gps_latitude
                 self.root.ids.mapview.lon = self.gps_longitude
                 self.CenterMap(self.gps_latitude, self.gps_longitude)
