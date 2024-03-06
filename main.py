@@ -19,6 +19,9 @@ from kivy_garden.mapview import MapMarker, MapMarkerPopup
 from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
 # from kivy.uix.filechooser import FileChooserListView
 # from kivy.uix.popup import Popup
+from kivy.storage.jsonstore import JsonStore
+from os.path import join
+
 
 class MyToggleButton(MDFlatButton, MDToggleButton):
     pass
@@ -171,7 +174,6 @@ class MainApp(MDApp):
             # lon = 7.9512879
             lat = 50.0
             lon = 8.0
-            print("indo")
         elif platform == 'android':
             lat = self.gps_latitude
             lon = self.gps_longitude
@@ -278,6 +280,8 @@ class MainApp(MDApp):
         self.dialog.dismiss()
         self.DrawCircle()
         self.sound.stop()
+    def PrintZoom(self):
+        print(self.root.ids.mapview.zoom)
 
     def CenterMapButton(self):
         if platform == 'win':
@@ -297,11 +301,9 @@ class MainApp(MDApp):
             self.clock.cancel()
             self.line.circle = 0,0,0
             self.root.ids.mapview.remove_widget(self.marker_anchor)
-            # self.root.ids.mapview.remove_widget(self.marker_boat)
             self.marker = False
         except AttributeError:
             print("AttributeError crash bei Stop_Update_Circle wurde abgefangen!")
-        # self.root.canvas.clear()
 
     def IncreaseRadius(self):
         #Zugriff auf das Widget mit der id 'radius'
@@ -318,14 +320,19 @@ class MainApp(MDApp):
     def WriteToFile(self):
         self.radius_widget = self.root.ids.radius.text
         self.spinner_widget = self.root.ids.sound_spinner.text
-
-        dictionary = {
-        "Bereich": "Einstellungen",
-        "Radius": self.radius_widget,
-        'Audio Data': self.spinner_widget
-        }
-        with open ("src/json/daten.json", "w") as file:
-            json.dump(dictionary,file)
+        
+        if platform == 'android':
+            data_dir = MainApp().user_data_dir
+            with open (data_dir, "w") as file:
+                json.dump(dictionary,file)
+        elif platform == 'win':
+            dictionary = {
+            "Bereich": "Einstellungen",
+            "Radius": self.radius_widget,
+            'Audio Data': self.spinner_widget
+            }
+            with open ("src/json/daten.json", "w") as file:
+                json.dump(dictionary,file)
 
     def LoadSettings(self):
         f = open("src/json/daten.json")
