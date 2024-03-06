@@ -335,7 +335,12 @@ class MainApp(MDApp):
                 json.dump(dictionary,file)
 
     def LoadSettings(self):
-        f = open("src/json/daten.json")
+        if platform == 'android':
+            data_dir = MainApp().user_data_dir + "daten.json"
+        elif platform == 'win':
+            data_dir = "src/json/daten.json"
+
+        f = open(data_dir)
         data = json.load(f)
         self.root.ids.radius.text = data['Radius']
         self.root.ids.sound_spinner.text = data['Audio Data']
