@@ -116,8 +116,8 @@ class MainApp(MDApp):
 
         if self.useOnce:
             if hasattr(self,'gps_latitude') and hasattr(self,'gps_longitude'):
-                self.root.ids.mapview.lat = self.gps_latitude
-                self.root.ids.mapview.lon = self.gps_longitude
+                #self.root.ids.mapview.lat = self.gps_latitude
+                #self.root.ids.mapview.lon = self.gps_longitude
                 self.CenterMap(self.gps_latitude, self.gps_longitude)
                 self.useOnce = False
     
