@@ -369,6 +369,8 @@ class MainApp(MDApp):
 
         self.AddBoatMarker()
         self.CenterMap(lat, lon)
+        self.root.ids.mapview.trigger_update('full')
+
         
 if __name__ == "__main__":
     MainApp().run()
