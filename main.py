@@ -10,12 +10,13 @@ from kivy.uix.image import Image
 from kivy.core.window import Window
 from kivymd.uix.label import MDLabel
 from kivy.graphics import Line, Color
+from kivy.utils import platform
 from kivymd.uix.dialog import MDDialog
 from kivy.core.audio import SoundLoader
-from kivy_garden.mapview import MapSource
+#from kivy_garden.mapview import MapSource
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.boxlayout import MDBoxLayout
-from kivy_garden.mapview import MapMarker, MapMarkerPopup
+#from kivy_garden.mapview import MapMarker, MapMarkerPopup
 from kivymd.uix.behaviors.toggle_behavior import MDToggleButton
 # from kivy.uix.filechooser import FileChooserListView
 # from kivy.uix.popup import Popup
@@ -53,22 +54,23 @@ class MainApp(MDApp):
         self.dialog = None
         self.isProgramStopped = True
         self.useOnce = True
-        self.GetPermission()
+        #self.GetPermission()
+        
     
     def build(self):
         """Baut die Benutzeroberfläche."""
         screen = Builder.load_file("windowsmd.kv")
         return screen
     
-    def GetPermission(self):
-         """Überprüft und fordert Berechtigungen an."""
-         if platform == 'android':
-            from android.permissions import Permission, request_permissions
-            permissions = [Permission.ACCESS_COARSE_LOCATION, Permission.ACCESS_FINE_LOCATION]
-            request_permissions(permissions, self.PermissionCallback)
-            return True
-         else:
-             return False 
+    # def GetPermission(self):
+    #      """Überprüft und fordert Berechtigungen an."""
+    #      if platform == 'android':
+    #         from android.permissions import Permission, request_permissions
+    #         permissions = [Permission.ACCESS_COARSE_LOCATION, Permission.ACCESS_FINE_LOCATION]
+    #         request_permissions(permissions, self.PermissionCallback)
+    #         return True
+    #      else:
+    #          return False 
 
     def PermissionCallback(self, permissions, results):
         """Callback-Funktion für Berechtigungen."""
@@ -79,16 +81,16 @@ class MainApp(MDApp):
             print("Rechte abgelehnt")
         print("Permission wird aufgerufen")
     
-    def set_map_source(self):
-        """Setzt die Kartenquelle."""
-        my_map_source = MapSource(
-            url='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            min_zoom=16,
-            max_zoom=19,
-            attribution='Map data  © OpenStreetMap contributors'
-        )
-        self.mapview.map_source = my_map_source 
-        self.CenterMap(self.gps_latitude, self.gps_longitude, 16)
+    # def set_map_source(self):
+    #     """Setzt die Kartenquelle."""
+    #     my_map_source = MapSource(
+    #         url='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    #         min_zoom=16,
+    #         max_zoom=19,
+    #         attribution='Map data  © OpenStreetMap contributors'
+    #     )
+    #     self.mapview.map_source = my_map_source 
+    #     self.CenterMap(self.gps_latitude, self.gps_longitude, 16)
 
     def ToggleProgram(self):
         """Startet oder stoppt das Programm."""
@@ -103,13 +105,13 @@ class MainApp(MDApp):
             self.isProgramStopped = True
             return
 
-    def AddMarker(self):
-        """Fügt einen Marker hinzu."""
-        if hasattr(self, 'marker_anchor'):
-            return
+    # def AddMarker(self):
+    #     """Fügt einen Marker hinzu."""
+    #     if hasattr(self, 'marker_anchor'):
+    #         return
 
-        self.marker_anchor = MapMarker(lat=self.marker_boat.lat, lon=self.marker_boat.lon, source='src/images/anchor_32.png')
-        self.root.ids.mapview.add_widget(self.marker_anchor)
+    #     self.marker_anchor = MapMarker(lat=self.marker_boat.lat, lon=self.marker_boat.lon, source='src/images/anchor_32.png')
+    #     self.root.ids.mapview.add_widget(self.marker_anchor)
 
 
     def UpdateBoat(self):
@@ -148,20 +150,21 @@ class MainApp(MDApp):
         return
     
     def MoveAnchor(self, direction):
-        """Bewegt mit dem D.PAD den Anker."""
-        try:
-            if direction == 'up':
-                self.marker_anchor.lat +=0.0001
-            if direction == 'left':
-                self.marker_anchor.lon -=0.0001
-            if direction == 'right':
-                self.marker_anchor.lon += 0.0001
-            if direction == 'down':
-                self.marker_anchor.lat -= 0.0001
+        # """Bewegt mit dem D.PAD den Anker."""
+        # try:
+        #     if direction == 'up':
+        #         self.marker_anchor.lat +=0.0001
+        #     if direction == 'left':
+        #         self.marker_anchor.lon -=0.0001
+        #     if direction == 'right':
+        #         self.marker_anchor.lon += 0.0001
+        #     if direction == 'down':
+        #         self.marker_anchor.lat -= 0.0001
         
-            self.root.ids.mapview.trigger_update('full')
-        except AttributeError:
-            print("Anchor-Objekt bei MoveAnchor nicht gefunden!")
+        #     self.root.ids.mapview.trigger_update('full')
+        # except AttributeError:
+        #     print("Anchor-Objekt bei MoveAnchor nicht gefunden!")
+        self.PlaySound()
 
     def CalculateDistance(self):
         current_width_x=self.root.size[0]
@@ -287,22 +290,32 @@ class MainApp(MDApp):
         f.close()
 
     def PlaySound(self):
+
+
         wahlsound = self.root.ids.sound_spinner.text
+        print(wahlsound)
+
+        winPath = os.path.join(f'src/sounds/{wahlsound}.mp3')
+        andrPath = os.path.dirname(os.path.abspath(f'/src/sounds/{wahlsound}.mp3'))
+        filePath = andrPath if platform == 'android' else winPath
+        print(platform)
+        print (filePath)
+
         soundNamenListe =["Alarm1","Alarm2","Alarm3"]
         if wahlsound in soundNamenListe:
-            self.sound = SoundLoader.load(os.path.join(f'src/sounds/{wahlsound}.MP3'))
+            self.sound = SoundLoader.load(os.path.join(f'src/sounds/{wahlsound}.mp3'))
             self.sound.play()
 
-    def GetGps(self, *args):
-        if platform == 'android' or platform == 'ios':
-            from plyer import gps   
-            try:                           
-                gps.configure(on_location=self.on_location, on_status=self.on_status)
-                gps.start(minTime=1000, minDistance=0)
-            except:
-                import traceback
-                traceback.print_exc()
-                self.gps_status= "GPS is not implemented for your platform"
+    # def GetGps(self, *args):
+    #     if platform == 'android' or platform == 'ios':
+    #         from plyer import gps   
+    #         try:                           
+    #             gps.configure(on_location=self.on_location, on_status=self.on_status)
+    #             gps.start(minTime=1000, minDistance=0)
+    #         except:
+    #             import traceback
+    #             traceback.print_exc()
+    #             self.gps_status= "GPS is not implemented for your platform"
            
     def on_status(self, general_status, status_message):
         if general_status== 'provider-enabled':
@@ -340,3 +353,4 @@ class MainApp(MDApp):
 
 if __name__ == "__main__":
     MainApp().run()
+    
