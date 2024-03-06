@@ -92,7 +92,7 @@ class MainApp(MDApp):
             from plyer import gps   
             try:                           
                 gps.configure(on_location=self.on_location, on_status=self.on_status)
-                gps.start(minTime=100, minDistance=0)
+                gps.start(minTime=500, minDistance=0)
             except:
                 import traceback
                 traceback.print_exc()
@@ -116,8 +116,8 @@ class MainApp(MDApp):
 
         if self.useOnce:
             if hasattr(self,'gps_latitude') and hasattr(self,'gps_longitude'):
-                #self.root.ids.mapview.lat = self.gps_latitude
-                #self.root.ids.mapview.lon = self.gps_longitude
+                self.root.ids.mapview.lat = self.gps_latitude
+                self.root.ids.mapview.lon = self.gps_longitude
                 self.CenterMap(self.gps_latitude, self.gps_longitude)
                 self.useOnce = False
     
