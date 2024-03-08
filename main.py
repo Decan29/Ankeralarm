@@ -125,17 +125,6 @@ class MainApp(MDApp):
             self.UpdateBoat()
     #endregion
     
-    # def set_map_source(self):
-    #     my_map_source = MapSource(
-    #         url='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    #         min_zoom=16,
-    #         max_zoom=19,
-    #         attribution='Map data  © OpenStreetMap contributors'
-    #     )
-    #     self.mapview.map_source = my_map_source
-    #     self.CenterMap(self.gps_latitude, self.gps_longitude, 16)
-    #     print("SETTET MAP SOURCE LAN BRO ASDKLHAKLJHFELKJHFLKJHEFKLJSDLKFJHSLDKFLSKDJFKSDLJFFFFFFFFSKLDJHFKLJSDHFLKJSHDFKJSHD")
-
     def ToggleProgram(self):
         """Startet oder stoppt das Programm."""
         if self.isProgramStopped:
