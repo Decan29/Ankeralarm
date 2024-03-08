@@ -61,6 +61,7 @@ class MainApp(MDApp):
     
     def build(self):
         screen = Builder.load_file("windowsmd.kv")
+        self.theme_cls.theme_style = "Dark"
         Clock.schedule_once(self.ClassThatDoesEverything, 1)
         # if self.get_permission:
         #     print("Rechte wurden erteilt!")
@@ -323,9 +324,11 @@ class MainApp(MDApp):
     def WriteToFile(self):
         self.radius_widget = self.root.ids.radius.text
         self.spinner_widget = self.root.ids.sound_spinner.text
-        
+
         if platform == 'android':
-            data_dir = MainApp().user_data_dir
+            pfad = Path(__file__).resolve().parent
+            data_dir = pfad / 'src/json/daten.json'
+            #data_dir = MainApp().user_data_dir
             dictionary = {
             "Bereich": "Einstellungen",
             "Radius": self.radius_widget,
@@ -349,7 +352,9 @@ class MainApp(MDApp):
             
             #data_dir = MainApp().user_data_dir + "/daten.json"
         elif platform == 'win':
-            data_dir = "src/json/daten.json"
+            pfad = Path(__file__).resolve().parent
+            data_dir = pfad / 'src/json/daten.json'
+            #data_dir = "src/json/daten.json"
 
         f = open(data_dir)
         data = json.load(f)
