@@ -165,8 +165,9 @@ class MainApp(MDApp):
             self.marker_boat.lat = 48.4715279
             self.marker_boat.lon = 7.9512879
         elif platform == 'android':
-            self.marker_boat.lat = self.gps_latitude
-            self.marker_boat.lon = self.gps_longitude
+            if hasattr(self,'marker_boat'):
+                self.marker_boat.lat = self.gps_latitude
+                self.marker_boat.lon = self.gps_longitude
         self.root.ids.mapview.trigger_update('full')
 
     def DrawCircle(self):
