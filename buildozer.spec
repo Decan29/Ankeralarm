@@ -10,7 +10,7 @@ source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,mp3,json,txt,wav
 
 version = 0.1
-requirements = python3,kivy,kivymd==1.1.1,pillow,https://github.com/HyTurtle/plyer/archive/master.zip, requests, ffpyplayer, ffpyplayer_codecs, openssl, urllib3, mapview, kivy_garden, charset_normalizer, chardet, idna
+requirements = python3,kivy,kivymd==1.1.1,pillow,https://github.com/HyTurtle/plyer/archive/master.zip, requests, ffpyplayer, ffpyplayer_codecs, openssl, urllib3, mapview, kivy_garden, charset_normalizer, chardet, idna, pathlib
 
 
 # (list) Permissions
