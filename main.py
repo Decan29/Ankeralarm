@@ -115,15 +115,14 @@ class MainApp(MDApp):
     def on_location(self, **kwargs):
         self.gps_latitude = kwargs.get('lat', None) 
         self.gps_longitude = kwargs.get('lon', None)
-
-        if self.useOnce:
-            if hasattr(self,'gps_latitude') and hasattr(self,'gps_longitude'):
+        if hasattr(self,'gps_latitude') and hasattr(self,'gps_longitude'):
+            if self.useOnce:
                 if  self.root.ids.mapview.lat and self.root.ids.mapview.lon:
                     self.root.ids.mapview.lat = self.gps_latitude
                     self.root.ids.mapview.lon = self.gps_longitude
                     self.CenterMap(self.gps_latitude, self.gps_longitude)
                     self.useOnce = False
-    
+            self.UpdateBoat()
     #endregion
     
     # def set_map_source(self):
