@@ -335,6 +335,7 @@ class MainApp(MDApp):
             json_file_path.write_text(dictionary)
             # with open (data_dir, "w") as file:
             #     json.dump(dictionary,file)
+            
         elif platform == 'win':
             dictionary = {
             "Bereich": "Einstellungen",
