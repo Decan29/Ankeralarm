@@ -1,6 +1,7 @@
 import os
 import json
 import math
+from pathlib import Path
 from random import random
 from kivy.clock import Clock
 from kivymd.app import MDApp
@@ -324,14 +325,16 @@ class MainApp(MDApp):
         self.spinner_widget = self.root.ids.sound_spinner.text
         
         if platform == 'android':
-            data_dir = MainApp().user_data_dir
+            # data_dir = MainApp().user_data_dir
             dictionary = {
             "Bereich": "Einstellungen",
             "Radius": self.radius_widget,
             'Audio Data': self.spinner_widget
             }
-            with open (data_dir, "w") as file:
-                json.dump(dictionary,file)
+            json_file_path = Path('src/json/datan.json')
+            json_file_path.write_text(dictionary)
+            # with open (data_dir, "w") as file:
+            #     json.dump(dictionary,file)
         elif platform == 'win':
             dictionary = {
             "Bereich": "Einstellungen",
@@ -343,15 +346,18 @@ class MainApp(MDApp):
 
     def LoadSettings(self):
         if platform == 'android':
-            data_dir = MainApp().user_data_dir + "/daten.json"
+            # data_dir = MainApp().user_data_dir + "/daten.json"
+            json_file_path = Path('/src/json/daten.json')
+            with json_file_path.open() as json_file:
+                data = json.load(json_file)
         elif platform == 'win':
             data_dir = "src/json/daten.json"
 
-        f = open(data_dir)
-        data = json.load(f)
+        # f = open(data_dir)
+        # data = json.load(f)
         self.root.ids.radius.text = data['Radius']
         self.root.ids.sound_spinner.text = data['Audio Data']
-        f.close()
+        # f.close()
 
     def PlaySound(self):
         wahlsound = self.root.ids.sound_spinner.text
