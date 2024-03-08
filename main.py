@@ -1,6 +1,7 @@
 import os
 import json
 import math
+from pathlib import Path
 from random import random
 from kivy.clock import Clock
 from kivymd.app import MDApp
@@ -343,7 +344,10 @@ class MainApp(MDApp):
 
     def LoadSettings(self):
         if platform == 'android':
-            data_dir = MainApp().user_data_dir + "/daten.json"
+            pfad = Path(__file__).resolve().parent
+            data_dir = pfad / 'src/json/daten.json'
+            
+            #data_dir = MainApp().user_data_dir + "/daten.json"
         elif platform == 'win':
             data_dir = "src/json/daten.json"
 
